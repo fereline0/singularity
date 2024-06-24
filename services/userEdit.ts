@@ -1,4 +1,4 @@
-import userRequest from "@/schemes/user.request";
+import userRequest from "@/requests/user.request";
 import { serverFetcher } from "@/utils/fetcher";
 import { notFound } from "next/navigation";
 import { FormEvent } from "react";

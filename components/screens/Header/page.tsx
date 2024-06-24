@@ -23,9 +23,12 @@ import { IoLogInOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
 
 import { useState } from "react";
+import { useTheme } from "next-themes";
+import { LuMoon } from "react-icons/lu";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
   const session = useSession();
 
   const menuItems = ["Support", "Dashboard"];
@@ -74,15 +77,18 @@ export default function Header() {
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions" variant="shadow">
                 <DropdownItem
-                  key="user"
                   href={`/users/${session.data.user?.id}`}
                   startContent={<FiUser size={20} />}
                 >
                   {session.data.user?.name}
                 </DropdownItem>
                 <DropdownItem
-                  key="logout"
-                  color="danger"
+                  startContent={<LuMoon size={20} />}
+                  onClick={() => setTheme(theme == "light" ? "dark" : "light")}
+                >
+                  Change theme
+                </DropdownItem>
+                <DropdownItem
                   onClick={() => signOut()}
                   startContent={<IoLogInOutline size={20} />}
                 >

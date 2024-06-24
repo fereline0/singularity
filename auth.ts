@@ -1,17 +1,15 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Discord from "next-auth/providers/discord";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import loginUser from "@/requests/login.request";
-import { prisma } from "./utils/prisma";
+import loginRequest from "@/requests/login.request";
 import { compare } from "bcryptjs";
+import { authConfig } from "./auth.config";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "./utils/prisma";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(prisma),
-  session: {
-    strategy: "jwt",
-  },
-  secret: process.env.AUTH_SECRET,
   providers: [
     Credentials({
       name: "credentials",
@@ -21,7 +19,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       authorize: async (credentials) => {
         try {
-          const { email, password } = await loginUser.parseAsync(credentials);
+          const { email, password } =
+            await loginRequest.parseAsync(credentials);
 
           const user = await prisma.user.findUniqueOrThrow({
             where: {
@@ -33,11 +32,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return null;
           }
 
-          const passwordConfirmation = await compare(password, user.password);
+          // const passwordConfirmation = await compare(password, user.password);
 
-          if (!passwordConfirmation) {
-            return null;
-          }
+          // if (!passwordConfirmation) {
+          //   return null;
+          // }
 
           return user;
         } catch {
@@ -47,18 +46,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
     Discord,
   ],
-  callbacks: {
-    jwt: async ({ token, user }) => {
-      user && (token.user = user);
-      return token;
-    },
-    async session({ session, token, user }) {
-      return {
-        ...session,
-        user: { ...session.user, ...user, ...token.user! },
-      };
-    },
-  },
   events: {
     async signIn({ user, isNewUser }) {
       if (isNewUser) {

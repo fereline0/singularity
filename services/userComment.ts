@@ -1,7 +1,6 @@
 import commentRequest from "@/requests/comment.request";
 import { FormEvent } from "react";
 import toast from "react-hot-toast";
-import { createUserNotification } from "./userNotification";
 import { notFound } from "next/navigation";
 import { serverFetcher } from "@/utils/fetcher";
 
@@ -74,18 +73,7 @@ export async function createUserComment(
     { method: "POST", body: formData }
   );
 
-  const responseJson = await res.json();
-
-  if (currentUserId != (writerId ? writerId : userId)) {
-    await createUserNotification(
-      parentId
-        ? "screens:comments:notifications:reply"
-        : "screens:comments:notifications:newMessage",
-      writerId ? writerId : userId,
-      currentUserId,
-      `/users/comments/${responseJson.id}`
-    );
-  }
+  return res;
 }
 
 export async function deleteUserComment(id: number) {

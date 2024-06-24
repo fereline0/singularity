@@ -3,5 +3,7 @@ interface IMain {
 }
 
 export default function Main(props: IMain) {
-  return <div className="w-full">{props.children}</div>;
+  return (
+    <div className="w-full break-words overflow-hidden">{props.children}</div>
+  );
 }
