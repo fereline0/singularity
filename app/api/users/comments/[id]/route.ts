@@ -26,6 +26,11 @@ export async function GET(
                 role: true,
               },
             },
+            _count: {
+              select: {
+                childs: true,
+              },
+            },
           },
         },
         _count: {

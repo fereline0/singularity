@@ -9,6 +9,7 @@ import Replys from "./Replys/page";
 import { IUserComment } from "@/types/userComment";
 import Form from "./Form/page";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 interface IComments extends IPaginate {
   user: IUser;
@@ -16,6 +17,7 @@ interface IComments extends IPaginate {
 
 export default function Comments(props: IComments) {
   const router = useRouter();
+  const session = useSession();
   const [value, setValue] = useState("");
   const [quotedUser, setQuotedUser] = useState<IUser | undefined>();
 
@@ -37,7 +39,12 @@ export default function Comments(props: IComments) {
             addSuffix: true,
           })}
           value={comment.value}
-          replys={<Replys id={comment.id} user={props.user} />}
+          replys={
+            (session.status == "authenticated" ||
+              comment._count.childs > 0) && (
+              <Replys id={comment.id} user={props.user} />
+            )
+          }
         />
       ))}
       <ServerPaginate total={props.total} limit={props.limit} />

@@ -9,6 +9,7 @@ import ClientPaginate from "@/components/shared/ClientPaginate/page";
 import Form from "../Form/page";
 import { Button, Spinner } from "@nextui-org/react";
 import IUser from "@/types/user.type";
+import { useSession } from "next-auth/react";
 
 interface IReplys {
   id: string;
@@ -21,6 +22,7 @@ export default function Replys(props: IReplys) {
 
   const [visibility, setVisibility] = useState(false);
 
+  const session = useSession();
   const [page, setPage] = useState(1);
   const limit = 5;
   const { data: comment, mutate } = getUserCommentChilds(
@@ -32,7 +34,7 @@ export default function Replys(props: IReplys) {
   return (
     <>
       <Button onClick={() => setVisibility(!visibility)} className="mb-2">
-        {visibility ? "Hide" : "Show"}
+        {visibility ? "Hide" : "Show "}
       </Button>
       {visibility && (
         <div className="pl-5 border-l-2 mb-5">
@@ -55,7 +57,12 @@ export default function Replys(props: IReplys) {
                     addSuffix: true,
                   })}
                   value={child.value}
-                  replys={<Replys id={child.id} user={props.user} />}
+                  replys={
+                    (session.status != "unauthenticated" ||
+                      child._count.childs > 0) && (
+                      <Replys id={child.id} user={props.user} />
+                    )
+                  }
                 />
               ))}
               <ClientPaginate
