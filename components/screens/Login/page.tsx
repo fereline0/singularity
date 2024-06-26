@@ -8,6 +8,7 @@ import {
   Card,
   CardBody,
   Link,
+  Spacer,
 } from "@nextui-org/react";
 import { FormEvent, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -54,7 +55,7 @@ export default function Login() {
                 }
               })();
             }}
-            className="flex flex-col gap-2 mb-2"
+            className="flex flex-col gap-2"
           >
             <Input
               type="email"
@@ -84,7 +85,9 @@ export default function Login() {
               Discord
             </Button>
           </form>
-          <Divider className="mb-2" />
+          <Spacer y={2} />
+          <Divider />
+          <Spacer y={2} />
           <div className="text-center">
             <Link href="/register">Already have an account?</Link>
           </div>

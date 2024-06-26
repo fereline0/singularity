@@ -6,6 +6,8 @@ interface IContent {
 
 export default function Content(props: IContent) {
   return (
-    <div className="block mb-2 sm:flex gap-2 break-all">{props.children}</div>
+    <div className="flex flex-col gap-2 break-all sm:flex-row">
+      {props.children}
+    </div>
   );
 }

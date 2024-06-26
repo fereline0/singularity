@@ -7,7 +7,7 @@ interface ISubscribers {
 
 export default function Subscribers(props: ISubscribers) {
   return (
-    <Card shadow="none" className="mb-2 w-full">
+    <Card shadow="none" className="w-full">
       <CardHeader>
         <Link href={`/users/${props.user.id}/subscribers`}>Subscribers</Link>
       </CardHeader>

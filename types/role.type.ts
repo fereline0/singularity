@@ -1,5 +1,5 @@
 export default interface IRole {
-  id: number;
+  id: string;
   name: string;
   color: string;
 }

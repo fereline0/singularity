@@ -1,6 +1,6 @@
 import PairsJustified from "@/components/shared/PairsJustified/page";
 import IUser from "@/types/user.type";
-import { Card, CardBody } from "@nextui-org/react";
+import { Card, CardBody, Spacer } from "@nextui-org/react";
 import { formatISO9075 } from "date-fns";
 
 interface IAbout {
@@ -11,12 +11,13 @@ export default function About(props: IAbout) {
   const detailInformation = props.user.detailInformation;
 
   return (
-    <Card shadow="none" className="mb-2">
+    <Card shadow="none">
       <CardBody>
-        <div className="mb-2">
+        <div>
           <h1 className="text-3xl">{props.user.name}</h1>
           <p>{props.user.detailInformation?.aboutMe}</p>
         </div>
+        <Spacer y={2} />
         {detailInformation && (
           <PairsJustified
             data={[

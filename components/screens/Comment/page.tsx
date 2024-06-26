@@ -1,5 +1,12 @@
 import IUser from "@/types/user.type";
-import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Link,
+  Spacer,
+  User,
+} from "@nextui-org/react";
 
 interface IComment {
   writer: IUser;
@@ -11,8 +18,8 @@ interface IComment {
 
 export default function Comment(props: IComment) {
   return (
-    <div className="mb-2">
-      <Card shadow="none" className="mb-2">
+    <>
+      <Card shadow="none">
         <CardHeader className="flex justify-between">
           <User
             name={
@@ -27,7 +34,12 @@ export default function Comment(props: IComment) {
         </CardHeader>
         <CardBody>{props.value}</CardBody>
       </Card>
-      {props.replys}
-    </div>
+      {props.replys && (
+        <>
+          <Spacer y={2} />
+          {props.replys}
+        </>
+      )}
+    </>
   );
 }

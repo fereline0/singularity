@@ -2,27 +2,31 @@
 
 import commentRequest from "@/requests/comment.request";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Card, CardBody, Link, Textarea } from "@nextui-org/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Link,
+  Spacer,
+  Textarea,
+} from "@nextui-org/react";
 import { FormEvent } from "react";
 import { useForm } from "react-hook-form";
-import { createUserComment } from "@/services/userComment";
-import { useSession } from "next-auth/react";
 import { IoClose } from "react-icons/io5";
-import IUser from "@/types/user.type";
+import IComment from "@/types/comment.type";
 
 interface IForm {
-  userId: string;
-  quotedUser: IUser | undefined;
-  setQuotedUser: React.Dispatch<React.SetStateAction<IUser | undefined>>;
+  publishMethod: () => void;
+  commentForChange: IComment | undefined;
+  setCommentForChange: React.Dispatch<
+    React.SetStateAction<IComment | undefined>
+  >;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   refreshMethod: () => void;
-  parentId?: string;
 }
 
 export default function Form(props: IForm) {
-  const session = useSession();
-
   const {
     register,
     handleSubmit,
@@ -35,23 +39,14 @@ export default function Form(props: IForm) {
     props.setValue(event.target.value);
   };
 
-  if (session.status != "authenticated") {
-    return null;
-  }
-
   return (
-    <Card shadow="none" className="mb-2">
+    <Card shadow="none">
       <CardBody>
         <form
           onSubmit={(event: FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             handleSubmit(async () => {
-              await createUserComment(
-                props.userId,
-                session.data.user.id,
-                props.value,
-                props.parentId
-              );
+              props.publishMethod();
               props.setValue("");
               props.refreshMethod();
             })();
@@ -59,23 +54,18 @@ export default function Form(props: IForm) {
           className="flex gap-2 flex-col sm:flex-row"
         >
           <div className="w-full">
-            {props.quotedUser && (
-              <div className="flex justify-between items-center gap-2 sm:justify-normal">
-                <div>
-                  Reply to{" "}
-                  <Link href={`/users/${props.quotedUser.id}`}>
-                    {props.quotedUser.name}
-                  </Link>
-                </div>
+            {props.commentForChange && (
+              <>
                 <Button
-                  isIconOnly
-                  onClick={() => props.setQuotedUser(undefined)}
+                  onClick={() => props.setCommentForChange(undefined)}
                   radius="full"
                   variant="light"
+                  endContent={<IoClose size={20} />}
                 >
-                  <IoClose size={20} />
+                  Cancel change
                 </Button>
-              </div>
+                <Spacer y={2} />
+              </>
             )}
             <Textarea
               {...register("value")}
