@@ -72,7 +72,7 @@ model Ability {
 
 model UserComments {
   id        String   @id @default(cuid())
-  value     String   @db.Text
+  value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

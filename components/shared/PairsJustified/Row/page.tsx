@@ -4,8 +4,8 @@ import { Link } from "@nextui-org/react";
 export default function Row(props: IRow) {
   return (
     <div className="flex justify-between flex-wrap">
-      <div className="overflow-hidden">{props.label}:</div>
-      <div className="overflow-hidden">
+      <div>{props.label}:</div>
+      <div>
         {props.link ? (
           <Link href={props.link}>{props.value}</Link>
         ) : (

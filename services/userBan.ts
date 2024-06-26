@@ -1,6 +1,5 @@
 import { serverFetcher } from "@/utils/fetcher";
 import { notFound } from "next/navigation";
-import { FormEvent } from "react";
 
 export async function getUserBans(id: number, page: number, limit: number) {
   const res = await serverFetcher(
@@ -13,18 +12,23 @@ export async function getUserBans(id: number, page: number, limit: number) {
 }
 
 export async function userBan(
-  event: FormEvent<HTMLFormElement>,
   id: number,
+  reason: string,
+  expires: string,
   initiatorId: number
 ) {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget);
+  const formData = new FormData();
 
+  formData.append("reason", reason);
+  formData.append("expires", expires);
   formData.append("initiatorId", initiatorId.toString());
 
   await serverFetcher(
     `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}/bans`,
-    { method: "POST", body: formData }
+    {
+      method: "POST",
+      body: formData,
+    }
   );
 }
 

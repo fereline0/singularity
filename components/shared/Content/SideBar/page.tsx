@@ -4,8 +4,6 @@ interface ISideBar {
 
 export default function SideBar(props: ISideBar) {
   return (
-    <div className="max-w-full w-screen break-words mb-2 sm:max-w-60">
-      {props.children}
-    </div>
+    <div className="max-w-full w-screen mb-2 sm:max-w-60">{props.children}</div>
   );
 }

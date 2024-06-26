@@ -1,13 +1,13 @@
 import IUser from "./user.type";
 
 export default interface IComment {
-  id: number;
+  id: string;
   value: string;
   createdAt: string;
   updatedAt: string;
-  parentId: number;
+  parentId: string;
   parent: IComment;
-  writerId: number;
+  writerId: string;
   writer: IUser;
   _count: any;
 }

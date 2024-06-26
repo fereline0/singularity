@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
 
     const parentId = body.get("parentId");
     const data: any = {
-      value: body.get("comment") as string,
+      value: body.get("value") as string,
       userId: body.get("userId") as string,
       writerId: body.get("writerId") as string,
     };

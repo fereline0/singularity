@@ -1,64 +1,38 @@
 import commentRequest from "@/requests/comment.request";
-import { FormEvent } from "react";
 import toast from "react-hot-toast";
-import { notFound } from "next/navigation";
-import { serverFetcher } from "@/utils/fetcher";
+import { clientFetcher, serverFetcher } from "@/utils/fetcher";
+import useSWR from "swr";
+import { IUserComment } from "@/types/userComment";
 
-export async function getUserComments(id: number, page: number, limit: number) {
-  const res = await serverFetcher(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}/comments?page=${page}&limit=${limit}`
-  );
-
-  if (!res.ok) notFound();
-
-  return res.json();
-}
-
-export async function getSelfUserComments(
-  id: number,
+export function getUserCommentChilds(
+  id: string | null,
   page: number,
   limit: number
 ) {
-  const res = await serverFetcher(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}/selfComments?page=${page}&limit=${limit}`
-  );
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/users/comments/${id}?page=${page}&limit=${limit}`;
 
-  if (!res.ok) notFound();
+  const { data, mutate } = useSWR<IUserComment>(id ? url : null, clientFetcher);
 
-  return res.json();
-}
-
-export async function getUserComment(id: number, page: number, limit: number) {
-  const res = await serverFetcher(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/users/comments/${id}?page=${page}&limit=${limit}`
-  );
-
-  if (!res.ok) notFound();
-
-  return res.json();
+  return {
+    data,
+    mutate,
+  };
 }
 
 export async function createUserComment(
-  event: FormEvent<HTMLFormElement>,
-  userId: number,
-  currentUserId: number,
-  writerId?: number,
-  parentId?: number
+  id: string,
+  writerId: string,
+  value: string,
+  parentId?: string
 ) {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget);
-  event.currentTarget.reset();
+  const formData = new FormData();
 
-  formData.append("userId", userId.toString());
-  formData.append("writerId", currentUserId.toString());
+  formData.append("userId", id.toString());
+  formData.append("writerId", writerId.toString());
+  formData.append("value", value.toString());
   parentId && formData.append("parentId", parentId.toString());
 
-  const formObject: { [key: string]: string } = {};
-  formData.forEach((value, key) => {
-    formObject[key] = value as string;
-  });
-
-  const validationRes = commentRequest.safeParse(formObject);
+  const validationRes = commentRequest.safeParse(Object.fromEntries(formData));
 
   if (!validationRes.success) {
     validationRes.error.issues.forEach((error) => {
@@ -76,7 +50,7 @@ export async function createUserComment(
   return res;
 }
 
-export async function deleteUserComment(id: number) {
+export async function deleteUserComment(id: string) {
   await serverFetcher(
     `${process.env.NEXT_PUBLIC_API_URL}/api/users/comments/${id}`,
     {

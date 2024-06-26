@@ -1,15 +1,16 @@
 import IBan from "./ban.type";
 import IRole from "./role.type";
 import { IUserComment } from "./userComment";
+import IUserDetailInformation from "./userDetailInformation";
 
 export default interface IUser {
-  id: number;
+  id: string;
   name: string;
   email: string;
   image: string;
   createdAt: string;
   updatedAt: string;
-  detailInformation: any;
+  detailInformation: IUserDetailInformation;
   role: IRole;
   subscribers: any[];
   subscribed: any[];

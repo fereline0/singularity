@@ -2,7 +2,7 @@ import IComment from "./comment.type";
 import IUser from "./user.type";
 
 export interface IUserComment extends IComment {
-  userId: number;
+  userId: string;
   user: IUser;
   childs: IUserComment[];
 }

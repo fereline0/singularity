@@ -1,6 +1,6 @@
 "use client";
 
-import loginScheme from "@/requests/login.request";
+import loginRequest from "@/requests/login.request";
 import {
   Button,
   Input,
@@ -9,7 +9,7 @@ import {
   CardBody,
   Link,
 } from "@nextui-org/react";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaDiscord } from "react-icons/fa";
@@ -18,33 +18,40 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const [emailState, setEmailState] = useState("");
+  const [passwordState, setPasswordState] = useState("");
+
   const router = useRouter();
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailState(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordState(event.target.value);
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(loginScheme),
+    resolver: zodResolver(loginRequest),
   });
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    const res = await login(event);
-
-    if (!res?.error) {
-      router.push("/");
-    }
-  }
-
   return (
-    <div className="flex items-center justify-center">
-      <Card shadow="none" className="max-w-80 w-full">
+    <div className="sm:flex items-center justify-center">
+      <Card shadow="none" className="max-w-full w-full sm:max-w-80">
         <CardBody>
           <form
             onSubmit={(event: FormEvent<HTMLFormElement>) => {
               event.preventDefault();
               handleSubmit(async () => {
-                await onSubmit(event);
+                const res = await login(emailState, passwordState);
+
+                if (!res?.error) {
+                  router.push("/");
+                }
               })();
             }}
             className="flex flex-col gap-2 mb-2"
@@ -53,6 +60,7 @@ export default function Login() {
               type="email"
               placeholder="Email"
               {...register("email")}
+              onChange={handleEmailChange}
               isInvalid={!!errors.email}
               errorMessage={errors.email?.message?.toString()}
             />
@@ -60,6 +68,7 @@ export default function Login() {
               type="password"
               placeholder="Password"
               {...register("password")}
+              onChange={handlePasswordChange}
               isInvalid={!!errors.password}
               errorMessage={errors.password?.message?.toString()}
             />

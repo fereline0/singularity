@@ -5,6 +5,10 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const searchParams = req.nextUrl.searchParams;
+  const limit = Number(searchParams.get("limit"));
+  const pageToSkip = (Number(searchParams.get("page")) - 1) * limit;
+
   try {
     const user = await prisma.user.findUniqueOrThrow({
       where: {
@@ -23,6 +27,23 @@ export async function GET(
           take: 5,
           select: {
             subscriber: {
+              include: {
+                role: true,
+              },
+            },
+          },
+        },
+        comments: {
+          take: limit,
+          skip: pageToSkip,
+          where: {
+            parent: null,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+          include: {
+            writer: {
               include: {
                 role: true,
               },
@@ -51,6 +72,11 @@ export async function GET(
         },
         _count: {
           select: {
+            comments: {
+              where: {
+                parent: null,
+              },
+            },
             subscribers: true,
             subscribed: true,
           },
