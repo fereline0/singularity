@@ -17,12 +17,15 @@ interface IComments extends IPaginate {
 export default function Comments(props: IComments) {
   const router = useRouter();
   const [value, setValue] = useState("");
+  const [quotedUser, setQuotedUser] = useState<IUser | undefined>();
 
   return (
     <>
       <Form
         userId={props.user.id}
         refreshMethod={router.refresh}
+        quotedUser={quotedUser}
+        setQuotedUser={setQuotedUser}
         value={value}
         setValue={setValue}
       />
@@ -34,7 +37,7 @@ export default function Comments(props: IComments) {
             addSuffix: true,
           })}
           value={comment.value}
-          replys={<Replys id={comment.id} userId={props.user.id} />}
+          replys={<Replys id={comment.id} user={props.user} />}
         />
       ))}
       <ServerPaginate total={props.total} limit={props.limit} />

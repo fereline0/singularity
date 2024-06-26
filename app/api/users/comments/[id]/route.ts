@@ -13,7 +13,7 @@ export async function GET(
       where: {
         id: params.id,
       },
-      select: {
+      include: {
         childs: {
           orderBy: {
             createdAt: "desc",
