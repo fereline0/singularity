@@ -1,6 +1,7 @@
+import Marginer from "@/components/shared/Marginer/page";
 import PairsJustified from "@/components/shared/PairsJustified/page";
 import IUser from "@/types/user.type";
-import { Card, CardBody, Spacer } from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/react";
 import { formatISO9075 } from "date-fns";
 
 interface IAbout {
@@ -13,35 +14,36 @@ export default function About(props: IAbout) {
   return (
     <Card shadow="none">
       <CardBody>
-        <div>
-          <h1 className="text-3xl">{props.user.name}</h1>
-          <p>{props.user.detailInformation?.aboutMe}</p>
-        </div>
-        <Spacer y={2} />
-        {detailInformation && (
-          <PairsJustified
-            data={[
-              {
-                label: "Occupation",
-                value: detailInformation.occupation,
-              },
-              {
-                label: "Interests",
-                value: detailInformation.interests,
-              },
-              {
-                label: "Gender",
-                value: detailInformation.gender,
-              },
-              {
-                label: "Bithday",
-                value:
-                  detailInformation.bithday &&
-                  formatISO9075(detailInformation.bithday),
-              },
-            ]}
-          />
-        )}
+        <Marginer y={8}>
+          <div>
+            <h1 className="text-3xl">{props.user.name}</h1>
+            <p>{props.user.detailInformation?.aboutMe}</p>
+          </div>
+          {detailInformation && (
+            <PairsJustified
+              data={[
+                {
+                  label: "Occupation",
+                  value: detailInformation.occupation,
+                },
+                {
+                  label: "Interests",
+                  value: detailInformation.interests,
+                },
+                {
+                  label: "Gender",
+                  value: detailInformation.gender,
+                },
+                {
+                  label: "Bithday",
+                  value:
+                    detailInformation.bithday &&
+                    formatISO9075(detailInformation.bithday),
+                },
+              ]}
+            />
+          )}
+        </Marginer>
       </CardBody>
     </Card>
   );

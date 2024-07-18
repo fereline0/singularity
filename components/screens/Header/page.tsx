@@ -13,9 +13,14 @@ import {
   Dropdown,
   DropdownMenu,
   Spinner,
+  useDisclosure,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
-
 import { IoLogInOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
 import { useTheme } from "next-themes";
@@ -23,6 +28,7 @@ import { LuMoon } from "react-icons/lu";
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const session = useSession();
 
   return (
@@ -46,7 +52,7 @@ export default function Header() {
                   className="cursor-pointer"
                   isBordered
                   size="sm"
-                  src={session.data.user?.image ?? ""}
+                  src={session.data.user?.image ?? "/no-avatar.jpg"}
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions" variant="shadow">
@@ -63,14 +69,34 @@ export default function Header() {
                   Change theme
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() => signOut()}
+                  onClick={onOpen}
                   color="danger"
                   startContent={<IoLogInOutline size={20} />}
                 >
-                  Log Out
+                  Sign out
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
+            <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader>Sign out</ModalHeader>
+                    <ModalBody>
+                      <p>Are you sure you want to sign out of your account?</p>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color="danger" variant="light" onClick={onClose}>
+                        Cancel
+                      </Button>
+                      <Button color="danger" onClick={() => signOut()}>
+                        Sign out
+                      </Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
           </NavbarItem>
         ) : (
           <>

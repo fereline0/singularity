@@ -6,7 +6,7 @@ import About from "./About/page";
 import Preview from "./Preview/page";
 import Comments from "./Comments/page";
 import IPaginate from "@/types/paginate.type";
-import { Spacer } from "@nextui-org/react";
+import Marginer from "@/components/shared/Marginer/page";
 
 interface User extends IPaginate {
   user: IUser;
@@ -19,9 +19,10 @@ export default function User(props: User) {
         <Preview user={props.user} />
       </SideBar>
       <Main>
-        <About user={props.user} />
-        <Spacer y={2} />
-        <Comments user={props.user} total={props.total} limit={props.limit} />
+        <Marginer y={8}>
+          <About user={props.user} />
+          <Comments user={props.user} total={props.total} limit={props.limit} />
+        </Marginer>
       </Main>
     </Content>
   );
