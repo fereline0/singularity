@@ -73,6 +73,8 @@ export default function Form(props: IForm) {
               onChange={handleCommentChange}
               isInvalid={!!errors.value}
               errorMessage={errors.value?.message?.toString()}
+              rows={3}
+              disableAutosize
             />
           </div>
           <Button type="submit" color="primary">

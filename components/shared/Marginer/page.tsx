@@ -13,9 +13,9 @@ export default function Marginer(props: IMarginer) {
         <div
           style={{
             marginLeft:
-              index === React.Children.count(props.children) - 1 ? 0 : props.x,
+              index + 1 == React.Children.count(props.children) ? 0 : props.x,
             marginBottom:
-              index === React.Children.count(props.children) - 1 ? 0 : props.y,
+              index + 1 == React.Children.count(props.children) ? 0 : props.y,
           }}
         >
           {child}

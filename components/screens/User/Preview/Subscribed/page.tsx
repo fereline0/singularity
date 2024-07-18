@@ -19,7 +19,7 @@ export default function Subscribed(props: ISubscribed) {
             name={<Link href={`/users/${data.user.id}`}>{data.user.name}</Link>}
             description={data.user.role.name}
             avatarProps={{
-              src: data.user.image,
+              src: data.user.image ?? "/no-avatar.jpg",
             }}
           />
         ))}

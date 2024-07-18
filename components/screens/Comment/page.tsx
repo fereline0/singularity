@@ -22,7 +22,7 @@ export default function Comment(props: IComment) {
               </Link>
             }
             description={props.description}
-            avatarProps={{ src: props.writer.image }}
+            avatarProps={{ src: props.writer.image ?? "/no-avatar.jpg" }}
           />
           {props.actions}
         </CardHeader>

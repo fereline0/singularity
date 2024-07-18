@@ -23,7 +23,7 @@ export default function Subscribers(props: ISubscribers) {
             }
             description={data.subscriber.role.name}
             avatarProps={{
-              src: data.subscriber.image,
+              src: data.subscriber.image ?? "/no-avatar.jpg",
             }}
           />
         ))}
