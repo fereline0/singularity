@@ -11,9 +11,9 @@ import { IUserComment } from "@/types/userComment";
 import Form from "@/components/screens/Comment/Form/page";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { createUserComment } from "@/services/userComment";
-import IComment from "@/types/comment.type";
+import { createUserComment, updateUserComment } from "@/services/userComment";
 import Marginer from "@/components/shared/Marginer/page";
+import Actions from "./Actions/page";
 
 interface IComments extends IPaginate {
   user: IUser;
@@ -23,19 +23,23 @@ export default function Comments(props: IComments) {
   const router = useRouter();
   const session = useSession();
   const [value, setValue] = useState("");
-  const [commentForChange, setCommentForChange] = useState<
-    IComment | undefined
-  >();
+  const [commentForChangeId, setCommentForChangeId] = useState<string>();
 
   return (
     <Marginer y={8}>
       {session.status === "authenticated" && (
         <Form
           publishMethod={async () =>
-            await createUserComment(props.user.id, session.data.user.id, value)
+            commentForChangeId
+              ? await updateUserComment(commentForChangeId, value)
+              : await createUserComment(
+                  props.user.id,
+                  session.data.user.id,
+                  value
+                )
           }
-          commentForChange={commentForChange}
-          setCommentForChange={setCommentForChange}
+          commentForChangeId={commentForChangeId}
+          setCommentForChangeId={setCommentForChangeId}
           refreshMethod={router.refresh}
           value={value}
           setValue={setValue}
@@ -56,6 +60,14 @@ export default function Comments(props: IComments) {
                   comment._count.childs > 0) && (
                   <Replys id={comment.id} user={props.user} />
                 )
+              }
+              actions={
+                <Actions
+                  comment={comment}
+                  setCommentForChangeId={setCommentForChangeId}
+                  setValue={setValue}
+                  refreshMethod={router.refresh}
+                />
               }
             />
           ))}

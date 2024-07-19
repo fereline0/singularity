@@ -47,6 +47,28 @@ export async function GET(
   }
 }
 
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const body = await req.formData();
+
+    const comment = await prisma.userComments.update({
+      where: {
+        id: params.id,
+      },
+      data: {
+        value: body.get("value") as string,
+      },
+    });
+
+    return NextResponse.json(comment, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(error, { status: 500 });
+  }
+}
+
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }

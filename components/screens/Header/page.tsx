@@ -14,21 +14,21 @@ import {
   DropdownMenu,
   Spinner,
   useDisclosure,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
 } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
 import { IoLogInOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
 import { useTheme } from "next-themes";
 import { LuMoon } from "react-icons/lu";
+import Dialog from "@/components/shared/Dialog/page";
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isOpenSignOutModal,
+    onOpen: onOpenSignOutModal,
+    onOpenChange: onOpenChangeSignOutModal,
+  } = useDisclosure();
   const session = useSession();
 
   return (
@@ -69,7 +69,7 @@ export default function Header() {
                   Change theme
                 </DropdownItem>
                 <DropdownItem
-                  onClick={onOpen}
+                  onClick={onOpenSignOutModal}
                   color="danger"
                   startContent={<IoLogInOutline size={20} />}
                 >
@@ -77,26 +77,13 @@ export default function Header() {
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
-              <ModalContent>
-                {(onClose) => (
-                  <>
-                    <ModalHeader>Sign out</ModalHeader>
-                    <ModalBody>
-                      <p>Are you sure you want to sign out of your account?</p>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="danger" variant="light" onClick={onClose}>
-                        Cancel
-                      </Button>
-                      <Button color="danger" onClick={() => signOut()}>
-                        Sign out
-                      </Button>
-                    </ModalFooter>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
+            <Dialog
+              title="Sign out"
+              description="Are you sure you want to sign out of your account?"
+              action={signOut}
+              isOpen={isOpenSignOutModal}
+              onOpenChange={onOpenChangeSignOutModal}
+            />
           </NavbarItem>
         ) : (
           <>

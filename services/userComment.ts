@@ -19,6 +19,29 @@ export function getUserCommentChilds(
   };
 }
 
+export async function updateUserComment(id: string, value: string) {
+  const formData = new FormData();
+
+  formData.append("value", value.toString());
+
+  const validationRes = commentRequest.safeParse(Object.fromEntries(formData));
+
+  if (!validationRes.success) {
+    validationRes.error.issues.forEach((error) => {
+      toast.error(error.message);
+    });
+
+    return;
+  }
+
+  const res = await serverFetcher(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/users/comments/${id}`,
+    { method: "PUT", body: formData }
+  );
+
+  return res;
+}
+
 export async function createUserComment(
   id: string,
   writerId: string,

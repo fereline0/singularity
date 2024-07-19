@@ -1,25 +1,18 @@
 "use client";
 
+import Marginer from "@/components/shared/Marginer/page";
 import commentRequest from "@/requests/comment.request";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Button,
-  Card,
-  CardBody,
-  Link,
-  Spacer,
-  Textarea,
-} from "@nextui-org/react";
+import { Button, Card, CardBody, Textarea } from "@nextui-org/react";
 import { FormEvent } from "react";
 import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
-import IComment from "@/types/comment.type";
 
 interface IForm {
   publishMethod: () => void;
-  commentForChange: IComment | undefined;
-  setCommentForChange: React.Dispatch<
-    React.SetStateAction<IComment | undefined>
+  commentForChangeId: string | undefined;
+  setCommentForChangeId: React.Dispatch<
+    React.SetStateAction<string | undefined>
   >;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -28,12 +21,23 @@ interface IForm {
 
 export default function Form(props: IForm) {
   const {
-    register,
-    handleSubmit,
+    handleSubmit: successfulValidation,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(commentRequest),
+    values: { value: props.value },
   });
+
+  const handleReset = () => {
+    props.setCommentForChangeId(undefined);
+    props.setValue("");
+  };
+
+  const handleSubmit = async () => {
+    props.publishMethod();
+    handleReset();
+    props.refreshMethod();
+  };
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.setValue(event.target.value);
@@ -45,37 +49,31 @@ export default function Form(props: IForm) {
         <form
           onSubmit={(event: FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            handleSubmit(async () => {
-              props.publishMethod();
-              props.setValue("");
-              props.refreshMethod();
-            })();
+            successfulValidation(handleSubmit)();
           }}
           className="flex gap-2 flex-col sm:flex-row"
         >
           <div className="w-full">
-            {props.commentForChange && (
-              <>
+            <Marginer y={8}>
+              {props.commentForChangeId && (
                 <Button
-                  onClick={() => props.setCommentForChange(undefined)}
+                  onClick={handleReset}
                   radius="full"
                   variant="light"
                   endContent={<IoClose size={20} />}
                 >
                   Cancel change
                 </Button>
-                <Spacer y={2} />
-              </>
-            )}
-            <Textarea
-              {...register("value")}
-              value={props.value}
-              onChange={handleCommentChange}
-              isInvalid={!!errors.value}
-              errorMessage={errors.value?.message?.toString()}
-              rows={3}
-              disableAutosize
-            />
+              )}
+              <Textarea
+                value={props.value}
+                onChange={handleCommentChange}
+                isInvalid={!!errors.value}
+                errorMessage={errors.value?.message?.toString()}
+                rows={3}
+                disableAutosize
+              />
+            </Marginer>
           </div>
           <Button type="submit" color="primary">
             Publish
