@@ -82,7 +82,7 @@ export default function Form<T>(props: IForm<T>) {
             </Marginer>
           </div>
           <Button type="submit" color="primary" isLoading={props.isLoading}>
-            Publish
+            {props.commentForChangeId ? "Edit" : "Publish"}
           </Button>
         </form>
       </CardBody>

@@ -7,16 +7,16 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 
-interface IDialog {
+interface IDialog<T> {
   title: string;
   description: string;
-  action: () => Promise<void> | void;
+  action: () => Promise<void | T> | void;
   isLoading: boolean;
   isOpen: boolean;
   onOpenChange: () => void;
 }
 
-export default function Dialog(props: IDialog) {
+export default function Dialog<T>(props: IDialog<T>) {
   return (
     <Modal
       backdrop="blur"
