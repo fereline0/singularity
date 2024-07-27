@@ -55,7 +55,7 @@ export default function Header() {
                   src={session.data.user?.image ?? "/no-avatar.jpg"}
                 />
               </DropdownTrigger>
-              <DropdownMenu aria-label="Profile Actions" variant="shadow">
+              <DropdownMenu variant="shadow">
                 <DropdownItem
                   href={`/users/${session.data.user?.id}`}
                   startContent={<FiUser size={20} />}

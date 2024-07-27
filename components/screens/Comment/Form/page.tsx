@@ -8,18 +8,19 @@ import { FormEvent } from "react";
 import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
 
-interface IForm {
-  publishMethod: () => void;
+interface IForm<T> {
+  publishMethod: () => Promise<void | T> | void;
+  isLoading: boolean;
   commentForChangeId: string | undefined;
   setCommentForChangeId: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  refreshMethod: () => void;
+  refreshMethod: () => Promise<void | T> | void;
 }
 
-export default function Form(props: IForm) {
+export default function Form<T>(props: IForm<T>) {
   const {
     handleSubmit: successfulValidation,
     formState: { errors },
@@ -34,9 +35,14 @@ export default function Form(props: IForm) {
   };
 
   const handleSubmit = async () => {
-    props.publishMethod();
+    await props.publishMethod();
     handleReset();
-    props.refreshMethod();
+
+    const refreshMethod = props.refreshMethod();
+
+    if (refreshMethod instanceof Promise) {
+      await refreshMethod;
+    }
   };
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +81,7 @@ export default function Form(props: IForm) {
               />
             </Marginer>
           </div>
-          <Button type="submit" color="primary">
+          <Button type="submit" color="primary" isLoading={props.isLoading}>
             Publish
           </Button>
         </form>

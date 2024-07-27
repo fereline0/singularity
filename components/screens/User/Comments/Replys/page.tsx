@@ -26,40 +26,42 @@ export default function Replys(props: IReplys) {
   const [value, setValue] = useState("");
   const [commentForChangeId, setCommentForChangeId] = useState<string>();
   const [visibility, setVisibility] = useState(false);
-  const session = useSession();
   const [page, setPage] = useState(1);
   const limit = 5;
+  const session = useSession();
   const { data: comment, mutate } = getUserCommentChilds(
     visibility ? props.id : null,
     page,
     limit
   );
 
+  const { trigger: createData, isMutating: createIsMutating } =
+    createUserComment(props.user.id, value, session?.data?.user.id, props.id);
+
+  const { trigger: updateData, isMutating: updateIsMutating } =
+    updateUserComment(value, commentForChangeId);
+
   return (
     <Marginer y={8}>
       <Button onClick={() => setVisibility(!visibility)}>
-        {visibility ? "Hide" : "Show "}
+        {visibility ? "Hide" : "Show"}
       </Button>
       {visibility && (
         <div className="pl-5 border-l-2">
           <Marginer y={8}>
             {session.status === "authenticated" && (
-              <Form
+              <Form<IUserComment>
                 publishMethod={async () =>
-                  commentForChangeId
-                    ? await updateUserComment(commentForChangeId, value)
-                    : await createUserComment(
-                        props.user.id,
-                        session.data.user.id,
-                        value,
-                        props.id
-                      )
+                  commentForChangeId ? await updateData() : await createData()
+                }
+                isLoading={
+                  commentForChangeId ? updateIsMutating : createIsMutating
                 }
                 commentForChangeId={commentForChangeId}
                 setCommentForChangeId={setCommentForChangeId}
                 value={value}
                 setValue={setValue}
-                refreshMethod={mutate}
+                refreshMethod={async () => await mutate()}
               />
             )}
             {comment ? (
@@ -85,11 +87,11 @@ export default function Replys(props: IReplys) {
                           )
                         }
                         actions={
-                          <Actions
+                          <Actions<IUserComment>
                             comment={child}
                             setCommentForChangeId={setCommentForChangeId}
                             setValue={setValue}
-                            refreshMethod={mutate}
+                            refreshMethod={async () => await mutate()}
                           />
                         }
                       />

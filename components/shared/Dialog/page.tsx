@@ -10,7 +10,8 @@ import {
 interface IDialog {
   title: string;
   description: string;
-  action: () => void;
+  action: () => Promise<void> | void;
+  isLoading: boolean;
   isOpen: boolean;
   onOpenChange: () => void;
 }
@@ -33,7 +34,14 @@ export default function Dialog(props: IDialog) {
               <Button color="danger" variant="light" onClick={onClose}>
                 Cancel
               </Button>
-              <Button color="danger" onClick={props.action}>
+              <Button
+                color="danger"
+                onClick={async () => {
+                  await props.action();
+                  onClose();
+                }}
+                isLoading={props.isLoading}
+              >
                 {props.title}
               </Button>
             </ModalFooter>

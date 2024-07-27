@@ -1,5 +1,12 @@
 import IUser from "@/types/user.type";
-import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Divider,
+  Link,
+  User,
+} from "@nextui-org/react";
 
 interface ISubscribers {
   user: IUser;
@@ -9,8 +16,12 @@ export default function Subscribers(props: ISubscribers) {
   return (
     <Card shadow="none" className="w-full">
       <CardHeader>
-        <Link href={`/users/${props.user.id}/subscribers`}>Subscribers</Link>
+        <div className="flex w-full justify-between">
+          <Link href={`/users/${props.user.id}/subscribers`}>Subscribers</Link>
+          <span>{props.user._count.subscribers}</span>
+        </div>
       </CardHeader>
+      <Divider />
       <CardBody>
         {props.user.subscribers.map((data: { subscriber: IUser }) => (
           <User

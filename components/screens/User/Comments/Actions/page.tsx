@@ -14,16 +14,16 @@ import { IoMdMore } from "react-icons/io";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import Dialog from "@/components/shared/Dialog/page";
 
-interface IActions {
+interface IActions<T> {
   comment: IUserComment;
   setCommentForChangeId: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  refreshMethod: () => void;
+  refreshMethod: () => Promise<void | T> | void;
 }
 
-export default function Actions(props: IActions) {
+export default function Actions<T>(props: IActions<T>) {
   const {
     isOpen: isOpenDeleteModal,
     onOpen: onOpenDeleteModal,
@@ -35,6 +35,9 @@ export default function Actions(props: IActions) {
     props.setValue(props.comment.value);
   };
 
+  const { trigger: deleteData, isMutating: deleteIsMutating } =
+    deleteUserComment(props.comment.id);
+
   return (
     <>
       <Dropdown placement="bottom-end" backdrop="blur">
@@ -43,7 +46,7 @@ export default function Actions(props: IActions) {
             <IoMdMore size={20} />
           </Button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="User comment actions" variant="shadow">
+        <DropdownMenu variant="shadow">
           <DropdownItem
             onClick={handleChange}
             startContent={<MdModeEdit size={20} />}
@@ -62,10 +65,16 @@ export default function Actions(props: IActions) {
       <Dialog
         title="Delete"
         description="Are you sure you want to permanently delete this comment?"
-        action={() => {
-          deleteUserComment(props.comment.id);
-          props.refreshMethod();
+        action={async () => {
+          await deleteData();
+
+          const refreshMethod = props.refreshMethod();
+
+          if (refreshMethod instanceof Promise) {
+            await refreshMethod;
+          }
         }}
+        isLoading={deleteIsMutating}
         isOpen={isOpenDeleteModal}
         onOpenChange={onOpenChangeDeleteModal}
       />

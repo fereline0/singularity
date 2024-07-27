@@ -25,19 +25,20 @@ export default function Comments(props: IComments) {
   const [value, setValue] = useState("");
   const [commentForChangeId, setCommentForChangeId] = useState<string>();
 
+  const { trigger: createData, isMutating: createIsMutating } =
+    createUserComment(props.user.id, value, session?.data?.user.id);
+
+  const { trigger: updateData, isMutating: updateIsMutating } =
+    updateUserComment(value, commentForChangeId);
+
   return (
     <Marginer y={8}>
       {session.status === "authenticated" && (
-        <Form
+        <Form<IUserComment>
           publishMethod={async () =>
-            commentForChangeId
-              ? await updateUserComment(commentForChangeId, value)
-              : await createUserComment(
-                  props.user.id,
-                  session.data.user.id,
-                  value
-                )
+            commentForChangeId ? await updateData() : await createData()
           }
+          isLoading={commentForChangeId ? updateIsMutating : createIsMutating}
           commentForChangeId={commentForChangeId}
           setCommentForChangeId={setCommentForChangeId}
           refreshMethod={router.refresh}
