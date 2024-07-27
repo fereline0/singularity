@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       data.parentId = parentId as string;
     }
 
-    const userComment = await prisma.userComments.create({
+    const userComment = await prisma.userComment.create({
       data: data,
     });
 

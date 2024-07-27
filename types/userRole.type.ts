@@ -1,4 +1,4 @@
-export default interface IRole {
+export default interface IUserRole {
   id: string;
   name: string;
   color: string;

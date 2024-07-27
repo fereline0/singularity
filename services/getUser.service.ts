@@ -1,7 +1,7 @@
 import { serverFetcher } from "@/utils/fetcher";
 import { notFound } from "next/navigation";
 
-export async function getUser(id: string, page: number, limit: number) {
+export default async (id: string, page: number, limit: number) => {
   const res = await serverFetcher(
     `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}?page=${page}&limit=${limit}`
   );
@@ -9,10 +9,4 @@ export async function getUser(id: string, page: number, limit: number) {
   if (!res.ok) notFound();
 
   return res.json();
-}
-
-export async function deleteUser(id: string) {
-  await serverFetcher(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}`, {
-    method: "DELETE",
-  });
-}
+};

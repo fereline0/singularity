@@ -13,22 +13,23 @@ import { FormEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaDiscord } from "react-icons/fa";
-import { login } from "@/services/auth";
+import login from "@/services/login.service";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Marginer from "@/components/shared/Marginer/page";
 
 export default function Login() {
-  const [emailState, setEmailState] = useState("");
-  const [passwordState, setPasswordState] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const router = useRouter();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailState(event.target.value);
+    setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordState(event.target.value);
+    setPassword(event.target.value);
   };
 
   const {
@@ -43,51 +44,53 @@ export default function Login() {
     <div className="sm:flex items-center justify-center">
       <Card shadow="none" className="max-w-full w-full sm:max-w-80">
         <CardBody>
-          <form
-            onSubmit={(event: FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              handleSubmit(async () => {
-                const res = await login(emailState, passwordState);
+          <Marginer y={8}>
+            <form
+              onSubmit={(event: FormEvent<HTMLFormElement>) => {
+                event.preventDefault();
+                handleSubmit(async () => {
+                  const res = await login(email, password);
 
-                if (!res?.error) {
-                  router.push("/");
-                }
-              })();
-            }}
-            className="flex flex-col gap-2"
-          >
-            <Input
-              type="email"
-              placeholder="Email"
-              {...register("email")}
-              onChange={handleEmailChange}
-              isInvalid={!!errors.email}
-              errorMessage={errors.email?.message?.toString()}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              {...register("password")}
-              onChange={handlePasswordChange}
-              isInvalid={!!errors.password}
-              errorMessage={errors.password?.message?.toString()}
-            />
-            <Button type="submit" color="primary">
-              Sign In
-            </Button>
-            <Divider />
-            <Button
-              className="bg-[#5865F2] text-white"
-              startContent={<FaDiscord size={22} />}
-              onClick={async () => await signIn("discord")}
+                  if (!res?.error) {
+                    router.push("/");
+                  }
+                })();
+              }}
+              className="flex flex-col gap-2"
             >
-              Discord
-            </Button>
-          </form>
-          <Divider />
-          <div className="text-center">
-            <Link href="/register">Already have an account?</Link>
-          </div>
+              <Input
+                type="email"
+                placeholder="Email"
+                {...register("email")}
+                onChange={handleEmailChange}
+                isInvalid={!!errors.email}
+                errorMessage={errors.email?.message?.toString()}
+              />
+              <Input
+                type="password"
+                placeholder="Password"
+                {...register("password")}
+                onChange={handlePasswordChange}
+                isInvalid={!!errors.password}
+                errorMessage={errors.password?.message?.toString()}
+              />
+              <Button type="submit" color="primary">
+                Sign In
+              </Button>
+              <Divider />
+              <Button
+                className="bg-[#5865F2] text-white"
+                startContent={<FaDiscord size={22} />}
+                onClick={async () => await signIn("discord")}
+              >
+                Discord
+              </Button>
+            </form>
+            <Divider />
+            <div className="text-center">
+              <Link href="/register">Already have an account?</Link>
+            </div>
+          </Marginer>
         </CardBody>
       </Card>
     </div>

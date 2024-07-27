@@ -9,7 +9,7 @@ export async function GET(
     const searchParams = req.nextUrl.searchParams;
     const limit = Number(searchParams.get("limit"));
     const pageToSkip = (Number(searchParams.get("page")) - 1) * limit;
-    const userComment = await prisma.userComments.findUniqueOrThrow({
+    const userComment = await prisma.userComment.findUniqueOrThrow({
       where: {
         id: params.id,
       },
@@ -54,7 +54,7 @@ export async function PUT(
   try {
     const body = await req.formData();
 
-    const comment = await prisma.userComments.update({
+    const comment = await prisma.userComment.update({
       where: {
         id: params.id,
       },
@@ -74,7 +74,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const comment = await prisma.userComments.delete({
+    const comment = await prisma.userComment.delete({
       where: {
         id: params.id,
       },

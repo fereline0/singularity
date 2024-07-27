@@ -13,6 +13,10 @@ interface User extends IPaginate {
 }
 
 export default function User(props: User) {
+  const findedActiveBan = props.user.bans.find(
+    (ban) => new Date(ban.expires) > new Date() && ban.activity
+  );
+
   return (
     <Content>
       <SideBar>
@@ -21,6 +25,7 @@ export default function User(props: User) {
       <Main>
         <Marginer y={8}>
           <About user={props.user} />
+          {findedActiveBan && "banned"}
           <Comments user={props.user} total={props.total} limit={props.limit} />
         </Marginer>
       </Main>

@@ -6,14 +6,16 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
+import Marginer from "../Marginer/page";
 
 interface IDialog<T> {
   title: string;
-  description: string;
   action: () => Promise<void | T> | void;
-  isLoading: boolean;
   isOpen: boolean;
   onOpenChange: () => void;
+  description?: string;
+  isLoading?: boolean;
+  children?: React.ReactNode;
 }
 
 export default function Dialog<T>(props: IDialog<T>) {
@@ -28,7 +30,10 @@ export default function Dialog<T>(props: IDialog<T>) {
           <>
             <ModalHeader>{props.title}</ModalHeader>
             <ModalBody>
-              <p>{props.description}</p>
+              <Marginer y={8}>
+                {props.description && <p>{props.description}</p>}
+                {props.children}
+              </Marginer>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onClick={onClose}>

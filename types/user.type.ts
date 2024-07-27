@@ -1,7 +1,7 @@
-import IBan from "./ban.type";
-import IRole from "./role.type";
+import IUserRole from "./userRole.type";
 import { IUserComment } from "./userComment";
 import IUserDetailInformation from "./userDetailInformation";
+import IUserBan from "./userBan.type";
 
 export default interface IUser {
   id: string;
@@ -11,11 +11,11 @@ export default interface IUser {
   createdAt: string;
   updatedAt: string;
   detailInformation: IUserDetailInformation;
-  role: IRole;
+  role: IUserRole;
   subscribers: any[];
   subscribed: any[];
   comments: IUserComment[];
   writerComments: IUserComment[];
-  bans: IBan[];
+  bans: IUserBan[];
   _count: any;
 }

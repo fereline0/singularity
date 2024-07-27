@@ -1,5 +1,5 @@
 import User from "@/components/screens/User/page";
-import { getUser } from "@/services/user";
+import getUserService from "@/services/getUser.service";
 import IUser from "@/types/user.type";
 
 export const revalidate = 0;
@@ -13,7 +13,7 @@ export default async function user({
 }) {
   const page = searchParams.page || 1;
   const limit = 20;
-  const user: IUser = await getUser(params.id, page, limit);
+  const user: IUser = await getUserService(params.id, page, limit);
 
   return <User user={user} total={user._count.comments} limit={limit} />;
 }

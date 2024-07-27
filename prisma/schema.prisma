@@ -18,12 +18,12 @@ model User {
   createdAt         DateTime               @default(now())
   updatedAt         DateTime               @updatedAt
   roleId            String?
-  role              Role?                  @relation(fields: [roleId], references: [id])
+  role              UserRole?              @relation(fields: [roleId], references: [id])
   detailInformation UserDetailInformation?
   subscribed        UserSubscribers[]      @relation("subscriber")
   subscribers       UserSubscribers[]      @relation("user")
-  comments          UserComments[]         @relation("user")
-  writerComments    UserComments[]         @relation("writer")
+  comments          UserComment[]          @relation("user")
+  writerComments    UserComment[]          @relation("writer")
   bans              UserBans[]             @relation("user")
   bansInitiator     UserBans[]             @relation("initiator")
   accounts          Account[]
@@ -54,35 +54,35 @@ model UserSubscribers {
   @@unique([subscriberId, userId])
 }
 
-model Role {
+model UserRole {
   id    String @id @default(cuid())
   name  String @unique
   color String @unique
 
   users     User[]
-  abilities Ability[]
+  abilities RoleAbility[]
 }
 
-model Ability {
+model RoleAbility {
   id   String @id @default(cuid())
   slug String @unique
 
-  roles Role[]
+  roles UserRole[]
 }
 
-model UserComments {
+model UserComment {
   id        String   @id @default(cuid())
   value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   parentId String?
-  parent   UserComments?  @relation("UserComments", fields: [parentId], references: [id], onDelete: Cascade)
-  childs   UserComments[] @relation("UserComments")
+  parent   UserComment?  @relation("UserComment", fields: [parentId], references: [id], onDelete: Cascade)
+  childs   UserComment[] @relation("UserComment")
   writerId String
-  writer   User           @relation("writer", fields: [writerId], references: [id], onDelete: Cascade)
+  writer   User          @relation("writer", fields: [writerId], references: [id], onDelete: Cascade)
   userId   String
-  user     User           @relation("user", fields: [userId], references: [id], onDelete: Cascade)
+  user     User          @relation("user", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UserDetailInformation {

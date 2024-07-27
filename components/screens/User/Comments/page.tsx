@@ -11,9 +11,10 @@ import { IUserComment } from "@/types/userComment";
 import Form from "@/components/screens/Comment/Form/page";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { createUserComment, updateUserComment } from "@/services/userComment";
 import Marginer from "@/components/shared/Marginer/page";
 import Actions from "./Actions/page";
+import createUserCommentService from "@/services/createUserComment.service";
+import updateUserCommentService from "@/services/updateUserComment.service";
 
 interface IComments extends IPaginate {
   user: IUser;
@@ -25,20 +26,30 @@ export default function Comments(props: IComments) {
   const [value, setValue] = useState("");
   const [commentForChangeId, setCommentForChangeId] = useState<string>();
 
-  const { trigger: createData, isMutating: createIsMutating } =
-    createUserComment(props.user.id, value, session?.data?.user.id);
+  const {
+    trigger: createUserComment,
+    isMutating: createUserCommentIsMutating,
+  } = createUserCommentService(props.user.id, value, session?.data?.user.id);
 
-  const { trigger: updateData, isMutating: updateIsMutating } =
-    updateUserComment(value, commentForChangeId);
+  const {
+    trigger: updateUserComment,
+    isMutating: updateUserCommentIsMutating,
+  } = updateUserCommentService(value, commentForChangeId);
 
   return (
     <Marginer y={8}>
       {session.status === "authenticated" && (
         <Form<IUserComment>
           publishMethod={async () =>
-            commentForChangeId ? await updateData() : await createData()
+            commentForChangeId
+              ? await updateUserComment()
+              : await createUserComment()
           }
-          isLoading={commentForChangeId ? updateIsMutating : createIsMutating}
+          isLoading={
+            commentForChangeId
+              ? updateUserCommentIsMutating
+              : createUserCommentIsMutating
+          }
           commentForChangeId={commentForChangeId}
           setCommentForChangeId={setCommentForChangeId}
           refreshMethod={router.refresh}

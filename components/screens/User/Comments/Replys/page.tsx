@@ -1,10 +1,5 @@
 "use client";
 
-import {
-  createUserComment,
-  getUserCommentChilds,
-  updateUserComment,
-} from "@/services/userComment";
 import Comment from "@/components/screens/Comment/page";
 import { IUserComment } from "@/types/userComment";
 import { useState } from "react";
@@ -16,6 +11,9 @@ import IUser from "@/types/user.type";
 import { useSession } from "next-auth/react";
 import Marginer from "@/components/shared/Marginer/page";
 import Actions from "../Actions/page";
+import createUserCommentService from "@/services/createUserComment.service";
+import updateUserCommentService from "@/services/updateUserComment.service";
+import getUserCommentChildsService from "@/services/getUserCommentChilds.service";
 
 interface IReplys {
   id: string;
@@ -29,17 +27,26 @@ export default function Replys(props: IReplys) {
   const [page, setPage] = useState(1);
   const limit = 5;
   const session = useSession();
-  const { data: comment, mutate } = getUserCommentChilds(
+  const { data: comment, mutate } = getUserCommentChildsService(
     visibility ? props.id : null,
     page,
     limit
   );
 
-  const { trigger: createData, isMutating: createIsMutating } =
-    createUserComment(props.user.id, value, session?.data?.user.id, props.id);
+  const {
+    trigger: createUserComment,
+    isMutating: createUserCommentIsMutating,
+  } = createUserCommentService(
+    props.user.id,
+    value,
+    session.data?.user.id,
+    props.id
+  );
 
-  const { trigger: updateData, isMutating: updateIsMutating } =
-    updateUserComment(value, commentForChangeId);
+  const {
+    trigger: updateUserComment,
+    isMutating: updateUserCommentIsMutating,
+  } = updateUserCommentService(value, commentForChangeId);
 
   return (
     <Marginer y={8}>
@@ -52,10 +59,14 @@ export default function Replys(props: IReplys) {
             {session.status === "authenticated" && (
               <Form<IUserComment>
                 publishMethod={async () =>
-                  commentForChangeId ? await updateData() : await createData()
+                  commentForChangeId
+                    ? await updateUserComment()
+                    : await createUserComment()
                 }
                 isLoading={
-                  commentForChangeId ? updateIsMutating : createIsMutating
+                  commentForChangeId
+                    ? updateUserCommentIsMutating
+                    : createUserCommentIsMutating
                 }
                 commentForChangeId={commentForChangeId}
                 setCommentForChangeId={setCommentForChangeId}

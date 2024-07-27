@@ -1,8 +1,9 @@
 import IUser from "@/types/user.type";
-import { Card, CardBody, Image } from "@nextui-org/react";
+import { Button, Card, CardBody, Image } from "@nextui-org/react";
 import Subscribers from "./Subscribers/page";
 import Subscribed from "./Subscribed/page";
 import Marginer from "@/components/shared/Marginer/page";
+import Actions from "./Actions/page";
 
 interface IPreview {
   user: IUser;
@@ -21,14 +22,15 @@ export default function Preview(props: IPreview) {
                 src={props.user.image ?? "/no-avatar.jpg"}
               />
             </div>
-            <div
-              className={`w-full py-1 px-2 rounded-md`}
+            <Button
               style={{
-                backgroundColor: props.user.role.color,
+                background: props.user.role.color,
               }}
+              fullWidth
             >
-              <span>{props.user.role.name}</span>
-            </div>
+              {props.user.role.name}
+            </Button>
+            <Actions user={props.user} />
           </Marginer>
         </CardBody>
       </Card>

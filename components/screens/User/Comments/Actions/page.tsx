@@ -1,6 +1,5 @@
 "use client";
 
-import { deleteUserComment } from "@/services/userComment";
 import { IUserComment } from "@/types/userComment";
 import {
   Button,
@@ -13,6 +12,7 @@ import {
 import { IoMdMore } from "react-icons/io";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import Dialog from "@/components/shared/Dialog/page";
+import deleteUserCommentService from "@/services/deleteUserComment.service";
 
 interface IActions<T> {
   comment: IUserComment;
@@ -35,8 +35,10 @@ export default function Actions<T>(props: IActions<T>) {
     props.setValue(props.comment.value);
   };
 
-  const { trigger: deleteData, isMutating: deleteIsMutating } =
-    deleteUserComment(props.comment.id);
+  const {
+    trigger: deleteUserComment,
+    isMutating: deleteUserCommentIsMutating,
+  } = deleteUserCommentService(props.comment.id);
 
   return (
     <>
@@ -66,7 +68,7 @@ export default function Actions<T>(props: IActions<T>) {
         title="Delete"
         description="Are you sure you want to permanently delete this comment?"
         action={async () => {
-          await deleteData();
+          await deleteUserComment();
 
           const refreshMethod = props.refreshMethod();
 
@@ -74,7 +76,7 @@ export default function Actions<T>(props: IActions<T>) {
             await refreshMethod;
           }
         }}
-        isLoading={deleteIsMutating}
+        isLoading={deleteUserCommentIsMutating}
         isOpen={isOpenDeleteModal}
         onOpenChange={onOpenChangeDeleteModal}
       />

@@ -36,24 +36,24 @@ CREATE TABLE "UserSubscribers" (
 );
 
 -- CreateTable
-CREATE TABLE "Role" (
+CREATE TABLE "UserRole" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "color" TEXT NOT NULL,
 
-    CONSTRAINT "Role_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "UserRole_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Ability" (
+CREATE TABLE "RoleAbility" (
     "id" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
 
-    CONSTRAINT "Ability_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "RoleAbility_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "UserComments" (
+CREATE TABLE "UserComment" (
     "id" TEXT NOT NULL,
     "value" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -62,7 +62,7 @@ CREATE TABLE "UserComments" (
     "writerId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
-    CONSTRAINT "UserComments_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "UserComment_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -116,7 +116,7 @@ CREATE TABLE "VerificationToken" (
 );
 
 -- CreateTable
-CREATE TABLE "_AbilityToRole" (
+CREATE TABLE "_RoleAbilityToUserRole" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL
 );
@@ -128,13 +128,13 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "UserSubscribers_subscriberId_userId_key" ON "UserSubscribers"("subscriberId", "userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Role_name_key" ON "Role"("name");
+CREATE UNIQUE INDEX "UserRole_name_key" ON "UserRole"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Role_color_key" ON "Role"("color");
+CREATE UNIQUE INDEX "UserRole_color_key" ON "UserRole"("color");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Ability_slug_key" ON "Ability"("slug");
+CREATE UNIQUE INDEX "RoleAbility_slug_key" ON "RoleAbility"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UserDetailInformation_userId_key" ON "UserDetailInformation"("userId");
@@ -143,13 +143,13 @@ CREATE UNIQUE INDEX "UserDetailInformation_userId_key" ON "UserDetailInformation
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "_AbilityToRole_AB_unique" ON "_AbilityToRole"("A", "B");
+CREATE UNIQUE INDEX "_RoleAbilityToUserRole_AB_unique" ON "_RoleAbilityToUserRole"("A", "B");
 
 -- CreateIndex
-CREATE INDEX "_AbilityToRole_B_index" ON "_AbilityToRole"("B");
+CREATE INDEX "_RoleAbilityToUserRole_B_index" ON "_RoleAbilityToUserRole"("B");
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "UserRole"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserBans" ADD CONSTRAINT "UserBans_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -164,13 +164,13 @@ ALTER TABLE "UserSubscribers" ADD CONSTRAINT "UserSubscribers_subscriberId_fkey"
 ALTER TABLE "UserSubscribers" ADD CONSTRAINT "UserSubscribers_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserComments" ADD CONSTRAINT "UserComments_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "UserComments"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserComment" ADD CONSTRAINT "UserComment_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "UserComment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserComments" ADD CONSTRAINT "UserComments_writerId_fkey" FOREIGN KEY ("writerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserComment" ADD CONSTRAINT "UserComment_writerId_fkey" FOREIGN KEY ("writerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserComments" ADD CONSTRAINT "UserComments_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "UserComment" ADD CONSTRAINT "UserComment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserDetailInformation" ADD CONSTRAINT "UserDetailInformation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -182,7 +182,7 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_AbilityToRole" ADD CONSTRAINT "_AbilityToRole_A_fkey" FOREIGN KEY ("A") REFERENCES "Ability"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_RoleAbilityToUserRole" ADD CONSTRAINT "_RoleAbilityToUserRole_A_fkey" FOREIGN KEY ("A") REFERENCES "RoleAbility"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_AbilityToRole" ADD CONSTRAINT "_AbilityToRole_B_fkey" FOREIGN KEY ("B") REFERENCES "Role"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_RoleAbilityToUserRole" ADD CONSTRAINT "_RoleAbilityToUserRole_B_fkey" FOREIGN KEY ("B") REFERENCES "UserRole"("id") ON DELETE CASCADE ON UPDATE CASCADE;

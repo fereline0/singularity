@@ -32,11 +32,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return null;
           }
 
-          // const passwordConfirmation = await compare(password, user.password);
+          const passwordConfirmation = await compare(password, user.password);
 
-          // if (!passwordConfirmation) {
-          //   return null;
-          // }
+          if (!passwordConfirmation) {
+            return null;
+          }
 
           return user;
         } catch {

@@ -6,7 +6,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const roles = await prisma.role.findMany({
+    const roles = await prisma.userRole.findMany({
       where: {
         id: {
           lt: params.id,

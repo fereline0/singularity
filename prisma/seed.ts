@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.ability.createMany({
+  await prisma.roleAbility.createMany({
     data: [
       { slug: "deleteUser" },
       { slug: "deleteUserComment" },
@@ -14,7 +14,7 @@ async function main() {
     skipDuplicates: true,
   });
 
-  await prisma.role.upsert({
+  await prisma.userRole.upsert({
     where: {
       name: "User",
     },
@@ -25,7 +25,7 @@ async function main() {
     },
   });
 
-  await prisma.role.upsert({
+  await prisma.userRole.upsert({
     where: {
       name: "Moderator",
     },
@@ -39,7 +39,7 @@ async function main() {
     },
   });
 
-  await prisma.role.upsert({
+  await prisma.userRole.upsert({
     where: {
       name: "Admin",
     },
@@ -59,7 +59,7 @@ async function main() {
     },
   });
 
-  await prisma.role.upsert({
+  await prisma.userRole.upsert({
     where: {
       name: "Developer",
     },

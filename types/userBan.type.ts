@@ -1,6 +1,6 @@
 import IUser from "./user.type";
 
-export default interface IBan {
+export default interface IUserBan {
   id: number;
   createdAt: string;
   user: IUser;
