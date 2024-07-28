@@ -7,6 +7,7 @@ import Preview from "./Preview/page";
 import Comments from "./Comments/page";
 import IPaginate from "@/types/paginate.type";
 import Marginer from "@/components/shared/Marginer/page";
+import AlertAboutBan from "./AlertAboutBan/page";
 
 interface User extends IPaginate {
   user: IUser;
@@ -25,7 +26,7 @@ export default function User(props: User) {
       <Main>
         <Marginer y={8}>
           <About user={props.user} />
-          {findedActiveBan && "banned"}
+          {findedActiveBan && <AlertAboutBan ban={findedActiveBan} />}
           <Comments user={props.user} total={props.total} limit={props.limit} />
         </Marginer>
       </Main>

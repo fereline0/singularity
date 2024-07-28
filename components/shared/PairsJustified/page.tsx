@@ -13,14 +13,7 @@ export default function PairsJustified(props: IPairsJustified) {
         const shouldRender = row.value || row.value === 0;
 
         if (shouldRender)
-          return (
-            <Row
-              key={index}
-              label={row.label}
-              link={row.link}
-              value={row.value}
-            />
-          );
+          return <Row key={index} label={row.label} value={row.value} />;
       })}
     </div>
   );

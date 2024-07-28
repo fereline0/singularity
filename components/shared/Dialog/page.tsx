@@ -10,10 +10,10 @@ import Marginer from "../Marginer/page";
 
 interface IDialog<T> {
   title: string;
+  description: string;
   action: () => Promise<void | T> | void;
   isOpen: boolean;
   onOpenChange: () => void;
-  description?: string;
   isLoading?: boolean;
   children?: React.ReactNode;
 }
@@ -31,7 +31,7 @@ export default function Dialog<T>(props: IDialog<T>) {
             <ModalHeader>{props.title}</ModalHeader>
             <ModalBody>
               <Marginer y={8}>
-                {props.description && <p>{props.description}</p>}
+                <p>{props.description}</p>
                 {props.children}
               </Marginer>
             </ModalBody>
@@ -41,10 +41,7 @@ export default function Dialog<T>(props: IDialog<T>) {
               </Button>
               <Button
                 color="danger"
-                onClick={async () => {
-                  await props.action();
-                  onClose();
-                }}
+                onClick={async () => await props.action()}
                 isLoading={props.isLoading}
               >
                 {props.title}

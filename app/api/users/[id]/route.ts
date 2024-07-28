@@ -16,23 +16,6 @@ export async function GET(
       },
       include: {
         detailInformation: true,
-        subscribers: {
-          orderBy: {
-            subscriber: {
-              subscribers: {
-                _count: "desc",
-              },
-            },
-          },
-          take: 5,
-          select: {
-            subscriber: {
-              include: {
-                role: true,
-              },
-            },
-          },
-        },
         comments: {
           take: limit,
           skip: pageToSkip,
@@ -55,16 +38,6 @@ export async function GET(
             },
           },
         },
-        subscribed: {
-          take: 5,
-          select: {
-            user: {
-              include: {
-                role: true,
-              },
-            },
-          },
-        },
         role: true,
         bans: {
           include: {
@@ -82,8 +55,6 @@ export async function GET(
                 parent: null,
               },
             },
-            subscribers: true,
-            subscribed: true,
           },
         },
       },

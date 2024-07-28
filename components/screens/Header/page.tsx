@@ -31,6 +31,11 @@ export default function Header() {
   } = useDisclosure();
   const session = useSession();
 
+  const handleSignOut = async () => {
+    await signOut();
+    onOpenChangeSignOutModal();
+  };
+
   return (
     <Navbar maxWidth="2xl" shouldHideOnScroll>
       <NavbarContent>
@@ -80,7 +85,7 @@ export default function Header() {
             <Dialog
               title="Sign out"
               description="Are you sure you want to sign out of your account?"
-              action={async () => await signOut()}
+              action={async () => await handleSignOut()}
               isOpen={isOpenSignOutModal}
               onOpenChange={onOpenChangeSignOutModal}
             />

@@ -12,8 +12,6 @@ export default interface IUser {
   updatedAt: string;
   detailInformation: IUserDetailInformation;
   role: IUserRole;
-  subscribers: any[];
-  subscribed: any[];
   comments: IUserComment[];
   writerComments: IUserComment[];
   bans: IUserBan[];

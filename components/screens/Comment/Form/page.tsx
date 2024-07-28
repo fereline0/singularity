@@ -4,7 +4,6 @@ import Marginer from "@/components/shared/Marginer/page";
 import commentRequest from "@/requests/comment.request";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, CardBody, Textarea } from "@nextui-org/react";
-import { FormEvent } from "react";
 import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
 
@@ -39,7 +38,6 @@ export default function Form<T>(props: IForm<T>) {
     handleReset();
 
     const refreshMethod = props.refreshMethod();
-
     if (refreshMethod instanceof Promise) {
       await refreshMethod;
     }
@@ -52,39 +50,33 @@ export default function Form<T>(props: IForm<T>) {
   return (
     <Card shadow="none">
       <CardBody>
-        <form
-          onSubmit={(event: FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            successfulValidation(handleSubmit)();
-          }}
-          className="flex gap-2 flex-col sm:flex-row"
-        >
-          <div className="w-full">
-            <Marginer y={8}>
-              {props.commentForChangeId && (
-                <Button
-                  onClick={handleReset}
-                  radius="full"
-                  variant="light"
-                  endContent={<IoClose size={20} />}
-                >
-                  Cancel change
-                </Button>
-              )}
-              <Textarea
-                value={props.value}
-                onChange={handleCommentChange}
-                isInvalid={!!errors.value}
-                errorMessage={errors.value?.message?.toString()}
-                rows={3}
-                disableAutosize
-              />
-            </Marginer>
-          </div>
-          <Button type="submit" color="primary" isLoading={props.isLoading}>
-            {props.commentForChangeId ? "Edit" : "Publish"}
+        <Marginer y={8}>
+          {props.commentForChangeId && (
+            <Button
+              onClick={handleReset}
+              radius="full"
+              variant="light"
+              endContent={<IoClose size={20} />}
+            >
+              Cancel change
+            </Button>
+          )}
+          <Textarea
+            value={props.value}
+            onChange={handleCommentChange}
+            isInvalid={!!errors.value}
+            errorMessage={errors.value?.message?.toString()}
+            rows={3}
+            disableAutosize
+          />
+          <Button
+            color="primary"
+            onClick={async () => await successfulValidation(handleSubmit)()}
+            isLoading={props.isLoading}
+          >
+            Publish
           </Button>
-        </form>
+        </Marginer>
       </CardBody>
     </Card>
   );

@@ -35,6 +35,15 @@ export default function Actions<T>(props: IActions<T>) {
     props.setValue(props.comment.value);
   };
 
+  const handleDeleteUserComment = async () => {
+    await deleteUserComment();
+    onOpenChangeDeleteModal();
+    const refreshMethod = props.refreshMethod();
+    if (refreshMethod instanceof Promise) {
+      await refreshMethod;
+    }
+  };
+
   const {
     trigger: deleteUserComment,
     isMutating: deleteUserCommentIsMutating,
@@ -67,15 +76,7 @@ export default function Actions<T>(props: IActions<T>) {
       <Dialog
         title="Delete"
         description="Are you sure you want to permanently delete this comment?"
-        action={async () => {
-          await deleteUserComment();
-
-          const refreshMethod = props.refreshMethod();
-
-          if (refreshMethod instanceof Promise) {
-            await refreshMethod;
-          }
-        }}
+        action={async () => await handleDeleteUserComment()}
         isLoading={deleteUserCommentIsMutating}
         isOpen={isOpenDeleteModal}
         onOpenChange={onOpenChangeDeleteModal}
