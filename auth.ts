@@ -1,51 +1,19 @@
 import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
 import Discord from "next-auth/providers/discord";
-import loginRequest from "@/requests/login.request";
-import { compare } from "bcryptjs";
-import { authConfig } from "./auth.config";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./utils/prisma";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  ...authConfig,
+  secret: process.env.AUTH_SECRET,
+  callbacks: {
+    async session({ session, user }) {
+      session.user.id = user.id;
+
+      return session;
+    },
+  },
   adapter: PrismaAdapter(prisma),
-  providers: [
-    Credentials({
-      name: "credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-      authorize: async (credentials) => {
-        try {
-          const { email, password } =
-            await loginRequest.parseAsync(credentials);
-
-          const user = await prisma.user.findUniqueOrThrow({
-            where: {
-              email: email,
-            },
-          });
-
-          if (!user.password) {
-            return null;
-          }
-
-          const passwordConfirmation = await compare(password, user.password);
-
-          if (!passwordConfirmation) {
-            return null;
-          }
-
-          return user;
-        } catch {
-          return null;
-        }
-      },
-    }),
-    Discord,
-  ],
+  providers: [Discord],
   events: {
     async signIn({ user, isNewUser }) {
       if (isNewUser) {
@@ -64,7 +32,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
     },
     async session({ session }) {
-      const user = await prisma.user.findFirst({
+      const user = await prisma.user.findUnique({
         where: {
           id: session.user.id,
         },
@@ -78,13 +46,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         },
       });
 
-      if (!user) {
-        await signOut();
-        return;
-      }
-
-      session.user.role = user.role;
-      session.user.bans = user.bans;
+      session.user.role = user?.role;
+      session.user.bans = user?.bans;
     },
   },
 });

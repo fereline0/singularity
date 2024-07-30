@@ -1,6 +1,6 @@
 "use client";
 
-import IPaginate from "@/types/paginate.type";
+import IPaginate from "@/interfaces/paginate.interface";
 import { Pagination } from "@nextui-org/react";
 
 interface IClientPaginate extends IPaginate {

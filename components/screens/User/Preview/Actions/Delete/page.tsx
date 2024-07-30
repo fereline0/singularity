@@ -1,8 +1,8 @@
 "use client";
 
 import Dialog from "@/components/shared/Dialog/page";
+import IUser from "@/interfaces/user.interface";
 import deleteUserService from "@/services/deleteUser.service";
-import IUser from "@/types/user.type";
 import { Button, useDisclosure } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 

@@ -1,6 +1,6 @@
 import User from "@/components/screens/User/page";
+import IUser from "@/interfaces/user.interface";
 import getUserService from "@/services/getUser.service";
-import IUser from "@/types/user.type";
 
 export const revalidate = 0;
 

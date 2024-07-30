@@ -1,13 +1,13 @@
-import IUser from "@/types/user.type";
 import Main from "@/components/shared/Content/Main/page";
 import SideBar from "@/components/shared/Content/SideBar/page";
 import Content from "@/components/shared/Content/page";
 import About from "./About/page";
 import Preview from "./Preview/page";
 import Comments from "./Comments/page";
-import IPaginate from "@/types/paginate.type";
 import Marginer from "@/components/shared/Marginer/page";
 import AlertAboutBan from "./AlertAboutBan/page";
+import IPaginate from "@/interfaces/paginate.interface";
+import IUser from "@/interfaces/user.interface";
 
 interface User extends IPaginate {
   user: IUser;

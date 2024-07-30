@@ -1,6 +1,5 @@
 "use client";
 
-import { IUserComment } from "@/types/userComment";
 import {
   Button,
   Dropdown,
@@ -13,6 +12,7 @@ import { IoMdMore } from "react-icons/io";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import Dialog from "@/components/shared/Dialog/page";
 import deleteUserCommentService from "@/services/deleteUserComment.service";
+import { IUserComment } from "@/interfaces/userComment.interface";
 
 interface IActions<T> {
   comment: IUserComment;

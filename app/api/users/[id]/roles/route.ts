@@ -15,7 +15,7 @@ export async function POST(
       data: {
         role: {
           connect: {
-            name: body.get("name") as string,
+            id: body.get("roleId") as string,
           },
         },
       },

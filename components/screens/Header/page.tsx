@@ -47,6 +47,15 @@ export default function Header() {
       </NavbarContent>
 
       <NavbarContent justify="end">
+        <NavbarItem>
+          <Button
+            isIconOnly
+            variant="light"
+            onClick={() => setTheme(theme == "light" ? "dark" : "light")}
+          >
+            <LuMoon size={20} />
+          </Button>
+        </NavbarItem>
         {session.status == "loading" ? (
           <Spinner />
         ) : session.status === "authenticated" ? (
@@ -57,21 +66,15 @@ export default function Header() {
                   className="cursor-pointer"
                   isBordered
                   size="sm"
-                  src={session.data.user?.image ?? "/no-avatar.jpg"}
+                  src={session.data.user.image ?? "/no-avatar.jpg"}
                 />
               </DropdownTrigger>
               <DropdownMenu variant="shadow">
                 <DropdownItem
-                  href={`/users/${session.data.user?.id}`}
+                  href={`/users/${session.data.user.id}`}
                   startContent={<FiUser size={20} />}
                 >
-                  {session.data.user?.name}
-                </DropdownItem>
-                <DropdownItem
-                  startContent={<LuMoon size={20} />}
-                  onClick={() => setTheme(theme == "light" ? "dark" : "light")}
-                >
-                  Change theme
+                  {session.data.user.name}
                 </DropdownItem>
                 <DropdownItem
                   onClick={onOpenSignOutModal}
@@ -91,23 +94,16 @@ export default function Header() {
             />
           </NavbarItem>
         ) : (
-          <>
-            <NavbarItem>
-              <Link color="primary" href="/register">
-                Register
-              </Link>
-            </NavbarItem>
-            <NavbarItem>
-              <Button
-                color="primary"
-                as={Link}
-                href="/login"
-                startContent={<IoLogInOutline size={20} />}
-              >
-                Login
-              </Button>
-            </NavbarItem>
-          </>
+          <NavbarItem>
+            <Button
+              color="primary"
+              as={Link}
+              href="/login"
+              startContent={<IoLogInOutline size={20} />}
+            >
+              Login
+            </Button>
+          </NavbarItem>
         )}
       </NavbarContent>
     </Navbar>

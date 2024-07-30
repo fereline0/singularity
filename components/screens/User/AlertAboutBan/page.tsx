@@ -1,6 +1,6 @@
 import Marginer from "@/components/shared/Marginer/page";
 import PairsJustified from "@/components/shared/PairsJustified/page";
-import IUserBan from "@/types/userBan.type";
+import IUserBan from "@/interfaces/userBan.interface";
 import { Card, CardBody, Link } from "@nextui-org/react";
 import { formatDistance } from "date-fns";
 

@@ -1,9 +1,9 @@
 "use client";
 
 import Marginer from "@/components/shared/Marginer/page";
-import IUser from "@/types/user.type";
 import Ban from "./Ban/page";
 import Delete from "./Delete/page";
+import IUser from "@/interfaces/user.interface";
 
 interface IActions {
   user: IUser;

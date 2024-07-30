@@ -1,19 +1,19 @@
 "use client";
 
 import Comment from "@/components/screens/Comment/page";
-import { IUserComment } from "@/types/userComment";
 import { useState } from "react";
 import { formatDistance } from "date-fns";
 import ClientPaginate from "@/components/shared/ClientPaginate/page";
 import Form from "@/components/screens/Comment/Form/page";
 import { Button, Spinner } from "@nextui-org/react";
-import IUser from "@/types/user.type";
 import { useSession } from "next-auth/react";
 import Marginer from "@/components/shared/Marginer/page";
 import Actions from "../Actions/page";
 import createUserCommentService from "@/services/createUserComment.service";
 import updateUserCommentService from "@/services/updateUserComment.service";
 import getUserCommentChildsService from "@/services/getUserCommentChilds.service";
+import IUser from "@/interfaces/user.interface";
+import { IUserComment } from "@/interfaces/userComment.interface";
 
 interface IReplys {
   id: string;

@@ -1,7 +1,7 @@
-import IUserRole from "./userRole.type";
-import { IUserComment } from "./userComment";
-import IUserDetailInformation from "./userDetailInformation";
-import IUserBan from "./userBan.type";
+import IUserRole from "./userRole.interface";
+import { IUserComment } from "./userComment.interface";
+import IUserDetailInformation from "./userDetailInformation.interface";
+import IUserBan from "./userBan.interface";
 
 export default interface IUser {
   id: string;

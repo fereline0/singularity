@@ -1,4 +1,4 @@
-import IUser from "@/types/user.type";
+import IUser from "@/interfaces/user.interface";
 import { clientFetcher } from "@/utils/fetcher";
 import useSWRMutation from "swr/mutation";
 

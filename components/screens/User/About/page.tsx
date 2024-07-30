@@ -1,6 +1,6 @@
 import Marginer from "@/components/shared/Marginer/page";
 import PairsJustified from "@/components/shared/PairsJustified/page";
-import IUser from "@/types/user.type";
+import IUser from "@/interfaces/user.interface";
 import { Card, CardBody } from "@nextui-org/react";
 import { formatISO9075 } from "date-fns";
 

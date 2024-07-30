@@ -1,5 +1,5 @@
-import IComment from "./comment.type";
-import IUser from "./user.type";
+import IComment from "./comment.interface";
+import IUser from "./user.interface";
 
 export interface IUserComment extends IComment {
   userId: string;

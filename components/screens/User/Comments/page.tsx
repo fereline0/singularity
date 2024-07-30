@@ -1,13 +1,10 @@
 "use client";
 
-import IPaginate from "@/types/paginate.type";
 import Comment from "@/components/screens/Comment/page";
-import IUser from "@/types/user.type";
 import { useRouter } from "next/navigation";
 import { formatDistance } from "date-fns";
 import ServerPaginate from "@/components/shared/ServerPaginate/page";
 import Replys from "./Replys/page";
-import { IUserComment } from "@/types/userComment";
 import Form from "@/components/screens/Comment/Form/page";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
@@ -15,6 +12,9 @@ import Marginer from "@/components/shared/Marginer/page";
 import Actions from "./Actions/page";
 import createUserCommentService from "@/services/createUserComment.service";
 import updateUserCommentService from "@/services/updateUserComment.service";
+import { IUserComment } from "@/interfaces/userComment.interface";
+import IPaginate from "@/interfaces/paginate.interface";
+import IUser from "@/interfaces/user.interface";
 
 interface IComments extends IPaginate {
   user: IUser;

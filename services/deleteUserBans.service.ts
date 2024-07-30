@@ -1,4 +1,4 @@
-import IUserBan from "@/types/userBan.type";
+import IUserBan from "@/interfaces/userBan.interface";
 import { clientFetcher } from "@/utils/fetcher";
 import useSWRMutation from "swr/mutation";
 

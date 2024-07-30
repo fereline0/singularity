@@ -1,6 +1,6 @@
+import { IUserComment } from "@/interfaces/userComment.interface";
 import { clientFetcher } from "@/utils/fetcher";
 import useSWRMutation from "swr/mutation";
-import { IUserComment } from "@/types/userComment";
 
 export default (
   id: string,

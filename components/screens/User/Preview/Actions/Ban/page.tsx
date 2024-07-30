@@ -4,7 +4,6 @@ import Dialog from "@/components/shared/Dialog/page";
 import banRequest from "@/requests/ban.request";
 import createUserBanService from "@/services/createUserBan.service";
 import deleteUserBansService from "@/services/deleteUserBans.service";
-import IUser from "@/types/user.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, DateInput, Input, useDisclosure } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
@@ -12,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { getLocalTimeZone, now } from "@internationalized/date";
+import IUser from "@/interfaces/user.interface";
 
 interface IBan {
   user: IUser;
@@ -60,7 +60,7 @@ export default function Ban(props: IBan) {
 
   const handleDeleteUserBans = async () => {
     await deleteUserBans();
-    onOpenChangeBanModal();
+    onOpenChangeUnbanModal();
     router.refresh();
   };
 

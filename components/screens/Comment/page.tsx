@@ -1,5 +1,5 @@
 import Marginer from "@/components/shared/Marginer/page";
-import IUser from "@/types/user.type";
+import IUser from "@/interfaces/user.interfaces";
 import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
 
 interface IComment {
