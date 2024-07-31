@@ -41,8 +41,9 @@ model UserBans {
 }
 
 model UserRole {
-  id   String @id @default(cuid())
-  name String @unique
+  id       String @id @default(cuid())
+  name     String @unique
+  position Int    @unique
 
   users     User[]
   abilities RoleAbility[]

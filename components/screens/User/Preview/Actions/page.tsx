@@ -1,5 +1,3 @@
-"use client";
-
 import Marginer from "@/components/shared/Marginer/page";
 import Ban from "./Ban/page";
 import Delete from "./Delete/page";
