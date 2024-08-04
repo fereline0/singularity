@@ -77,44 +77,38 @@ export default function Replys(props: IReplys) {
             )}
             {comment ? (
               comment.childs.length > 0 && (
-                <>
-                  <Marginer y={8}>
-                    {comment.childs.map((child: IUserComment) => (
-                      <Comment
-                        key={child.id}
-                        writer={child.writer}
-                        description={formatDistance(
-                          child.createdAt,
-                          new Date(),
-                          {
-                            addSuffix: true,
-                          }
-                        )}
-                        value={child.value}
-                        replys={
-                          (session.status !== "unauthenticated" ||
-                            child._count.childs > 0) && (
-                            <Replys id={child.id} user={props.user} />
-                          )
-                        }
-                        actions={
-                          <Actions<IUserComment>
-                            comment={child}
-                            setCommentForChangeId={setCommentForChangeId}
-                            setValue={setValue}
-                            refreshMethod={async () => await mutate()}
-                          />
-                        }
-                      />
-                    ))}
-                  </Marginer>
+                <Marginer y={8}>
+                  {comment.childs.map((child: IUserComment) => (
+                    <Comment
+                      key={child.id}
+                      writer={child.writer}
+                      description={formatDistance(child.createdAt, new Date(), {
+                        addSuffix: true,
+                      })}
+                      value={child.value}
+                      replys={
+                        (session.status !== "unauthenticated" ||
+                          child._count.childs > 0) && (
+                          <Replys id={child.id} user={props.user} />
+                        )
+                      }
+                      actions={
+                        <Actions<IUserComment>
+                          comment={child}
+                          setCommentForChangeId={setCommentForChangeId}
+                          setValue={setValue}
+                          refreshMethod={async () => await mutate()}
+                        />
+                      }
+                    />
+                  ))}
                   <ClientPaginate
                     total={comment._count.childs}
                     limit={limit}
                     page={page}
                     setPage={setPage}
                   />
-                </>
+                </Marginer>
               )
             ) : (
               <div className="flex justify-center content-center">
