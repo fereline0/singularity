@@ -12,5 +12,7 @@ export default interface IArticle {
   writer: IUser;
   section: ISection;
   comments: IArticleComment[];
-  _count: any;
+  _count: {
+    articles: number;
+  };
 }

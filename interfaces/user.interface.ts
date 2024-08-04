@@ -15,5 +15,5 @@ export default interface IUser {
   comments: IUserComment[];
   writerComments: IUserComment[];
   bans: IUserBan[];
-  _count: any;
+  _count: { comments: number };
 }

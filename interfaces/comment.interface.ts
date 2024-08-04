@@ -9,5 +9,7 @@ export default interface IComment {
   parent: IComment;
   writerId: string;
   writer: IUser;
-  _count: any;
+  _count: {
+    childs: number;
+  };
 }
