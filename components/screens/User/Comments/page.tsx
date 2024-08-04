@@ -23,7 +23,6 @@ interface IComments extends IPaginate {
 export default function Comments(props: IComments) {
   const router = useRouter();
   const session = useSession();
-  console.log(session.data);
   const [value, setValue] = useState("");
   const [commentForChangeId, setCommentForChangeId] = useState<string>();
 

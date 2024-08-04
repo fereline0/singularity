@@ -12,6 +12,7 @@ export default function Marginer(props: IMarginer) {
     <>
       {childrenToArray.map((child, index) => (
         <div
+          key={index}
           style={{
             marginLeft: index + 1 == childrenToArray.length ? 0 : props.x,
             marginBottom: index + 1 == childrenToArray.length ? 0 : props.y,
