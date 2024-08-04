@@ -48,7 +48,7 @@ export default function Form<T>(props: IForm<T>) {
   };
 
   return (
-    <Card shadow="none">
+    <Card>
       <CardBody>
         <Marginer y={8}>
           {props.commentForChangeId && (

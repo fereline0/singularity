@@ -10,7 +10,7 @@ interface IAlertAboutBan {
 
 export default function AlertAboutBan(props: IAlertAboutBan) {
   return (
-    <Card shadow="none">
+    <Card>
       <CardBody>
         <Marginer y={8}>
           <p>

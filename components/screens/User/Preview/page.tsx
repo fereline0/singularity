@@ -9,13 +9,17 @@ interface IPreview {
 
 export default function Preview(props: IPreview) {
   return (
-    <Card shadow="none">
+    <Card>
       <CardBody className="text-center">
         <Marginer y={8}>
           <div className="flex justify-center">
-            <Image width={240} src={props.user.image ?? "/no-avatar.jpg"} />
+            <Image
+              isBlurred
+              width={240}
+              src={props.user.image ?? "/no-avatar.jpg"}
+            />
           </div>
-          <span>{props.user.role.name}</span>
+          <span className="font-semibold">{props.user.role.name}</span>
           <Actions user={props.user} />
         </Marginer>
       </CardBody>

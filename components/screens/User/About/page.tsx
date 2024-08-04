@@ -12,11 +12,11 @@ export default function About(props: IAbout) {
   const detailInformation = props.user.detailInformation;
 
   return (
-    <Card shadow="none">
+    <Card>
       <CardBody>
         <Marginer y={8}>
           <div>
-            <h1 className="text-3xl">{props.user.name}</h1>
+            <h1 className="text-3xl font-semibold">{props.user.name}</h1>
             <p>{props.user.detailInformation?.aboutMe}</p>
           </div>
           {detailInformation && (

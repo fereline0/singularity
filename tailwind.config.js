@@ -16,11 +16,6 @@ module.exports = {
             background: "#F3F4F6",
           },
         },
-        dark: {
-          colors: {
-            background: "#000000",
-          },
-        },
       },
     }),
   ],

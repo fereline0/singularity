@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import IPaginate from "@/interfaces/paginate.interfaces";
 import { Pagination } from "@nextui-org/react";
 import { useCallback } from "react";
+import IPaginate from "@/interfaces/paginate.interface";
 
 export default function ServerPaginate(props: IPaginate) {
   const router = useRouter();

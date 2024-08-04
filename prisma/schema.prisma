@@ -9,23 +9,26 @@ generator client {
 }
 
 model User {
-  id                String                 @id @default(cuid())
-  name              String?
-  email             String?                @unique
-  emailVerified     DateTime?
-  password          String?
-  image             String?
-  createdAt         DateTime               @default(now())
-  updatedAt         DateTime               @updatedAt
-  roleId            String?
-  role              UserRole?              @relation(fields: [roleId], references: [id])
-  detailInformation UserDetailInformation?
-  comments          UserComment[]          @relation("user")
-  writerComments    UserComment[]          @relation("writer")
-  bans              UserBans[]             @relation("user")
-  bansInitiator     UserBans[]             @relation("initiator")
-  accounts          Account[]
-  sessions          Session[]
+  id                    String                 @id @default(cuid())
+  name                  String?
+  email                 String?                @unique
+  emailVerified         DateTime?
+  password              String?
+  image                 String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  roleId                String?
+  role                  UserRole?              @relation(fields: [roleId], references: [id])
+  detailInformation     UserDetailInformation?
+  comments              UserComment[]          @relation("user")
+  writedComments        UserComment[]          @relation("writer")
+  bans                  UserBans[]             @relation("user")
+  bansInitiator         UserBans[]             @relation("initiator")
+  articles              Article[]
+  writedArticleComments ArticleComments[]
+  administeredSections  Section[]
+  accounts              Account[]
+  sessions              Session[]
 }
 
 model UserBans {
@@ -81,6 +84,48 @@ model UserDetailInformation {
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Section {
+  id          String @id @default(cuid())
+  name        String
+  description String
+
+  parentId    String?
+  parent      Section?  @relation("Section", fields: [parentId], references: [id], onDelete: Cascade)
+  childs      Section[] @relation("Section")
+  articles    Article[]
+  supervisors User[]
+}
+
+model Article {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean
+  title     String
+  value     String
+
+  comments  ArticleComments[]
+  writerId  String
+  writer    User              @relation(fields: [writerId], references: [id], onDelete: Cascade)
+  sectionId String
+  section   Section           @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+}
+
+model ArticleComments {
+  id        String   @id @default(cuid())
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parentId  String?
+  parent    ArticleComments?  @relation("ArticleComments", fields: [parentId], references: [id])
+  childs    ArticleComments[] @relation("ArticleComments")
+  writerId  String
+  writer    User              @relation(fields: [writerId], references: [id], onDelete: Cascade)
+  articleId String
+  article   Article           @relation(fields: [articleId], references: [id], onDelete: Cascade)
 }
 
 model Account {

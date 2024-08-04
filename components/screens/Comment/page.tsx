@@ -1,5 +1,5 @@
 import Marginer from "@/components/shared/Marginer/page";
-import IUser from "@/interfaces/user.interfaces";
+import IUser from "@/interfaces/user.interface";
 import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
 
 interface IComment {
@@ -13,7 +13,7 @@ interface IComment {
 export default function Comment(props: IComment) {
   return (
     <Marginer y={8}>
-      <Card shadow="none">
+      <Card>
         <CardHeader className="flex justify-between">
           <User
             name={

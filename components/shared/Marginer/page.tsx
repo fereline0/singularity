@@ -7,20 +7,19 @@ interface IMarginer {
 }
 
 export default function Marginer(props: IMarginer) {
+  const childrenToArray = React.Children.toArray(props.children);
   return (
-    <div>
-      {React.Children.map(props.children, (child, index) => (
+    <>
+      {childrenToArray.map((child, index) => (
         <div
           style={{
-            marginLeft:
-              index + 1 == React.Children.count(props.children) ? 0 : props.x,
-            marginBottom:
-              index + 1 == React.Children.count(props.children) ? 0 : props.y,
+            marginLeft: index + 1 == childrenToArray.length ? 0 : props.x,
+            marginBottom: index + 1 == childrenToArray.length ? 0 : props.y,
           }}
         >
           {child}
         </div>
       ))}
-    </div>
+    </>
   );
 }
