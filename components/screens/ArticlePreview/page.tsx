@@ -36,18 +36,43 @@ export default function ArticlePreview(props: IArticlePreview) {
               </p>
             </SeparatedText>
           </div>
-          <User
-            className="w-fit sm:w-52"
-            name={
-              <Link href={`/users/${props.article.writer.id}`}>
-                {props.article.writer.name}
-              </Link>
-            }
-            description={"Lorem"}
-            avatarProps={{
-              src: props.article.writer.image ?? "/no-avatar.jpg",
-            }}
-          />
+          {props.article.comments[0] ? (
+            <User
+              className="justify-start sm:w-48"
+              name={
+                <Link href={`/users/${props.article.comments[0].writer.id}`}>
+                  {props.article.writer.name}
+                </Link>
+              }
+              description={formatDistance(
+                props.article.comments[0].createdAt,
+                new Date(),
+                {
+                  includeSeconds: true,
+                  addSuffix: true,
+                }
+              )}
+              avatarProps={{
+                src: props.article.comments[0].writer.image ?? "/no-avatar.jpg",
+              }}
+            />
+          ) : (
+            <User
+              className="justify-start sm:w-48"
+              name={
+                <Link href={`/users/${props.article.writer.id}`}>
+                  {props.article.writer.name}
+                </Link>
+              }
+              description={formatDistance(props.article.createdAt, new Date(), {
+                includeSeconds: true,
+                addSuffix: true,
+              })}
+              avatarProps={{
+                src: props.article.writer.image ?? "/no-avatar.jpg",
+              }}
+            />
+          )}
         </div>
       </CardBody>
     </Card>

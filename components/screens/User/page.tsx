@@ -1,3 +1,5 @@
+"use client";
+
 import Main from "@/components/shared/Content/Main/page";
 import SideBar from "@/components/shared/Content/SideBar/page";
 import Content from "@/components/shared/Content/page";

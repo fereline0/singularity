@@ -9,12 +9,17 @@ export default async function section({
   searchParams,
 }: {
   params: { id: string };
-  searchParams: { page: number };
+  searchParams: { page: number; q: string };
 }) {
   const page = searchParams.page || 1;
   const limit = 20;
 
-  const section: ISection = await getSectionService(params.id, page, limit);
+  const section: ISection = await getSectionService(
+    params.id,
+    page,
+    limit,
+    searchParams.q
+  );
 
   return (
     <Forum section={section} total={section._count.articles} limit={limit} />

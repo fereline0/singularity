@@ -8,6 +8,7 @@ export async function GET(
   const searchParams = req.nextUrl.searchParams;
   const limit = Number(searchParams.get("limit"));
   const pageToSkip = (Number(searchParams.get("page")) - 1) * limit;
+  const query = searchParams.get("q")?.toString();
 
   try {
     const sections = await prisma.section.findUniqueOrThrow({
@@ -16,22 +17,93 @@ export async function GET(
       },
       include: {
         childs: true,
+        supervisors: {
+          include: {
+            role: true,
+          },
+        },
         articles: {
           take: limit,
           skip: pageToSkip,
           where: {
             published: true,
+            AND: [
+              {
+                OR: [
+                  {
+                    title: {
+                      contains: query,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    value: {
+                      contains: query,
+                      mode: "insensitive",
+                    },
+                  },
+                  {
+                    writer: {
+                      name: {
+                        contains: query,
+                        mode: "insensitive",
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
           },
           orderBy: {
             createdAt: "desc",
           },
           include: {
+            comments: {
+              orderBy: {
+                createdAt: "desc",
+              },
+              take: 1,
+              select: {
+                createdAt: true,
+                writer: true,
+              },
+            },
             writer: true,
           },
         },
         _count: {
           select: {
-            articles: true,
+            articles: {
+              where: {
+                published: true,
+                AND: [
+                  {
+                    OR: [
+                      {
+                        title: {
+                          contains: query,
+                          mode: "insensitive",
+                        },
+                      },
+                      {
+                        value: {
+                          contains: query,
+                          mode: "insensitive",
+                        },
+                      },
+                      {
+                        writer: {
+                          name: {
+                            contains: query,
+                            mode: "insensitive",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
           },
         },
       },

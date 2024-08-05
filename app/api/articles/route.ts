@@ -20,6 +20,16 @@ export async function GET(req: NextRequest) {
         include: {
           writer: true,
           section: true,
+          comments: {
+            orderBy: {
+              createdAt: "desc",
+            },
+            take: 1,
+            select: {
+              createdAt: true,
+              writer: true,
+            },
+          },
         },
       }),
       prisma.article.count({
