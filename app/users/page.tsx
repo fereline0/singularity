@@ -7,14 +7,15 @@ export const revalidate = 0;
 export default async function users({
   searchParams,
 }: {
-  searchParams: { page: number; q: string };
+  searchParams: { page: number; query: string; order: string };
 }) {
   const page = searchParams.page || 1;
   const limit = 20;
   const users: [IUser[], IUser[], number] = await getUsersService(
     page,
     limit,
-    searchParams.q
+    searchParams.query,
+    searchParams.order
   );
 
   return (

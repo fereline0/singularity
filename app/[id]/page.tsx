@@ -9,7 +9,7 @@ export default async function section({
   searchParams,
 }: {
   params: { id: string };
-  searchParams: { page: number; q: string };
+  searchParams: { page: number; query: string; order: string };
 }) {
   const page = searchParams.page || 1;
   const limit = 20;
@@ -18,7 +18,8 @@ export default async function section({
     params.id,
     page,
     limit,
-    searchParams.q
+    searchParams.query,
+    searchParams.order
   );
 
   return (

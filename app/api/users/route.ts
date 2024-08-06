@@ -5,7 +5,8 @@ export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const limit = Number(searchParams.get("limit"));
   const pageToSkip = (Number(searchParams.get("page")) - 1) * limit;
-  const query = searchParams.get("q")?.toString();
+  const query = searchParams.get("query")?.toString();
+  const order = searchParams.get("order")?.toString();
 
   try {
     const users = await prisma.$transaction([
@@ -27,7 +28,7 @@ export async function GET(req: NextRequest) {
         take: limit,
         skip: pageToSkip,
         orderBy: {
-          createdAt: "desc",
+          createdAt: order == "desc" ? "desc" : "asc",
         },
         include: {
           role: true,

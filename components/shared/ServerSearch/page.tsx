@@ -16,7 +16,7 @@ export default function ServerSearch() {
   function onServerSearch() {
     const encodedSearchQuery = encodeURI(searchQuery);
     encodedSearchQuery
-      ? router.push(`?q=${encodedSearchQuery}`)
+      ? router.push(`?query=${encodedSearchQuery}`)
       : router.push(pathname);
   }
 

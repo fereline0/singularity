@@ -8,6 +8,8 @@ interface IArticlePreview {
 }
 
 export default function ArticlePreview(props: IArticlePreview) {
+  const lastComment = props.article.comments[0];
+
   return (
     <Card>
       <CardBody>
@@ -36,43 +38,32 @@ export default function ArticlePreview(props: IArticlePreview) {
               </p>
             </SeparatedText>
           </div>
-          {props.article.comments[0] ? (
-            <User
-              className="justify-start sm:w-48"
-              name={
-                <Link href={`/users/${props.article.comments[0].writer.id}`}>
-                  {props.article.writer.name}
-                </Link>
-              }
-              description={formatDistance(
-                props.article.comments[0].createdAt,
-                new Date(),
-                {
-                  includeSeconds: true,
-                  addSuffix: true,
-                }
-              )}
-              avatarProps={{
-                src: props.article.comments[0].writer.image ?? "/no-avatar.jpg",
-              }}
-            />
-          ) : (
-            <User
-              className="justify-start sm:w-48"
-              name={
-                <Link href={`/users/${props.article.writer.id}`}>
-                  {props.article.writer.name}
-                </Link>
-              }
-              description={formatDistance(props.article.createdAt, new Date(), {
+          <User
+            className="justify-start sm:w-44"
+            name={
+              <Link
+                href={`/users/${lastComment ? lastComment.writer.id : props.article.writer.id}`}
+              >
+                {lastComment
+                  ? lastComment.writer.name
+                  : props.article.writer.name}
+              </Link>
+            }
+            description={formatDistance(
+              lastComment ? lastComment.createdAt : props.article.createdAt,
+              new Date(),
+              {
                 includeSeconds: true,
                 addSuffix: true,
-              })}
-              avatarProps={{
-                src: props.article.writer.image ?? "/no-avatar.jpg",
-              }}
-            />
-          )}
+              }
+            )}
+            avatarProps={{
+              src:
+                (lastComment
+                  ? lastComment.writer.image
+                  : props.article.writer.image) ?? "/no-avatar.jpg",
+            }}
+          />
         </div>
       </CardBody>
     </Card>

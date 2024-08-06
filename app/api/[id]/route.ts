@@ -8,10 +8,11 @@ export async function GET(
   const searchParams = req.nextUrl.searchParams;
   const limit = Number(searchParams.get("limit"));
   const pageToSkip = (Number(searchParams.get("page")) - 1) * limit;
-  const query = searchParams.get("q")?.toString();
+  const query = searchParams.get("query")?.toString();
+  const order = searchParams.get("order")?.toString();
 
   try {
-    const sections = await prisma.section.findUniqueOrThrow({
+    const section = await prisma.section.findUniqueOrThrow({
       where: {
         id: params.id,
       },
@@ -55,7 +56,7 @@ export async function GET(
             ],
           },
           orderBy: {
-            createdAt: "desc",
+            createdAt: order == "desc" ? "desc" : "asc",
           },
           include: {
             comments: {
@@ -108,7 +109,7 @@ export async function GET(
         },
       },
     });
-    return NextResponse.json(sections, { status: 200 });
+    return NextResponse.json(section, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }
