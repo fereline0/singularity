@@ -34,11 +34,11 @@ export default function Comments(props: IComments) {
   const {
     trigger: updateUserComment,
     isMutating: updateUserCommentIsMutating,
-  } = updateUserCommentService(value, commentForChangeId);
+  } = updateUserCommentService(commentForChangeId, value);
 
   return (
     <Marginer y={8}>
-      {session.status === "authenticated" && (
+      {session.status == "authenticated" && (
         <Form<IUserComment>
           publishMethod={async () =>
             commentForChangeId
@@ -68,7 +68,7 @@ export default function Comments(props: IComments) {
               })}
               value={comment.value}
               replys={
-                (session.status === "authenticated" ||
+                (session.status == "authenticated" ||
                   comment._count.childs > 0) && (
                   <Replys id={comment.id} user={props.user} />
                 )

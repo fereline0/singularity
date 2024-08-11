@@ -6,13 +6,13 @@ export default (
   id: string,
   reason: string,
   expires: string,
-  initiatorId?: string
+  initiatorId: string
 ) => {
   const formData = new FormData();
 
   formData.append("reason", reason);
   formData.append("expires", expires);
-  initiatorId && formData.append("initiatorId", initiatorId.toString());
+  formData.append("initiatorId", initiatorId);
 
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}/bans`;
 

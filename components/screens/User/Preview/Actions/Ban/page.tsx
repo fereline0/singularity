@@ -1,12 +1,9 @@
-"use client";
-
 import Dialog from "@/components/shared/Dialog/page";
 import banRequest from "@/requests/ban.request";
 import createUserBanService from "@/services/createUserBan.service";
 import deleteUserBansService from "@/services/deleteUserBans.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, DateInput, Input, useDisclosure } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,10 +12,10 @@ import IUser from "@/interfaces/user.interface";
 
 interface IBan {
   user: IUser;
+  authedUserId: string;
 }
 
 export default function Ban(props: IBan) {
-  const session = useSession();
   const router = useRouter();
 
   const findedActiveBan = props.user.bans.find(
@@ -69,7 +66,7 @@ export default function Ban(props: IBan) {
       props.user.id,
       reason,
       new Date(expires.toDate()).toString(),
-      session.data?.user.id
+      props.authedUserId
     );
 
   const { trigger: deleteUserBans, isMutating: deleteUserBansIsMutating } =

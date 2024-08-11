@@ -9,6 +9,7 @@ export async function GET(
     const searchParams = req.nextUrl.searchParams;
     const limit = Number(searchParams.get("limit"));
     const pageToSkip = (Number(searchParams.get("page")) - 1) * limit;
+
     const userComment = await prisma.userComment.findUniqueOrThrow({
       where: {
         id: params.id,
@@ -42,8 +43,8 @@ export async function GET(
     });
 
     return NextResponse.json(userComment, { status: 200 });
-  } catch {
-    return NextResponse.error();
+  } catch (error) {
+    return NextResponse.json(error, { status: 500 });
   }
 }
 

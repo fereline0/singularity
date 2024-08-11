@@ -11,5 +11,6 @@ export default interface IComment {
   writer: IUser;
   _count: {
     childs: number;
+    likers: number;
   };
 }

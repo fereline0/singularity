@@ -28,7 +28,7 @@ export default function Replys(props: IReplys) {
   const limit = 5;
   const session = useSession();
   const { data: comment, mutate } = getUserCommentChildsService(
-    visibility ? props.id : null,
+    visibility ? props.id : undefined,
     page,
     limit
   );
@@ -46,7 +46,7 @@ export default function Replys(props: IReplys) {
   const {
     trigger: updateUserComment,
     isMutating: updateUserCommentIsMutating,
-  } = updateUserCommentService(value, commentForChangeId);
+  } = updateUserCommentService(commentForChangeId, value);
 
   return (
     <Marginer y={8}>
@@ -56,7 +56,7 @@ export default function Replys(props: IReplys) {
       {visibility && (
         <div className="pl-5 border-l-2">
           <Marginer y={8}>
-            {session.status === "authenticated" && (
+            {session.status == "authenticated" && (
               <Form<IUserComment>
                 publishMethod={async () =>
                   commentForChangeId
@@ -87,7 +87,7 @@ export default function Replys(props: IReplys) {
                       })}
                       value={child.value}
                       replys={
-                        (session.status !== "unauthenticated" ||
+                        (session.status != "unauthenticated" ||
                           child._count.childs > 0) && (
                           <Replys id={child.id} user={props.user} />
                         )

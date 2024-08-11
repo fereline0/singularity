@@ -6,15 +6,13 @@ export async function POST(req: NextRequest) {
     const body = await req.formData();
 
     const parentId = body.get("parentId");
-    const data: any = {
+
+    const data = {
       value: body.get("value") as string,
       userId: body.get("userId") as string,
       writerId: body.get("writerId") as string,
+      parentId: parentId !== null ? (parentId as string) : undefined,
     };
-
-    if (parentId !== null) {
-      data.parentId = parentId as string;
-    }
 
     const userComment = await prisma.userComment.create({
       data: data,
