@@ -5,7 +5,14 @@ import connectLikeToUserCommentService from "@/services/connectLikeToUserComment
 import disconnectLikeToUserCommentService from "@/services/disconnectLikeToUserComment.service";
 import userLikedUserCommentService from "@/services/userLikedUserComment.service";
 import { Button } from "@nextui-org/button";
-import { Link, Spinner, Tooltip } from "@nextui-org/react";
+import {
+  Badge,
+  Link,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Spinner,
+} from "@nextui-org/react";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 
 interface ILike {
@@ -44,9 +51,31 @@ export default function Like(props: ILike) {
   }
 
   return (
-    <Tooltip
-      placement="bottom"
-      content={
+    <Popover backdrop="blur" placement="bottom">
+      <PopoverTrigger>
+        <Badge content={data[1]._count.likers} size="lg">
+          {data[0].likers.length > 0 ? (
+            <Button
+              isIconOnly
+              onClick={async () => await handleDislike()}
+              isLoading={disconnectLikeToUserCommentIsMutating}
+              variant="light"
+            >
+              <IoMdHeart size={20} />
+            </Button>
+          ) : (
+            <Button
+              isIconOnly
+              onClick={async () => await handleLike()}
+              isLoading={connectLikeToUserCommentIsMutating}
+              variant="light"
+            >
+              <IoMdHeartEmpty size={20} />
+            </Button>
+          )}
+        </Badge>
+      </PopoverTrigger>
+      <PopoverContent>
         <div>
           {data[1]._count.likers < 1 ? (
             "No one has"
@@ -74,27 +103,7 @@ export default function Like(props: ILike) {
           )}
           {" liked this comment"}
         </div>
-      }
-    >
-      {data[0].likers.length > 0 ? (
-        <Button
-          isIconOnly
-          onClick={async () => await handleDislike()}
-          isLoading={disconnectLikeToUserCommentIsMutating}
-          variant="light"
-        >
-          <IoMdHeart size={20} />
-        </Button>
-      ) : (
-        <Button
-          isIconOnly
-          onClick={async () => await handleLike()}
-          isLoading={connectLikeToUserCommentIsMutating}
-          variant="light"
-        >
-          <IoMdHeartEmpty size={20} />
-        </Button>
-      )}
-    </Tooltip>
+      </PopoverContent>
+    </Popover>
   );
 }
