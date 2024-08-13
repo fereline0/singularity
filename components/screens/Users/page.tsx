@@ -29,7 +29,7 @@ export default function Users(props: IUsers) {
               <Marginer y={8}>
                 {props.newUsers.map((user) => (
                   <User
-                    className="justify-start"
+                    className="align-bottom"
                     key={user.id}
                     name={<Link href={`/users/${user.id}`}>{user.name}</Link>}
                     description={formatDistance(user.createdAt, new Date(), {

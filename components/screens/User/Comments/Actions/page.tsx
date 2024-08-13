@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Dropdown,
@@ -11,9 +13,12 @@ import { MdDelete, MdModeEdit, MdShare } from "react-icons/md";
 import Dialog from "@/components/shared/Dialog/page";
 import deleteUserCommentService from "@/services/deleteUserComment.service";
 import { IUserComment } from "@/interfaces/userComment.interface";
-import Like from "./Like/page";
 import { useSession } from "next-auth/react";
 import { VariantProps } from "@nextui-org/react";
+import userLikedUserCommentService from "@/services/userLikedUserComment.service";
+import connectLikeToUserCommentService from "@/services/connectLikeToUserComment.service";
+import disconnectLikeToUserCommentService from "@/services/disconnectLikeToUserComment.service";
+import Like from "@/components/screens/Comment/Actions/Like/page";
 
 interface IActions<T> {
   comment: IUserComment;
@@ -61,6 +66,32 @@ export default function Actions<T>(props: IActions<T>) {
     }
   };
 
+  const { data: userLikedUserComment, mutate: userLikedUserCommentMutate } =
+    userLikedUserCommentService(props.comment.id, session.data?.user.id);
+
+  const {
+    trigger: connectLikeToUserComment,
+    isMutating: connectLikeToUserCommentIsMutating,
+  } = connectLikeToUserCommentService(props.comment.id, session.data?.user.id);
+
+  const {
+    trigger: disconnectLikeToUserComment,
+    isMutating: disconnectLikeToUserCommentIsMutating,
+  } = disconnectLikeToUserCommentService(
+    props.comment.id,
+    session.data?.user.id
+  );
+
+  const handleLike = async () => {
+    await connectLikeToUserComment();
+    await userLikedUserCommentMutate();
+  };
+
+  const handleDislike = async () => {
+    await disconnectLikeToUserComment();
+    await userLikedUserCommentMutate();
+  };
+
   const dropdownItems: IDropdownItem[] = [
     {
       key: "share",
@@ -90,8 +121,16 @@ export default function Actions<T>(props: IActions<T>) {
 
   return (
     <div className="flex gap-2">
-      {session.status === "authenticated" && (
-        <Like comment={props.comment} authedUserId={session.data.user.id} />
+      {session.status == "authenticated" && userLikedUserComment && (
+        <Like
+          likeMethod={handleLike}
+          likeMethodIsLoading={connectLikeToUserCommentIsMutating}
+          dislikeMethod={handleDislike}
+          dislikeMethodIsLoading={disconnectLikeToUserCommentIsMutating}
+          userLikedThisComment={userLikedUserComment[0].likers.length > 0}
+          comment={userLikedUserComment[1]}
+          authedUserId={session.data.user.id}
+        />
       )}
       <Dropdown placement="bottom-end" backdrop="blur">
         <DropdownTrigger>
