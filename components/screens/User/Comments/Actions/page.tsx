@@ -8,17 +8,18 @@ import {
   DropdownTrigger,
   useDisclosure,
 } from "@nextui-org/react";
-import { IoMdMore } from "react-icons/io";
+import { IoMdHeart, IoMdHeartEmpty, IoMdMore } from "react-icons/io";
 import { MdDelete, MdModeEdit, MdShare } from "react-icons/md";
 import Dialog from "@/components/shared/Dialog/page";
 import deleteUserCommentService from "@/services/deleteUserComment.service";
 import { IUserComment } from "@/interfaces/userComment.interface";
 import { useSession } from "next-auth/react";
-import { VariantProps } from "@nextui-org/react";
 import userLikedUserCommentService from "@/services/userLikedUserComment.service";
-import connectLikeToUserCommentService from "@/services/connectLikeToUserComment.service";
-import disconnectLikeToUserCommentService from "@/services/disconnectLikeToUserComment.service";
-import Like from "@/components/screens/Comment/Actions/Like/page";
+import createUserCommentLikerService from "@/services/createUserCommentLiker.service";
+import deleteUserCommentLikerService from "@/services/deleteUserCommentLiker.service";
+import IDropdownItem from "@/interfaces/dropdownItem.interface";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface IActions<T> {
   comment: IUserComment;
@@ -27,15 +28,6 @@ interface IActions<T> {
   >;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   refreshMethod: () => Promise<void | T> | void;
-}
-
-interface IDropdownItem {
-  key: string;
-  value: string;
-  icon: JSX.Element;
-  action: () => void;
-  color?: VariantProps<typeof DropdownItem>["color"];
-  isDisabled?: boolean;
 }
 
 export default function Actions<T>(props: IActions<T>) {
@@ -50,6 +42,11 @@ export default function Actions<T>(props: IActions<T>) {
   const handleChange = () => {
     props.setCommentForChangeId(props.comment.id);
     props.setValue(props.comment.value);
+  };
+
+  const handleShare = async () => {
+    await navigator.clipboard.writeText("/");
+    toast.success("Link copied to clipboard");
   };
 
   const {
@@ -70,34 +67,34 @@ export default function Actions<T>(props: IActions<T>) {
     userLikedUserCommentService(props.comment.id, session.data?.user.id);
 
   const {
-    trigger: connectLikeToUserComment,
-    isMutating: connectLikeToUserCommentIsMutating,
-  } = connectLikeToUserCommentService(props.comment.id, session.data?.user.id);
+    trigger: createUserCommentLiker,
+    isMutating: createUserCommentLikerIsMutating,
+  } = createUserCommentLikerService(props.comment.id, session.data?.user.id);
 
   const {
-    trigger: disconnectLikeToUserComment,
-    isMutating: disconnectLikeToUserCommentIsMutating,
-  } = disconnectLikeToUserCommentService(
-    props.comment.id,
-    session.data?.user.id
-  );
+    trigger: deleteUserCommentLiker,
+    isMutating: deleteUserCommentLikerIsMutating,
+  } = deleteUserCommentLikerService(props.comment.id, session.data?.user.id);
 
   const handleLike = async () => {
-    await connectLikeToUserComment();
+    await createUserCommentLiker();
     await userLikedUserCommentMutate();
   };
 
   const handleDislike = async () => {
-    await disconnectLikeToUserComment();
+    await deleteUserCommentLiker();
     await userLikedUserCommentMutate();
   };
+
+  const userLikedThisComment = userLikedUserComment && userLikedUserComment[0];
+  const likesCount = userLikedUserComment && userLikedUserComment[1];
 
   const dropdownItems: IDropdownItem[] = [
     {
       key: "share",
       value: "Share",
       icon: <MdShare size={20} />,
-      action: handleChange,
+      action: async () => await handleShare(),
       color: "primary",
     },
     {
@@ -119,19 +116,35 @@ export default function Actions<T>(props: IActions<T>) {
 
   const enabledDropdownItems = dropdownItems.filter((item) => !item.isDisabled);
 
+  const router = useRouter();
+
   return (
     <div className="flex gap-2">
-      {session.status == "authenticated" && userLikedUserComment && (
-        <Like
-          likeMethod={handleLike}
-          likeMethodIsLoading={connectLikeToUserCommentIsMutating}
-          dislikeMethod={handleDislike}
-          dislikeMethodIsLoading={disconnectLikeToUserCommentIsMutating}
-          userLikedThisComment={userLikedUserComment[0].likers.length > 0}
-          comment={userLikedUserComment[1]}
-          authedUserId={session.data.user.id}
-        />
-      )}
+      <Button
+        startContent={
+          userLikedThisComment ? (
+            <IoMdHeart size={20} />
+          ) : (
+            <IoMdHeartEmpty size={20} />
+          )
+        }
+        onClick={
+          session.status != "authenticated"
+            ? () => router.push("/login")
+            : async () =>
+                userLikedThisComment
+                  ? await handleDislike()
+                  : await handleLike()
+        }
+        isLoading={
+          userLikedThisComment
+            ? deleteUserCommentLikerIsMutating
+            : createUserCommentLikerIsMutating
+        }
+        variant="light"
+      >
+        {likesCount}
+      </Button>
       <Dropdown placement="bottom-end" backdrop="blur">
         <DropdownTrigger>
           <Button variant="light" isIconOnly>

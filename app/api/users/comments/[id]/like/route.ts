@@ -7,40 +7,20 @@ export async function GET(
 ) {
   try {
     const searchParams = req.nextUrl.searchParams;
-    const currentUserId = searchParams.get("userId");
-
-    if (!currentUserId) {
-      return NextResponse.json("userId is a required search parameter", {
-        status: 500,
-      });
-    }
+    const likerId = searchParams.get("likerId");
 
     const userComment = await prisma.$transaction([
-      prisma.userComment.findUniqueOrThrow({
+      prisma.userCommentLiker.findUnique({
         where: {
-          id: params.id,
-        },
-        select: {
-          likers: {
-            where: {
-              id: currentUserId,
-            },
+          likerId_userCommentId: {
+            likerId: likerId ?? "",
+            userCommentId: params.id,
           },
         },
       }),
-      prisma.userComment.findUniqueOrThrow({
+      prisma.userCommentLiker.count({
         where: {
-          id: params.id,
-        },
-        select: {
-          likers: {
-            take: 3,
-          },
-          _count: {
-            select: {
-              likers: true,
-            },
-          },
+          userCommentId: params.id,
         },
       }),
     ]);
@@ -51,24 +31,20 @@ export async function GET(
   }
 }
 
-export async function PUT(
+export async function POST(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const body = await req.formData();
 
+  const data = {
+    userCommentId: params.id,
+    likerId: body.get("likerId") as string,
+  };
+
   try {
-    const userComment = await prisma.userComment.update({
-      where: {
-        id: params.id,
-      },
-      data: {
-        likers: {
-          connect: {
-            id: body.get("userId") as string,
-          },
-        },
-      },
+    const userComment = await prisma.userCommentLiker.create({
+      data: data,
     });
 
     return NextResponse.json(userComment, { status: 200 });
@@ -84,15 +60,11 @@ export async function DELETE(
   const body = await req.formData();
 
   try {
-    const userComment = await prisma.userComment.update({
+    const userComment = await prisma.userCommentLiker.delete({
       where: {
-        id: params.id,
-      },
-      data: {
-        likers: {
-          disconnect: {
-            id: body.get("userId") as string,
-          },
+        likerId_userCommentId: {
+          likerId: body.get("likerId") as string,
+          userCommentId: params.id,
         },
       },
     });
