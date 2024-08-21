@@ -40,6 +40,7 @@ export default function Replys(props: IReplys) {
     props.user.id,
     value,
     session.data?.user.id,
+    true,
     props.id
   );
 

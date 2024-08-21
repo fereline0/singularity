@@ -61,17 +61,18 @@ export default function Form<T>(props: IForm<T>) {
               Cancel change
             </Button>
           )}
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <Textarea
-              value={props.value}
-              onChange={handleCommentChange}
-              isInvalid={!!errors.value}
-              errorMessage={errors.value?.message?.toString()}
-              rows={3}
-              fullWidth
-              disableAutosize
-            />
+          <Textarea
+            value={props.value}
+            onChange={handleCommentChange}
+            isInvalid={!!errors.value}
+            errorMessage={errors.value?.message?.toString()}
+            rows={3}
+            fullWidth
+            disableAutosize
+          />
+          <div className="text-right">
             <Button
+              className="text-right"
               color="primary"
               onClick={async () => await successfulValidation(handleSubmit)()}
               isLoading={props.isLoading}

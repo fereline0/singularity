@@ -21,6 +21,9 @@ export async function GET(req: NextRequest) {
           writer: true,
           section: true,
           comments: {
+            where: {
+              published: true,
+            },
             orderBy: {
               createdAt: "desc",
             },

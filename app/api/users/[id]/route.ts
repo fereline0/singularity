@@ -21,6 +21,7 @@ export async function GET(
           skip: pageToSkip,
           where: {
             parent: null,
+            published: true,
           },
           orderBy: {
             createdAt: "desc",

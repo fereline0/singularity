@@ -67,6 +67,7 @@ model UserComment {
   value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
 
   parentId String?
   parent   UserComment?       @relation("userComment", fields: [parentId], references: [id], onDelete: Cascade)
@@ -119,7 +120,7 @@ model Article {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  published Boolean
+  published Boolean  @default(false)
   title     String
   value     String
 
@@ -146,9 +147,10 @@ model ArticleLiker {
 
 model ArticleComments {
   id        String   @id @default(cuid())
-  value     String   @db.Text
+  value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
 
   parentId             String?
   parent               ArticleComments?       @relation("ArticleComments", fields: [parentId], references: [id])

@@ -51,15 +51,15 @@ export default function Forum(props: IForum) {
             <CardHeader>Filters</CardHeader>
             <CardBody>
               <ServerFilter
-                label="Сортировать"
+                label="Order by"
                 param="order"
                 data={[
                   {
-                    label: "По возрастанию",
+                    label: "Descending",
                     value: "desc",
                   },
                   {
-                    label: "По убыванию",
+                    label: "Ascending",
                     value: "asc",
                   },
                 ]}

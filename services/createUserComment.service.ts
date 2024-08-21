@@ -6,6 +6,7 @@ export default (
   id: string,
   value: string,
   writerId: string | undefined,
+  published: boolean,
   parentId?: string
 ) => {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/users/comments`;
@@ -15,6 +16,7 @@ export default (
   formData.append("userId", id);
   writerId && formData.append("writerId", writerId);
   formData.append("value", value);
+  formData.append("published", published.toString());
   parentId && formData.append("parentId", parentId);
 
   const { trigger, isMutating } = useSWRMutation<IUserComment>(

@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
       value: body.get("value") as string,
       userId: body.get("userId") as string,
       writerId: body.get("writerId") as string,
+      published: body.get("published") == "true",
       parentId: parentId !== null ? (parentId as string) : undefined,
     };
 

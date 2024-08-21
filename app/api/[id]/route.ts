@@ -60,6 +60,9 @@ export async function GET(
           },
           include: {
             comments: {
+              where: {
+                published: true,
+              },
               orderBy: {
                 createdAt: "desc",
               },

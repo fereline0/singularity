@@ -29,7 +29,12 @@ export default function Comments(props: IComments) {
   const {
     trigger: createUserComment,
     isMutating: createUserCommentIsMutating,
-  } = createUserCommentService(props.user.id, value, session?.data?.user.id);
+  } = createUserCommentService(
+    props.user.id,
+    value,
+    session?.data?.user.id,
+    true
+  );
 
   const {
     trigger: updateUserComment,
