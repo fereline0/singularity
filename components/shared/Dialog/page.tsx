@@ -5,6 +5,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  VariantProps,
 } from "@nextui-org/react";
 import Marginer from "../Marginer/page";
 
@@ -14,6 +15,8 @@ interface IDialog<T> {
   action: () => Promise<void | T> | void;
   isOpen: boolean;
   onOpenChange: () => void;
+  color?: VariantProps<typeof Button>["color"];
+  submitText?: string;
   isLoading?: boolean;
   children?: React.ReactNode;
 }
@@ -36,15 +39,15 @@ export default function Dialog<T>(props: IDialog<T>) {
               </Marginer>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" onClick={onClose}>
+              <Button color={props.color} variant="light" onClick={onClose}>
                 Cancel
               </Button>
               <Button
-                color="danger"
+                color={props.color}
                 onClick={async () => await props.action()}
                 isLoading={props.isLoading}
               >
-                {props.title}
+                {props.submitText ?? props.title}
               </Button>
             </ModalFooter>
           </>

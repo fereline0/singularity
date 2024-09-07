@@ -167,6 +167,7 @@ export default function Actions<T>(props: IActions<T>) {
       {session.status == "authenticated" && (
         <Dialog
           title="Delete"
+          color="danger"
           description="Are you sure you want to permanently delete this comment?"
           action={async () => await handleDeleteUserComment()}
           isLoading={deleteUserCommentIsMutating}

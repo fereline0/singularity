@@ -41,6 +41,7 @@ export default function Delete(props: IDelete) {
       <Dialog
         title="Delete"
         description="Are you sure you want to delete the user account from the database? This action is irreversible!"
+        color="danger"
         action={async () => await handleDeleteUser()}
         isOpen={isOpenDeleteModal}
         onOpenChange={onOpenChangeDeleteModal}

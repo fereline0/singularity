@@ -13,12 +13,12 @@ export default function ServerSearch() {
     setSearchQuery(event.target.value);
   };
 
-  function onServerSearch() {
+  const onServerSearch = () => {
     const encodedSearchQuery = encodeURI(searchQuery);
     encodedSearchQuery
       ? router.push(`?query=${encodedSearchQuery}`)
       : router.push(pathname);
-  }
+  };
 
   return (
     <Card>

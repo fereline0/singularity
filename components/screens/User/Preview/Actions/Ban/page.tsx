@@ -82,6 +82,7 @@ export default function Ban(props: IBan) {
           <Dialog
             title="Unban"
             description="Are you sure that you want to restore the user access to this resource?"
+            color="danger"
             action={async () => await handleDeleteUserBans()}
             isOpen={isOpenUnbanModal}
             onOpenChange={onOpenChangeUnbanModal}
@@ -96,6 +97,7 @@ export default function Ban(props: IBan) {
           <Dialog
             title="Ban"
             description="Are you sure that you want to restrict user access to this resource for the period you select?"
+            color="danger"
             action={async () =>
               await successfulValidation(handleCreateUserBan)()
             }

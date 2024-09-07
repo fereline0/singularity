@@ -1,7 +1,14 @@
 import Marginer from "@/components/shared/Marginer/page";
 import ISection from "@/interfaces/section.interface";
 import Section from "../Section/page";
-import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Link,
+  User,
+} from "@nextui-org/react";
 import ArticlePreview from "../ArticlePreview/page";
 import ServerPaginate from "@/components/shared/ServerPaginate/page";
 import IPaginate from "@/interfaces/paginate.interface";
@@ -23,6 +30,18 @@ export default function Forum(props: IForum) {
           {props.section.childs.map((section) => (
             <Section key={section.id} section={section} />
           ))}
+          <Card>
+            <CardHeader>
+              <Button
+                fullWidth
+                as={Link}
+                color="primary"
+                href={`/${props.section.id}/createArticle`}
+              >
+                Create article
+              </Button>
+            </CardHeader>
+          </Card>
           {props.section.supervisors.length > 0 && (
             <Card>
               <CardHeader>Supervisors</CardHeader>

@@ -88,6 +88,7 @@ export default function Header() {
             <Dialog
               title="Sign out"
               description="Are you sure you want to sign out of your account?"
+              color="danger"
               action={async () => await handleSignOut()}
               isOpen={isOpenSignOutModal}
               onOpenChange={onOpenChangeSignOutModal}
