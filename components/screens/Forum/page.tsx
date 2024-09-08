@@ -16,7 +16,7 @@ import ServerSearch from "@/components/shared/ServerSearch/page";
 import Content from "@/components/shared/Content/page";
 import SideBar from "@/components/shared/Content/SideBar/page";
 import Main from "@/components/shared/Content/Main/page";
-import ServerFilter from "@/components/shared/ServerFilter/page";
+import ServerSelectFilter from "@/components/shared/ServerSelectFilter/page";
 
 interface IForum extends IPaginate {
   section: ISection;
@@ -69,7 +69,7 @@ export default function Forum(props: IForum) {
           <Card>
             <CardHeader>Filters</CardHeader>
             <CardBody>
-              <ServerFilter
+              <ServerSelectFilter
                 label="Order by"
                 param="order"
                 data={[

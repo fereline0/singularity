@@ -10,7 +10,7 @@ import { formatDistance } from "date-fns";
 import Marginer from "@/components/shared/Marginer/page";
 import ServerPaginate from "@/components/shared/ServerPaginate/page";
 import ServerSearch from "@/components/shared/ServerSearch/page";
-import ServerFilter from "@/components/shared/ServerFilter/page";
+import ServerSelectFilter from "@/components/shared/ServerSelectFilter/page";
 
 interface IUsers extends IPaginate {
   users: IUser[];
@@ -47,7 +47,7 @@ export default function Users(props: IUsers) {
           <Card>
             <CardHeader>Filters</CardHeader>
             <CardBody>
-              <ServerFilter
+              <ServerSelectFilter
                 label="Order by"
                 param="order"
                 data={[
