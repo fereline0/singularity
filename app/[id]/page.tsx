@@ -1,10 +1,10 @@
 import Forum from "@/components/screens/Forum/page";
 import ISection from "@/interfaces/section.interface";
-import getSectionService from "@/services/getSection.service";
+import getForumService from "@/services/getForum.service";
 
 export const revalidate = 0;
 
-export default async function section({
+export default async function forum({
   params,
   searchParams,
 }: {
@@ -14,7 +14,7 @@ export default async function section({
   const page = searchParams.page || 1;
   const limit = 20;
 
-  const section: ISection = await getSectionService(
+  const forum: ISection = await getForumService(
     params.id,
     page,
     limit,
@@ -22,7 +22,5 @@ export default async function section({
     searchParams.order
   );
 
-  return (
-    <Forum section={section} total={section._count.articles} limit={limit} />
-  );
+  return <Forum forum={forum} total={forum._count.articles} limit={limit} />;
 }

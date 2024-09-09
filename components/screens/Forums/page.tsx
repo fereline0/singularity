@@ -13,7 +13,7 @@ import IPaginate from "@/interfaces/paginate.interface";
 
 interface IForums extends IPaginate {
   articles: IArticle[];
-  sections: ISection[];
+  forums: ISection[];
   articlesCount: number;
   articleCommentCount: number;
 }
@@ -23,8 +23,8 @@ export default function Forums(props: IForums) {
     <Content>
       <SideBar>
         <Marginer y={8}>
-          {props.sections.map((section) => (
-            <Section key={section.id} section={section} />
+          {props.forums.map((forum) => (
+            <Section key={forum.id} section={forum} />
           ))}
           <Card>
             <CardHeader>Statistics</CardHeader>

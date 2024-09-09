@@ -19,7 +19,7 @@ import Main from "@/components/shared/Content/Main/page";
 import ServerSelectFilter from "@/components/shared/ServerSelectFilter/page";
 
 interface IForum extends IPaginate {
-  section: ISection;
+  forum: ISection;
 }
 
 export default function Forum(props: IForum) {
@@ -27,8 +27,8 @@ export default function Forum(props: IForum) {
     <Content>
       <SideBar>
         <Marginer y={8}>
-          {props.section.childs.map((section) => (
-            <Section key={section.id} section={section} />
+          {props.forum.childs.map((forum) => (
+            <Section key={forum.id} section={forum} />
           ))}
           <Card>
             <CardHeader>
@@ -36,18 +36,18 @@ export default function Forum(props: IForum) {
                 fullWidth
                 as={Link}
                 color="primary"
-                href={`/${props.section.id}/createArticle`}
+                href={`/${props.forum.id}/createArticle`}
               >
                 Create article
               </Button>
             </CardHeader>
           </Card>
-          {props.section.supervisors.length > 0 && (
+          {props.forum.supervisors.length > 0 && (
             <Card>
               <CardHeader>Supervisors</CardHeader>
               <CardBody>
                 <Marginer y={8}>
-                  {props.section.supervisors.map((supervisor) => (
+                  {props.forum.supervisors.map((supervisor) => (
                     <User
                       className="justify-start"
                       key={supervisor.id}
@@ -91,12 +91,12 @@ export default function Forum(props: IForum) {
         <Marginer y={8}>
           <Card>
             <CardBody>
-              <h3 className="text-2xl font-semibold">{props.section.name}</h3>
-              <p>{props.section.description}</p>
+              <h3 className="text-2xl font-semibold">{props.forum.name}</h3>
+              <p>{props.forum.description}</p>
             </CardBody>
           </Card>
           <ServerSearch />
-          {props.section.articles.map((article) => (
+          {props.forum.articles.map((article) => (
             <ArticlePreview key={article.id} article={article} />
           ))}
           <ServerPaginate total={props.total} limit={props.limit} />
