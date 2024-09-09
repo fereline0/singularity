@@ -12,7 +12,7 @@ export default async function section({
   searchParams: { page: number; query: string; order: string };
 }) {
   const page = searchParams.page || 1;
-  const limit = 1;
+  const limit = 20;
 
   const section: ISection = await getSectionService(
     params.id,

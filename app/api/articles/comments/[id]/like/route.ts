@@ -9,23 +9,23 @@ export async function GET(
     const searchParams = req.nextUrl.searchParams;
     const likerId = searchParams.get("likerId");
 
-    const userComment = await prisma.$transaction([
-      prisma.userCommentLiker.findUnique({
+    const articleCommentLiker = await prisma.$transaction([
+      prisma.articleCommentLiker.findUnique({
         where: {
-          likerId_userCommentId: {
+          likerId_articleCommentId: {
             likerId: likerId ?? "",
-            userCommentId: params.id,
+            articleCommentId: params.id,
           },
         },
       }),
-      prisma.userCommentLiker.count({
+      prisma.articleCommentLiker.count({
         where: {
-          userCommentId: params.id,
+          articleCommentId: params.id,
         },
       }),
     ]);
 
-    return NextResponse.json(userComment, { status: 200 });
+    return NextResponse.json(articleCommentLiker, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }
@@ -38,14 +38,14 @@ export async function POST(
   const body = await req.formData();
 
   try {
-    const userComment = await prisma.userCommentLiker.create({
+    const articleCommentLiker = await prisma.articleCommentLiker.create({
       data: {
-        userCommentId: params.id,
+        articleCommentId: params.id,
         likerId: body.get("likerId") as string,
       },
     });
 
-    return NextResponse.json(userComment, { status: 200 });
+    return NextResponse.json(articleCommentLiker, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }
@@ -58,16 +58,16 @@ export async function DELETE(
   const body = await req.formData();
 
   try {
-    const userComment = await prisma.userCommentLiker.delete({
+    const articleCommentLiker = await prisma.articleCommentLiker.delete({
       where: {
-        likerId_userCommentId: {
+        likerId_articleCommentId: {
           likerId: body.get("likerId") as string,
-          userCommentId: params.id,
+          articleCommentId: params.id,
         },
       },
     });
 
-    return NextResponse.json(userComment, { status: 200 });
+    return NextResponse.json(articleCommentLiker, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }

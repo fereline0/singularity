@@ -1,7 +1,7 @@
 import Forums from "@/components/screens/Forums/page";
 import IArticle from "@/interfaces/article.interface";
 import ISection from "@/interfaces/section.interface";
-import getArticleCommentsCountService from "@/services/getArticleCommentsCount.service";
+import getArticleCommentCountService from "@/services/getArticleCommentCount.service";
 import getArticlesService from "@/services/getArticles.service";
 import getSectionsService from "@/services/getSections.service";
 
@@ -17,14 +17,14 @@ export default async function sections({
 
   const sections: ISection[] = await getSectionsService();
   const articles: [IArticle[], number] = await getArticlesService(page, limit);
-  const articleCommentsCount: number = await getArticleCommentsCountService();
+  const articleCommentCount: number = await getArticleCommentCountService();
 
   return (
     <Forums
       articles={articles[0]}
       sections={sections}
       articlesCount={articles[1]}
-      articleCommentsCount={articleCommentsCount}
+      articleCommentCount={articleCommentCount}
       total={articles[1]}
       limit={limit}
     />

@@ -3,7 +3,7 @@ import ISection from "./section.interface";
 import IUser from "./user.interface";
 
 export default interface IArticle {
-  id: number;
+  id: string;
   createdAt: string;
   updatedAt: string;
   published: boolean;

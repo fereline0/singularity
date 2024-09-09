@@ -1,3 +1,4 @@
+import IUserCommentLiker from "@/interfaces/userCommentLiker.interface";
 import { clientFetcher } from "@/utils/fetcher";
 import useSWRMutation from "swr/mutation";
 
@@ -8,7 +9,7 @@ export default (id: string, likerId: string | undefined) => {
 
   likerId && formData.append("likerId", likerId);
 
-  const { trigger, isMutating } = useSWRMutation<boolean>(
+  const { trigger, isMutating } = useSWRMutation<IUserCommentLiker>(
     likerId ? url : null,
     () => clientFetcher(url, { method: "POST", body: formData })
   );

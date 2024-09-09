@@ -15,7 +15,7 @@ interface IForums extends IPaginate {
   articles: IArticle[];
   sections: ISection[];
   articlesCount: number;
-  articleCommentsCount: number;
+  articleCommentCount: number;
 }
 
 export default function Forums(props: IForums) {
@@ -37,7 +37,7 @@ export default function Forums(props: IForums) {
                   },
                   {
                     label: "Comments",
-                    value: props.articleCommentsCount,
+                    value: props.articleCommentCount,
                   },
                 ]}
               />

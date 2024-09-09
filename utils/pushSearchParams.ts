@@ -8,8 +8,6 @@ export default (
 ) => {
   const params = new URLSearchParams(searchParams);
 
-  console.log(searchParams.get("query"));
-
   if (exceptions) {
     (Array.isArray(exceptions) ? exceptions : [exceptions]).forEach(
       (exception) => params.delete(exception)

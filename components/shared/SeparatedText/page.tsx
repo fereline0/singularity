@@ -10,10 +10,10 @@ export default function SeparatedText(props: ISeparatedText) {
   return (
     <div className="flex items-center flex-wrap">
       {childrenToArray.map((child, index) => (
-        <>
+        <div key={index}>
           {child}
           {index + 1 < childrenToArray.length && <Separator />}
-        </>
+        </div>
       ))}
     </div>
   );

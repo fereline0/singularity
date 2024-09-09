@@ -10,7 +10,7 @@ export async function GET(
     const limit = Number(searchParams.get("limit"));
     const pageToSkip = (Number(searchParams.get("page")) - 1) * limit;
 
-    const userComment = await prisma.userComment.findUniqueOrThrow({
+    const articleComment = await prisma.articleComment.findUniqueOrThrow({
       where: {
         id: params.id,
       },
@@ -42,7 +42,7 @@ export async function GET(
       },
     });
 
-    return NextResponse.json(userComment, { status: 200 });
+    return NextResponse.json(articleComment, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }
@@ -55,7 +55,7 @@ export async function PUT(
   try {
     const body = await req.formData();
 
-    const userComment = await prisma.userComment.update({
+    const articleComment = await prisma.articleComment.update({
       where: {
         id: params.id,
       },
@@ -64,7 +64,7 @@ export async function PUT(
       },
     });
 
-    return NextResponse.json(userComment, { status: 200 });
+    return NextResponse.json(articleComment, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }
@@ -75,13 +75,13 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const userComment = await prisma.userComment.delete({
+    const articleComment = await prisma.articleComment.delete({
       where: {
         id: params.id,
       },
     });
 
-    return NextResponse.json(userComment, { status: 200 });
+    return NextResponse.json(articleComment, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }

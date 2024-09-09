@@ -7,17 +7,17 @@ export async function POST(req: NextRequest) {
 
     const parentId = body.get("parentId");
 
-    const userComment = await prisma.userComment.create({
+    const articleComment = await prisma.articleComment.create({
       data: {
         value: body.get("value") as string,
-        userId: body.get("userId") as string,
+        articleId: body.get("articleId") as string,
         writerId: body.get("writerId") as string,
         published: body.get("published") == "true",
         parentId: parentId !== null ? (parentId as string) : undefined,
       },
     });
 
-    return NextResponse.json(userComment, { status: 200 });
+    return NextResponse.json(articleComment, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }

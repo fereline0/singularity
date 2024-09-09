@@ -3,13 +3,13 @@ import { prisma } from "@/utils/prisma";
 
 export async function GET(req: NextRequest) {
   try {
-    const articleCommentsCount = await prisma.articleComments.count({
+    const articleCommentCount = await prisma.articleComment.count({
       where: {
         published: true,
       },
     });
 
-    return NextResponse.json(articleCommentsCount, { status: 200 });
+    return NextResponse.json(articleCommentCount, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
   }

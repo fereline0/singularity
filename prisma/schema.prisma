@@ -26,8 +26,8 @@ model User {
   bansInitiator         UserBans[]             @relation("initiator")
   articles              Article[]
   likedArticles         ArticleLiker[]         @relation("articleLiker")
-  likedArticleComments  ArticleCommentsLiker[] @relation("articleCommentLiker")
-  writedArticleComments ArticleComments[]
+  likedArticleComments  ArticleCommentLiker[]  @relation("articleCommentLiker")
+  writedArticleComments ArticleComment[]
   administeredSections  Section[]
   accounts              Account[]
   sessions              Session[]
@@ -123,11 +123,11 @@ model Article {
   title     String
   value     String
 
-  comments  ArticleComments[]
+  comments  ArticleComment[]
   writerId  String
-  writer    User              @relation(fields: [writerId], references: [id], onDelete: Cascade)
+  writer    User             @relation(fields: [writerId], references: [id], onDelete: Cascade)
   sectionId String
-  section   Section           @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  section   Section          @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   likers    ArticleLiker[]
 }
 
@@ -144,7 +144,7 @@ model ArticleLiker {
   @@unique([likerId, articleId])
 }
 
-model ArticleComments {
+model ArticleComment {
   id        String   @id @default(cuid())
   value     String
   createdAt DateTime @default(now())
@@ -152,16 +152,16 @@ model ArticleComments {
   published Boolean  @default(false)
 
   parentId             String?
-  parent               ArticleComments?       @relation("ArticleComments", fields: [parentId], references: [id])
-  childs               ArticleComments[]      @relation("ArticleComments")
+  parent               ArticleComment?       @relation("articleComment", fields: [parentId], references: [id])
+  childs               ArticleComment[]      @relation("articleComment")
   writerId             String
-  writer               User                   @relation(fields: [writerId], references: [id], onDelete: Cascade)
+  writer               User                  @relation(fields: [writerId], references: [id], onDelete: Cascade)
   articleId            String
-  article              Article                @relation(fields: [articleId], references: [id], onDelete: Cascade)
-  ArticleCommentsLiker ArticleCommentsLiker[]
+  article              Article               @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  ArticleCommentsLiker ArticleCommentLiker[]
 }
 
-model ArticleCommentsLiker {
+model ArticleCommentLiker {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
@@ -169,7 +169,7 @@ model ArticleCommentsLiker {
   liker   User   @relation("articleCommentLiker", fields: [likerId], references: [id], onDelete: Cascade)
 
   articleCommentId String
-  articleComment   ArticleComments @relation(fields: [articleCommentId], references: [id], onDelete: Cascade)
+  articleComment   ArticleComment @relation(fields: [articleCommentId], references: [id], onDelete: Cascade)
 
   @@unique([likerId, articleCommentId])
 }
