@@ -1,15 +1,17 @@
 "use client";
 
-import Comment from "@/components/screens/Comment/page";
 import { useRouter } from "next/navigation";
 import { formatDistance } from "date-fns";
-import ServerPaginate from "@/components/shared/ServerPaginate/page";
-import Replys from "./Replys/page";
-import Form from "@/components/screens/Comment/Form/page";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import Marginer from "@/components/shared/Marginer/page";
+
+import Replys from "./Replys/page";
 import Actions from "./Actions/page";
+
+import ServerPaginate from "@/components/shared/ServerPaginate/page";
+import Form from "@/components/screens/Comment/Form/page";
+import Marginer from "@/components/shared/Marginer/page";
+import Comment from "@/components/screens/Comment/page";
 import createUserCommentService from "@/services/createUserComment.service";
 import updateUserCommentService from "@/services/updateUserComment.service";
 import { IUserComment } from "@/interfaces/userComment.interface";
@@ -33,7 +35,7 @@ export default function Comments(props: IComments) {
     props.user.id,
     value,
     session?.data?.user.id,
-    true
+    true,
   );
 
   const {
@@ -45,21 +47,21 @@ export default function Comments(props: IComments) {
     <Marginer y={8}>
       {session.status == "authenticated" && (
         <Form<IUserComment>
-          publishMethod={async () =>
-            commentForChangeId
-              ? await updateUserComment()
-              : await createUserComment()
-          }
+          commentForChangeId={commentForChangeId}
           isLoading={
             commentForChangeId
               ? updateUserCommentIsMutating
               : createUserCommentIsMutating
           }
-          commentForChangeId={commentForChangeId}
-          setCommentForChangeId={setCommentForChangeId}
+          publishMethod={async () =>
+            commentForChangeId
+              ? await updateUserComment()
+              : await createUserComment()
+          }
           refreshMethod={router.refresh}
-          value={value}
+          setCommentForChangeId={setCommentForChangeId}
           setValue={setValue}
+          value={value}
         />
       )}
       {props.total > 0 && (
@@ -67,28 +69,28 @@ export default function Comments(props: IComments) {
           {props.user.comments.map((comment: IUserComment) => (
             <Comment
               key={comment.id}
-              writer={comment.writer}
+              actions={
+                <Actions
+                  comment={comment}
+                  refreshMethod={router.refresh}
+                  setCommentForChangeId={setCommentForChangeId}
+                  setValue={setValue}
+                />
+              }
               description={formatDistance(comment.createdAt, new Date(), {
                 addSuffix: true,
               })}
-              value={comment.value}
               replys={
                 (session.status == "authenticated" ||
                   comment._count.childs > 0) && (
                   <Replys id={comment.id} user={props.user} />
                 )
               }
-              actions={
-                <Actions
-                  comment={comment}
-                  setCommentForChangeId={setCommentForChangeId}
-                  setValue={setValue}
-                  refreshMethod={router.refresh}
-                />
-              }
+              value={comment.value}
+              writer={comment.writer}
             />
           ))}
-          <ServerPaginate total={props.total} limit={props.limit} />
+          <ServerPaginate limit={props.limit} total={props.total} />
         </Marginer>
       )}
     </Marginer>

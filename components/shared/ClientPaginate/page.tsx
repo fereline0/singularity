@@ -1,7 +1,8 @@
 "use client";
 
-import IPaginate from "@/interfaces/paginate.interface";
 import { Pagination } from "@nextui-org/react";
+
+import IPaginate from "@/interfaces/paginate.interface";
 
 interface IClientPaginate extends IPaginate {
   page: number;
@@ -13,9 +14,9 @@ export default function ClientPaginate(props: IClientPaginate) {
 
   return (
     <Pagination
+      initialPage={props.page}
       total={totalPageCount}
       onChange={(page: number) => props.setPage(page)}
-      initialPage={props.page}
     />
   );
 }

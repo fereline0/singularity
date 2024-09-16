@@ -1,4 +1,5 @@
 import React from "react";
+
 import Separator from "./Separator/page";
 
 interface ISeparatedText {
@@ -7,6 +8,7 @@ interface ISeparatedText {
 
 export default function SeparatedText(props: ISeparatedText) {
   const childrenToArray = React.Children.toArray(props.children);
+
   return (
     <div className="flex items-center flex-wrap">
       {childrenToArray.map((child, index) => (

@@ -20,6 +20,7 @@ import { IoLogInOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
 import { useTheme } from "next-themes";
 import { LuMoon } from "react-icons/lu";
+
 import Dialog from "@/components/shared/Dialog/page";
 
 export default function Header() {
@@ -37,7 +38,7 @@ export default function Header() {
   };
 
   return (
-    <Navbar maxWidth="2xl" shouldHideOnScroll>
+    <Navbar shouldHideOnScroll maxWidth="2xl">
       <NavbarContent>
         <NavbarBrand>
           <Link className="font-bold text-inherit" href="/">
@@ -60,11 +61,11 @@ export default function Header() {
           <Spinner />
         ) : session.status === "authenticated" ? (
           <NavbarItem>
-            <Dropdown placement="bottom-end" backdrop="blur">
+            <Dropdown backdrop="blur" placement="bottom-end">
               <DropdownTrigger>
                 <Avatar
-                  className="cursor-pointer"
                   isBordered
+                  className="cursor-pointer"
                   size="sm"
                   src={session.data.user.image ?? "/no-avatar.jpg"}
                 />
@@ -77,28 +78,28 @@ export default function Header() {
                   {session.data.user.name}
                 </DropdownItem>
                 <DropdownItem
-                  onClick={onOpenSignOutModal}
                   color="danger"
                   startContent={<IoLogInOutline size={20} />}
+                  onClick={onOpenSignOutModal}
                 >
                   Sign out
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <Dialog
-              title="Sign out"
-              description="Are you sure you want to sign out of your account?"
-              color="danger"
               action={async () => await handleSignOut()}
+              color="danger"
+              description="Are you sure you want to sign out of your account?"
               isOpen={isOpenSignOutModal}
+              title="Sign out"
               onOpenChange={onOpenChangeSignOutModal}
             />
           </NavbarItem>
         ) : (
           <NavbarItem>
             <Button
-              color="primary"
               as={Link}
+              color="primary"
               href="/login"
               startContent={<IoLogInOutline size={20} />}
             >

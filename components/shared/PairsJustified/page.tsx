@@ -1,6 +1,9 @@
 import React from "react";
-import Row from "./Row/page";
+
 import Marginer from "../Marginer/page";
+
+import Row from "./Row/page";
+
 import { IRow } from "@/interfaces/row.interface";
 
 interface IPairsJustified {

@@ -17,8 +17,9 @@ import {
 } from "react-icons/ci";
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, Input, useDisclosure } from "@nextui-org/react";
-import Dialog from "@/components/shared/Dialog/page";
 import { useState } from "react";
+
+import Dialog from "@/components/shared/Dialog/page";
 
 interface IActions {
   editor: Editor;
@@ -139,10 +140,10 @@ export default function Actions(props: IActions) {
           <div className="grid gap-2 grid-cols-[repeat(auto-fill,minmax(40px,1fr))]">
             {items.map((item, index) => (
               <Button
-                variant="light"
                 key={index}
-                onClick={item.action}
                 isIconOnly
+                variant="light"
+                onClick={item.action}
               >
                 {item.icon}
               </Button>
@@ -151,17 +152,17 @@ export default function Actions(props: IActions) {
         </CardBody>
       </Card>
       <Dialog
-        title="Add link"
+        action={addLink}
         color="primary"
         description="Enter the link to be redirected to when you click on the text you selected."
-        action={addLink}
         isOpen={isOpenSetLinkModal}
+        title="Add link"
         onOpenChange={onOpenChangeSetLinkModal}
       >
         <Input
+          defaultValue={props.editor.getAttributes("link").href}
           placeholder="Link"
           onChange={handleUrlChange}
-          defaultValue={props.editor.getAttributes("link").href}
         />
       </Dialog>
     </>

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { prisma } from "@/utils/prisma";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const searchParams = req.nextUrl.searchParams;
@@ -50,7 +51,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const body = await req.formData();
@@ -72,7 +73,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const userComment = await prisma.userComment.delete({

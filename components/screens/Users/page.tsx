@@ -1,12 +1,13 @@
 "use client";
 
+import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
+import { formatDistance } from "date-fns";
+
 import Content from "@/components/shared/Content/page";
 import SideBar from "@/components/shared/Content/SideBar/page";
 import Main from "@/components/shared/Content/Main/page";
 import IUser from "@/interfaces/user.interface";
-import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
 import IPaginate from "@/interfaces/paginate.interface";
-import { formatDistance } from "date-fns";
 import Marginer from "@/components/shared/Marginer/page";
 import ServerPaginate from "@/components/shared/ServerPaginate/page";
 import ServerSearch from "@/components/shared/ServerSearch/page";
@@ -29,16 +30,16 @@ export default function Users(props: IUsers) {
               <Marginer y={8}>
                 {props.newUsers.map((user) => (
                   <User
-                    className="align-bottom"
                     key={user.id}
-                    name={<Link href={`/users/${user.id}`}>{user.name}</Link>}
+                    avatarProps={{
+                      src: user.image ?? "/no-avatar.jpg",
+                    }}
+                    className="align-bottom"
                     description={formatDistance(user.createdAt, new Date(), {
                       includeSeconds: true,
                       addSuffix: true,
                     })}
-                    avatarProps={{
-                      src: user.image ?? "/no-avatar.jpg",
-                    }}
+                    name={<Link href={`/users/${user.id}`}>{user.name}</Link>}
                   />
                 ))}
               </Marginer>
@@ -48,8 +49,6 @@ export default function Users(props: IUsers) {
             <CardHeader>Filters</CardHeader>
             <CardBody>
               <ServerSelectFilter
-                label="Order by"
-                param="order"
                 data={[
                   {
                     label: "Descending",
@@ -60,6 +59,8 @@ export default function Users(props: IUsers) {
                     value: "asc",
                   },
                 ]}
+                label="Order by"
+                param="order"
               />
             </CardBody>
           </Card>
@@ -72,17 +73,17 @@ export default function Users(props: IUsers) {
             <Card key={user.id}>
               <CardBody>
                 <User
-                  className="justify-start"
-                  name={<Link href={`/users/${user.id}`}>{user.name}</Link>}
-                  description={user.role.name}
                   avatarProps={{
                     src: user.image ?? "/no-avatar.jpg",
                   }}
+                  className="justify-start"
+                  description={user.role.name}
+                  name={<Link href={`/users/${user.id}`}>{user.name}</Link>}
                 />
               </CardBody>
             </Card>
           ))}
-          <ServerPaginate total={props.total} limit={props.limit} />
+          <ServerPaginate limit={props.limit} total={props.total} />
         </Marginer>
       </Main>
     </Content>

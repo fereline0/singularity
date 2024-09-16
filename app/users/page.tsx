@@ -15,16 +15,16 @@ export default async function users({
     page,
     limit,
     searchParams.query,
-    searchParams.order
+    searchParams.order,
   );
 
   return (
     <Users
-      users={users[0]}
-      newUsers={users[1]}
-      usersCount={users[2]}
-      total={users[2]}
       limit={limit}
+      newUsers={users[1]}
+      total={users[2]}
+      users={users[0]}
+      usersCount={users[2]}
     />
   );
 }

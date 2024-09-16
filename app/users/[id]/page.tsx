@@ -15,5 +15,5 @@ export default async function user({
   const limit = 20;
   const user: IUser = await getUserService(params.id, page, limit);
 
-  return <User user={user} total={user._count.comments} limit={limit} />;
+  return <User limit={limit} total={user._count.comments} user={user} />;
 }

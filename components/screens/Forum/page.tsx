@@ -1,6 +1,3 @@
-import Marginer from "@/components/shared/Marginer/page";
-import ISection from "@/interfaces/section.interface";
-import Section from "../Section/page";
 import {
   Button,
   Card,
@@ -9,7 +6,12 @@ import {
   Link,
   User,
 } from "@nextui-org/react";
+
+import Section from "../Section/page";
 import ArticlePreview from "../ArticlePreview/page";
+
+import Marginer from "@/components/shared/Marginer/page";
+import ISection from "@/interfaces/section.interface";
 import ServerPaginate from "@/components/shared/ServerPaginate/page";
 import IPaginate from "@/interfaces/paginate.interface";
 import ServerSearch from "@/components/shared/ServerSearch/page";
@@ -49,17 +51,17 @@ export default function Forum(props: IForum) {
                 <Marginer y={8}>
                   {props.forum.supervisors.map((supervisor) => (
                     <User
-                      className="justify-start"
                       key={supervisor.id}
+                      avatarProps={{
+                        src: supervisor.image ?? "/no-avatar.jpg",
+                      }}
+                      className="justify-start"
+                      description={supervisor.role.name}
                       name={
                         <Link href={`/users/${supervisor.id}`}>
                           {supervisor.name}
                         </Link>
                       }
-                      description={supervisor.role.name}
-                      avatarProps={{
-                        src: supervisor.image ?? "/no-avatar.jpg",
-                      }}
                     />
                   ))}
                 </Marginer>
@@ -70,8 +72,6 @@ export default function Forum(props: IForum) {
             <CardHeader>Filters</CardHeader>
             <CardBody>
               <ServerSelectFilter
-                label="Order by"
-                param="order"
                 data={[
                   {
                     label: "Descending",
@@ -82,6 +82,8 @@ export default function Forum(props: IForum) {
                     value: "asc",
                   },
                 ]}
+                label="Order by"
+                param="order"
               />
             </CardBody>
           </Card>
@@ -99,7 +101,7 @@ export default function Forum(props: IForum) {
           {props.forum.articles.map((article) => (
             <ArticlePreview key={article.id} article={article} />
           ))}
-          <ServerPaginate total={props.total} limit={props.limit} />
+          <ServerPaginate limit={props.limit} total={props.total} />
         </Marginer>
       </Main>
     </Content>

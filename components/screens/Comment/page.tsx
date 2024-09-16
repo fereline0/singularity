@@ -1,6 +1,7 @@
+import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
+
 import Marginer from "@/components/shared/Marginer/page";
 import IUser from "@/interfaces/user.interface";
-import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
 
 interface IComment {
   writer: IUser;
@@ -16,13 +17,13 @@ export default function Comment(props: IComment) {
       <Card>
         <CardHeader className="flex justify-between">
           <User
+            avatarProps={{ src: props.writer.image ?? "/no-avatar.jpg" }}
+            description={props.description}
             name={
               <Link href={`/users/${props.writer.id}`}>
                 {props.writer.name}
               </Link>
             }
-            description={props.description}
-            avatarProps={{ src: props.writer.image ?? "/no-avatar.jpg" }}
           />
           {props.actions}
         </CardHeader>

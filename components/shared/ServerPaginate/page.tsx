@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Pagination } from "@nextui-org/react";
 import { useCallback } from "react";
+
 import IPaginate from "@/interfaces/paginate.interface";
 import pushSearchParams from "@/utils/pushSearchParams";
 
@@ -17,16 +18,16 @@ export default function ServerPaginate(props: IPaginate) {
     (name: string, value: string) => {
       return pushSearchParams(searchParams, name, value);
     },
-    [searchParams]
+    [searchParams],
   );
 
   return (
     <Pagination
+      initialPage={point}
       total={totalPageCount}
       onChange={(page: number) =>
         router.push(`?${pushQueryParams("page", page.toString())}`)
       }
-      initialPage={point}
     />
   );
 }

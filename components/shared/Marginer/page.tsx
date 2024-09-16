@@ -8,6 +8,7 @@ interface IMarginer {
 
 export default function Marginer(props: IMarginer) {
   const childrenToArray = React.Children.toArray(props.children);
+
   return (
     <>
       {childrenToArray.map((child, index) => (

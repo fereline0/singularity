@@ -1,9 +1,10 @@
-import { prisma } from "@/utils/prisma";
 import { NextRequest, NextResponse } from "next/server";
+
+import { prisma } from "@/utils/prisma";
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const body = await req.formData();

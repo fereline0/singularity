@@ -1,7 +1,8 @@
-import SeparatedText from "@/components/shared/SeparatedText/page";
-import IArticle from "@/interfaces/article.interface";
 import { Card, CardBody, Link, User } from "@nextui-org/react";
 import { formatDistance } from "date-fns";
+
+import SeparatedText from "@/components/shared/SeparatedText/page";
+import IArticle from "@/interfaces/article.interface";
 
 interface IArticlePreview {
   article: IArticle;
@@ -16,8 +17,8 @@ export default function ArticlePreview(props: IArticlePreview) {
         <div className="flex flex-col justify-between gap-2 sm:flex-row">
           <div className="w-fit">
             <Link
-              href={`/articles/${props.article.id}`}
               className="font-semibold"
+              href={`/articles/${props.article.id}`}
             >
               {props.article.title}
             </Link>
@@ -39,7 +40,21 @@ export default function ArticlePreview(props: IArticlePreview) {
             </SeparatedText>
           </div>
           <User
+            avatarProps={{
+              src:
+                (lastComment
+                  ? lastComment.writer.image
+                  : props.article.writer.image) ?? "/no-avatar.jpg",
+            }}
             className="justify-start sm:w-44"
+            description={formatDistance(
+              lastComment ? lastComment.createdAt : props.article.createdAt,
+              new Date(),
+              {
+                includeSeconds: true,
+                addSuffix: true,
+              },
+            )}
             name={
               <Link
                 href={`/users/${lastComment ? lastComment.writer.id : props.article.writer.id}`}
@@ -49,20 +64,6 @@ export default function ArticlePreview(props: IArticlePreview) {
                   : props.article.writer.name}
               </Link>
             }
-            description={formatDistance(
-              lastComment ? lastComment.createdAt : props.article.createdAt,
-              new Date(),
-              {
-                includeSeconds: true,
-                addSuffix: true,
-              }
-            )}
-            avatarProps={{
-              src:
-                (lastComment
-                  ? lastComment.writer.image
-                  : props.article.writer.image) ?? "/no-avatar.jpg",
-            }}
           />
         </div>
       </CardBody>

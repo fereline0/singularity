@@ -1,9 +1,11 @@
 import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
+import { Toaster } from "react-hot-toast";
+
 import { Providers } from "./providers";
+
 import { siteConfig } from "@/config/site";
 import Header from "@/components/screens/Header/page";
-import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: {

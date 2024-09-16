@@ -4,13 +4,13 @@ export default (
   searchParams: ReadonlyURLSearchParams,
   name: string,
   value: string | string[],
-  exceptions?: string | string[]
+  exceptions?: string | string[],
 ) => {
   const params = new URLSearchParams(searchParams);
 
   if (exceptions) {
     (Array.isArray(exceptions) ? exceptions : [exceptions]).forEach(
-      (exception) => params.delete(exception)
+      (exception) => params.delete(exception),
     );
   }
 

@@ -7,6 +7,7 @@ import {
   ModalHeader,
   VariantProps,
 } from "@nextui-org/react";
+
 import Marginer from "../Marginer/page";
 
 interface IDialog<T> {
@@ -22,6 +23,14 @@ interface IDialog<T> {
 }
 
 export default function Dialog<T>(props: IDialog<T>) {
+  const handleSubmit = async () => {
+    const action = props.action();
+
+    if (action instanceof Promise) {
+      await action;
+    }
+  };
+
   return (
     <Modal
       backdrop="blur"
@@ -39,13 +48,13 @@ export default function Dialog<T>(props: IDialog<T>) {
               </Marginer>
             </ModalBody>
             <ModalFooter>
-              <Button color={props.color} variant="light" onClick={onClose}>
+              <Button color="danger" variant="light" onClick={onClose}>
                 Cancel
               </Button>
               <Button
                 color={props.color}
-                onClick={async () => await props.action()}
                 isLoading={props.isLoading}
+                onClick={async () => await handleSubmit()}
               >
                 {props.submitText ?? props.title}
               </Button>

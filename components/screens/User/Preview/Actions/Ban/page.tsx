@@ -1,13 +1,14 @@
-import Dialog from "@/components/shared/Dialog/page";
-import banRequest from "@/requests/ban.request";
-import createUserBanService from "@/services/createUserBan.service";
-import deleteUserBansService from "@/services/deleteUserBans.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, DateInput, Input, useDisclosure } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { getLocalTimeZone, now } from "@internationalized/date";
+
+import deleteUserBansService from "@/services/deleteUserBans.service";
+import createUserBanService from "@/services/createUserBan.service";
+import banRequest from "@/requests/ban.request";
+import Dialog from "@/components/shared/Dialog/page";
 import IUser from "@/interfaces/user.interface";
 
 interface IBan {
@@ -19,7 +20,7 @@ export default function Ban(props: IBan) {
   const router = useRouter();
 
   const findedActiveBan = props.user.bans.find(
-    (ban) => new Date(ban.expires) > new Date() && ban.activity
+    (ban) => new Date(ban.expires) > new Date() && ban.activity,
   );
 
   const {
@@ -66,7 +67,7 @@ export default function Ban(props: IBan) {
       props.user.id,
       reason,
       new Date(expires.toDate()).toString(),
-      props.authedUserId
+      props.authedUserId,
     );
 
   const { trigger: deleteUserBans, isMutating: deleteUserBansIsMutating } =
@@ -76,49 +77,48 @@ export default function Ban(props: IBan) {
     <>
       {findedActiveBan ? (
         <>
-          <Button onClick={onOpenUnbanModal} color="danger" fullWidth>
+          <Button fullWidth color="danger" onClick={onOpenUnbanModal}>
             Unban
           </Button>
           <Dialog
-            title="Unban"
-            description="Are you sure that you want to restore the user access to this resource?"
-            color="danger"
             action={async () => await handleDeleteUserBans()}
-            isOpen={isOpenUnbanModal}
-            onOpenChange={onOpenChangeUnbanModal}
+            color="danger"
+            description="Are you sure that you want to restore the user access to this resource?"
             isLoading={deleteUserBansIsMutating}
+            isOpen={isOpenUnbanModal}
+            title="Unban"
+            onOpenChange={onOpenChangeUnbanModal}
           />
         </>
       ) : (
         <>
-          <Button onClick={onOpenBanModal} color="danger" fullWidth>
+          <Button fullWidth color="danger" onClick={onOpenBanModal}>
             Ban
           </Button>
           <Dialog
-            title="Ban"
-            description="Are you sure that you want to restrict user access to this resource for the period you select?"
-            color="danger"
             action={async () =>
               await successfulValidation(handleCreateUserBan)()
             }
-            isOpen={isOpenBanModal}
-            onOpenChange={onOpenChangeBanModal}
+            color="danger"
+            description="Are you sure that you want to restrict user access to this resource for the period you select?"
             isLoading={createUserBanIsMutating}
+            isOpen={isOpenBanModal}
+            title="Ban"
+            onOpenChange={onOpenChangeBanModal}
           >
             <Input
-              autoFocus
+              errorMessage={errors.reason?.message?.toString()}
+              isInvalid={!!errors.reason}
               placeholder="Reason"
               onChange={handleReasonChange}
-              isInvalid={!!errors.reason}
-              errorMessage={errors.reason?.message?.toString()}
             />
             <DateInput
               aria-label="Expires"
-              value={expires}
-              granularity="minute"
-              onChange={setExpires}
-              isInvalid={!!errors.expires}
               errorMessage={errors.expires?.message?.toString()}
+              granularity="minute"
+              isInvalid={!!errors.expires}
+              value={expires}
+              onChange={setExpires}
             />
           </Dialog>
         </>

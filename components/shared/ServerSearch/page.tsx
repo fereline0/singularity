@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button, Card, CardBody, Input } from "@nextui-org/react";
+
 import pushSearchParams from "@/utils/pushSearchParams";
 
 export default function ServerSearch() {
@@ -20,11 +21,12 @@ export default function ServerSearch() {
     (name: string, value: string) => {
       return pushSearchParams(searchParams, name, value, "page");
     },
-    [searchParams]
+    [searchParams],
   );
 
   const onServerSearch = () => {
     const encodedSearchQuery = encodeURI(searchQuery);
+
     router.push(`?${pushQueryParams("query", encodedSearchQuery)}`);
   };
 
@@ -33,8 +35,8 @@ export default function ServerSearch() {
       <CardBody>
         <div className="flex gap-2">
           <Input
-            placeholder="Search"
             defaultValue={searchQuery}
+            placeholder="Search"
             onChange={handleChange}
           />
           <Button color="primary" onClick={onServerSearch}>

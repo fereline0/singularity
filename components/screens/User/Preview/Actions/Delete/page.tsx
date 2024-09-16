@@ -1,10 +1,11 @@
 "use client";
 
+import { Button, useDisclosure } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+
 import Dialog from "@/components/shared/Dialog/page";
 import IUser from "@/interfaces/user.interface";
 import deleteUserService from "@/services/deleteUser.service";
-import { Button, useDisclosure } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 
 interface IDelete {
   user: IUser;
@@ -31,21 +32,21 @@ export default function Delete(props: IDelete) {
   return (
     <>
       <Button
-        onClick={onOpenDeleteModal}
-        isLoading={deleteUserIsMutating}
-        color="danger"
         fullWidth
+        color="danger"
+        isLoading={deleteUserIsMutating}
+        onClick={onOpenDeleteModal}
       >
         Delete
       </Button>
       <Dialog
-        title="Delete"
-        description="Are you sure you want to delete the user account from the database? This action is irreversible!"
-        color="danger"
         action={async () => await handleDeleteUser()}
-        isOpen={isOpenDeleteModal}
-        onOpenChange={onOpenChangeDeleteModal}
+        color="danger"
+        description="Are you sure you want to delete the user account from the database? This action is irreversible!"
         isLoading={deleteUserIsMutating}
+        isOpen={isOpenDeleteModal}
+        title="Delete"
+        onOpenChange={onOpenChangeDeleteModal}
       />
     </>
   );

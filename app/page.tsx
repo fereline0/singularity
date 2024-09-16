@@ -21,12 +21,12 @@ export default async function forums({
 
   return (
     <Forums
-      articles={articles[0]}
-      forums={forums}
-      articlesCount={articles[1]}
       articleCommentCount={articleCommentCount}
-      total={articles[1]}
+      articles={articles[0]}
+      articlesCount={articles[1]}
+      forums={forums}
       limit={limit}
+      total={articles[1]}
     />
   );
 }

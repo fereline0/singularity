@@ -1,6 +1,5 @@
 "use client";
 
-import Marginer from "@/components/shared/Marginer/page";
 import { Card, CardBody } from "@nextui-org/react";
 import StarterKit from "@tiptap/starter-kit";
 import Heading from "@tiptap/extension-heading";
@@ -8,7 +7,10 @@ import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { mergeAttributes } from "@tiptap/core";
+
 import Actions from "./Actions/page";
+
+import Marginer from "@/components/shared/Marginer/page";
 
 interface ITipTap {
   setHTML?: React.Dispatch<React.SetStateAction<string>>;
@@ -61,6 +63,7 @@ export default function TipTap(props: ITipTap) {
             5: "text-sm",
             6: "text-xs",
           };
+
           return [
             `h${level}`,
             mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {

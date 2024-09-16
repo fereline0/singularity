@@ -15,6 +15,6 @@ export default async function article({
   const article = await getArticleService(params.id, page, limit);
 
   return (
-    <Article article={article} total={article._count.comments} limit={20} />
+    <Article article={article} limit={20} total={article._count.comments} />
   );
 }

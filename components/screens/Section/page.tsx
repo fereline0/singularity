@@ -1,5 +1,6 @@
-import ISection from "@/interfaces/section.interface";
 import { Card, CardBody, Link } from "@nextui-org/react";
+
+import ISection from "@/interfaces/section.interface";
 
 interface Section {
   section: ISection;

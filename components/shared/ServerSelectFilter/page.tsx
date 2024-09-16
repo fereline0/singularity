@@ -1,10 +1,11 @@
 "use client";
 
-import IGetParam from "@/interfaces/getParam.interface";
-import pushSearchParams from "@/utils/pushSearchParams";
 import { Select, SelectItem, VariantProps } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+
+import pushSearchParams from "@/utils/pushSearchParams";
+import IGetParam from "@/interfaces/getParam.interface";
 
 interface IServerSelectFilter {
   label: string;
@@ -24,7 +25,7 @@ export default function ServerSelectFilter(props: IServerSelectFilter) {
     (name: string, value: string[]) => {
       return pushSearchParams(searchParams, name, value);
     },
-    [searchParams]
+    [searchParams],
   );
 
   useEffect(() => {
@@ -34,10 +35,10 @@ export default function ServerSelectFilter(props: IServerSelectFilter) {
   return (
     <Select
       disallowEmptySelection
-      selectionMode={props.selectionMode}
       items={props.data}
       label={props.label}
       selectedKeys={selected}
+      selectionMode={props.selectionMode}
       onSelectionChange={setSelected}
     >
       {(element) => (

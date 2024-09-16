@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import TipTap from "../TipTap/page";
-import Marginer from "@/components/shared/Marginer/page";
 import { Button, Card, CardBody, Input } from "@nextui-org/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import articleRequest from "@/requests/article.request";
 import { useRouter } from "next/navigation";
-import createArticleService from "@/services/createArticle.service";
 import { useSession } from "next-auth/react";
+
+import TipTap from "../TipTap/page";
+
+import createArticleService from "@/services/createArticle.service";
+import articleRequest from "@/requests/article.request";
+import Marginer from "@/components/shared/Marginer/page";
 import ISection from "@/interfaces/section.interface";
 
 interface ICreateArticle {
@@ -32,7 +34,7 @@ export default function CreateArticle(props: ICreateArticle) {
       HTML,
       session?.data?.user.id,
       props.section.id,
-      true
+      true,
     );
 
   const {
@@ -54,10 +56,10 @@ export default function CreateArticle(props: ICreateArticle) {
       <Card>
         <CardBody>
           <Input
+            errorMessage={errors.title?.message}
+            isInvalid={!!errors.title}
             placeholder="Title"
             value={title}
-            isInvalid={!!errors.title}
-            errorMessage={errors.title?.message}
             onChange={handleTitleChange}
           />
         </CardBody>

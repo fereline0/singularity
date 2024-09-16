@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { prisma } from "@/utils/prisma";
 
 export async function GET(req: NextRequest) {
@@ -28,7 +29,7 @@ export async function GET(req: NextRequest) {
         take: limit,
         skip: pageToSkip,
         orderBy: {
-          createdAt: order == "desc" ? "desc" : "asc",
+          createdAt: order == "asc" ? "asc" : "desc",
         },
         include: {
           role: true,

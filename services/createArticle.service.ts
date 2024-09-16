@@ -1,13 +1,14 @@
+import useSWRMutation from "swr/mutation";
+
 import IArticle from "@/interfaces/article.interface";
 import { clientFetcher } from "@/utils/fetcher";
-import useSWRMutation from "swr/mutation";
 
 export default (
   title: string,
   value: string,
   writerId: string | undefined,
   sectionId: string,
-  published: boolean
+  published: boolean,
 ) => {
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/articles`;
 
@@ -21,7 +22,7 @@ export default (
 
   const { trigger, isMutating } = useSWRMutation<IArticle>(
     writerId ? url : null,
-    () => clientFetcher(url, { method: "POST", body: formData })
+    () => clientFetcher(url, { method: "POST", body: formData }),
   );
 
   return {

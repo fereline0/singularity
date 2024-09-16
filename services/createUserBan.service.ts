@@ -1,12 +1,13 @@
+import useSWRMutation from "swr/mutation";
+
 import IUserBan from "@/interfaces/userBan.interface";
 import { clientFetcher } from "@/utils/fetcher";
-import useSWRMutation from "swr/mutation";
 
 export default (
   id: string,
   reason: string,
   expires: string,
-  initiatorId: string
+  initiatorId: string,
 ) => {
   const formData = new FormData();
 
@@ -20,7 +21,7 @@ export default (
     clientFetcher(url, {
       method: "POST",
       body: formData,
-    })
+    }),
   );
 
   return {

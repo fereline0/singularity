@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { prisma } from "@/utils/prisma";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const searchParams = req.nextUrl.searchParams;
   const limit = Number(searchParams.get("limit"));
@@ -56,7 +57,7 @@ export async function GET(
             ],
           },
           orderBy: {
-            createdAt: order == "desc" ? "desc" : "asc",
+            createdAt: order == "asc" ? "asc" : "desc",
           },
           include: {
             comments: {
@@ -112,6 +113,7 @@ export async function GET(
         },
       },
     });
+
     return NextResponse.json(section, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });

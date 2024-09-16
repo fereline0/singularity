@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { prisma } from "@/utils/prisma";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const roles = await prisma.userRole.findMany({

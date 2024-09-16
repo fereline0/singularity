@@ -1,14 +1,16 @@
 "use client";
 
-import Comment from "@/components/screens/Comment/page";
 import { useState } from "react";
 import { formatDistance } from "date-fns";
-import ClientPaginate from "@/components/shared/ClientPaginate/page";
-import Form from "@/components/screens/Comment/Form/page";
 import { Button, Spinner } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import Marginer from "@/components/shared/Marginer/page";
+
 import Actions from "../Actions/page";
+
+import ClientPaginate from "@/components/shared/ClientPaginate/page";
+import Form from "@/components/screens/Comment/Form/page";
+import Marginer from "@/components/shared/Marginer/page";
+import Comment from "@/components/screens/Comment/page";
 import createUserCommentService from "@/services/createUserComment.service";
 import updateUserCommentService from "@/services/updateUserComment.service";
 import getUserCommentChildsService from "@/services/getUserCommentChilds.service";
@@ -30,7 +32,7 @@ export default function Replys(props: IReplys) {
   const { data: comment, mutate } = getUserCommentChildsService(
     visibility ? props.id : undefined,
     page,
-    limit
+    limit,
   );
 
   const {
@@ -41,7 +43,7 @@ export default function Replys(props: IReplys) {
     value,
     session.data?.user.id,
     true,
-    props.id
+    props.id,
   );
 
   const {
@@ -59,21 +61,21 @@ export default function Replys(props: IReplys) {
           <Marginer y={8}>
             {session.status == "authenticated" && (
               <Form<IUserComment>
-                publishMethod={async () =>
-                  commentForChangeId
-                    ? await updateUserComment()
-                    : await createUserComment()
-                }
+                commentForChangeId={commentForChangeId}
                 isLoading={
                   commentForChangeId
                     ? updateUserCommentIsMutating
                     : createUserCommentIsMutating
                 }
-                commentForChangeId={commentForChangeId}
-                setCommentForChangeId={setCommentForChangeId}
-                value={value}
-                setValue={setValue}
+                publishMethod={async () =>
+                  commentForChangeId
+                    ? await updateUserComment()
+                    : await createUserComment()
+                }
                 refreshMethod={async () => await mutate()}
+                setCommentForChangeId={setCommentForChangeId}
+                setValue={setValue}
+                value={value}
               />
             )}
             {comment ? (
@@ -82,32 +84,32 @@ export default function Replys(props: IReplys) {
                   {comment.childs.map((child: IUserComment) => (
                     <Comment
                       key={child.id}
-                      writer={child.writer}
+                      actions={
+                        <Actions<IUserComment>
+                          comment={child}
+                          refreshMethod={async () => await mutate()}
+                          setCommentForChangeId={setCommentForChangeId}
+                          setValue={setValue}
+                        />
+                      }
                       description={formatDistance(child.createdAt, new Date(), {
                         addSuffix: true,
                       })}
-                      value={child.value}
                       replys={
                         (session.status != "unauthenticated" ||
                           child._count.childs > 0) && (
                           <Replys id={child.id} user={props.user} />
                         )
                       }
-                      actions={
-                        <Actions<IUserComment>
-                          comment={child}
-                          setCommentForChangeId={setCommentForChangeId}
-                          setValue={setValue}
-                          refreshMethod={async () => await mutate()}
-                        />
-                      }
+                      value={child.value}
+                      writer={child.writer}
                     />
                   ))}
                   <ClientPaginate
-                    total={comment._count.childs}
                     limit={limit}
                     page={page}
                     setPage={setPage}
+                    total={comment._count.childs}
                   />
                 </Marginer>
               )

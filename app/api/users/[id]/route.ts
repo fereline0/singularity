@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { prisma } from "@/utils/prisma";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const searchParams = req.nextUrl.searchParams;
   const limit = Number(searchParams.get("limit"));
@@ -60,6 +61,7 @@ export async function GET(
         },
       },
     });
+
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
@@ -68,7 +70,7 @@ export async function GET(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const user = await prisma.user.delete({

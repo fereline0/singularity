@@ -1,11 +1,12 @@
 "use client";
 
-import Marginer from "@/components/shared/Marginer/page";
-import commentRequest from "@/requests/comment.request";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, CardBody, Textarea } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
+
+import commentRequest from "@/requests/comment.request";
+import Marginer from "@/components/shared/Marginer/page";
 
 interface IForm<T> {
   publishMethod: () => Promise<void | T> | void;
@@ -38,6 +39,7 @@ export default function Form<T>(props: IForm<T>) {
     handleReset();
 
     const refreshMethod = props.refreshMethod();
+
     if (refreshMethod instanceof Promise) {
       await refreshMethod;
     }
@@ -53,28 +55,28 @@ export default function Form<T>(props: IForm<T>) {
         <Marginer y={8}>
           {props.commentForChangeId && (
             <Button
-              onClick={handleReset}
+              endContent={<IoClose size={20} />}
               radius="full"
               variant="light"
-              endContent={<IoClose size={20} />}
+              onClick={handleReset}
             >
               Cancel change
             </Button>
           )}
           <Textarea
+            disableAutosize
+            fullWidth
+            errorMessage={errors.value?.message}
+            isInvalid={!!errors.value}
+            rows={3}
             value={props.value}
             onChange={handleCommentChange}
-            isInvalid={!!errors.value}
-            errorMessage={errors.value?.message}
-            rows={3}
-            fullWidth
-            disableAutosize
           />
           <div className="text-right">
             <Button
               color="primary"
-              onClick={async () => await successfulValidation(handleSubmit)()}
               isLoading={props.isLoading}
+              onClick={async () => await successfulValidation(handleSubmit)()}
             >
               Publish
             </Button>

@@ -19,8 +19,8 @@ export default async function forum({
     page,
     limit,
     searchParams.query,
-    searchParams.order
+    searchParams.order,
   );
 
-  return <Forum forum={forum} total={forum._count.articles} limit={limit} />;
+  return <Forum forum={forum} limit={limit} total={forum._count.articles} />;
 }
