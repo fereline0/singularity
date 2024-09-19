@@ -1,12 +1,12 @@
+import { Button } from "@nextui-org/button";
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  VariantProps,
-} from "@nextui-org/react";
+} from "@nextui-org/modal";
+import { VariantProps } from "@nextui-org/react";
 
 import Marginer from "../Marginer/page";
 

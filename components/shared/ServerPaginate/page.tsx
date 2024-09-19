@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Pagination } from "@nextui-org/react";
+import { Pagination } from "@nextui-org/pagination";
 import { useCallback } from "react";
 
 import IPaginate from "@/interfaces/paginate.interface";

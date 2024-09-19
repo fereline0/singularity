@@ -1,5 +1,6 @@
-import { Card, CardBody, Link } from "@nextui-org/react";
 import { formatDistance } from "date-fns";
+import { Card, CardBody } from "@nextui-org/card";
+import { Link } from "@nextui-org/link";
 
 import TipTap from "../TipTap/page";
 

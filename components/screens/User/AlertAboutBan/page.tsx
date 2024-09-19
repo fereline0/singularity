@@ -1,4 +1,5 @@
-import { Card, CardBody, Link } from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/card";
+import { Link } from "@nextui-org/link";
 import { formatDistance } from "date-fns";
 
 import Marginer from "@/components/shared/Marginer/page";

@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Card, CardBody, Input } from "@nextui-org/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Card, CardBody } from "@nextui-org/card";
+import { Input } from "@nextui-org/input";
+import { Button } from "@nextui-org/button";
 
 import TipTap from "../TipTap/page";
 

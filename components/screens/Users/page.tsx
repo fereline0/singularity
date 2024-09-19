@@ -1,6 +1,8 @@
 "use client";
 
-import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { Link } from "@nextui-org/link";
+import { User } from "@nextui-org/user";
 import { formatDistance } from "date-fns";
 
 import Content from "@/components/shared/Content/page";

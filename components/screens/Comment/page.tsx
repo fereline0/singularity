@@ -1,4 +1,6 @@
-import { Card, CardBody, CardHeader, Link, User } from "@nextui-org/react";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { Link } from "@nextui-org/link";
+import { User } from "@nextui-org/user";
 
 import Marginer from "@/components/shared/Marginer/page";
 import IUser from "@/interfaces/user.interface";

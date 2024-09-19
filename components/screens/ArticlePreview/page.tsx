@@ -1,4 +1,6 @@
-import { Card, CardBody, Link, User } from "@nextui-org/react";
+import { Card, CardBody } from "@nextui-org/card";
+import { Link } from "@nextui-org/link";
+import { User } from "@nextui-org/user";
 import { formatDistance } from "date-fns";
 
 import SeparatedText from "@/components/shared/SeparatedText/page";

@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { formatDistance } from "date-fns";
-import { Button, Spinner } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
+import { Spinner } from "@nextui-org/spinner";
 import { useSession } from "next-auth/react";
 
 import Actions from "../Actions/page";

@@ -1,12 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Card, CardBody, Textarea } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
+import { Card, CardBody } from "@nextui-org/card";
+import { Button } from "@nextui-org/button";
+import { Textarea } from "@nextui-org/input";
 
-import commentRequest from "@/requests/comment.request";
 import Marginer from "@/components/shared/Marginer/page";
+import commentRequest from "@/requests/comment.request";
 
 interface IForm<T> {
   publishMethod: () => Promise<void | T> | void;

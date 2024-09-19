@@ -1,9 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, DateInput, Input, useDisclosure } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { getLocalTimeZone, now } from "@internationalized/date";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
+import { useDisclosure } from "@nextui-org/use-disclosure";
+import { DateInput } from "@nextui-org/date-input";
 
 import deleteUserBansService from "@/services/deleteUserBans.service";
 import createUserBanService from "@/services/createUserBan.service";

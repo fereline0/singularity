@@ -2,7 +2,9 @@
 
 import { useCallback, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button, Card, CardBody, Input } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
+import { Card, CardBody } from "@nextui-org/card";
 
 import pushSearchParams from "@/utils/pushSearchParams";
 

@@ -1,13 +1,13 @@
 "use client";
 
+import { Button } from "@nextui-org/button";
 import {
-  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  useDisclosure,
-} from "@nextui-org/react";
+} from "@nextui-org/dropdown";
+import { useDisclosure } from "@nextui-org/use-disclosure";
 import { IoMdHeart, IoMdHeartEmpty, IoMdMore } from "react-icons/io";
 import { MdDelete, MdModeEdit, MdShare } from "react-icons/md";
 import { useSession } from "next-auth/react";

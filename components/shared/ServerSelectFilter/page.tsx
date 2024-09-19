@@ -1,8 +1,9 @@
 "use client";
 
-import { Select, SelectItem, VariantProps } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { Select, SelectItem } from "@nextui-org/select";
+import { VariantProps } from "@nextui-org/react";
 
 import pushSearchParams from "@/utils/pushSearchParams";
 import IGetParam from "@/interfaces/getParam.interface";

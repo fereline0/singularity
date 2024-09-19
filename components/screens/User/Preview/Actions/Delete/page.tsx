@@ -1,7 +1,8 @@
 "use client";
 
-import { Button, useDisclosure } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { Button } from "@nextui-org/button";
+import { useDisclosure } from "@nextui-org/use-disclosure";
 
 import Dialog from "@/components/shared/Dialog/page";
 import IUser from "@/interfaces/user.interface";

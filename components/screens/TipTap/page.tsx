@@ -1,12 +1,12 @@
 "use client";
 
-import { Card, CardBody } from "@nextui-org/react";
 import StarterKit from "@tiptap/starter-kit";
 import Heading from "@tiptap/extension-heading";
 import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { mergeAttributes } from "@tiptap/core";
+import { Card, CardBody } from "@nextui-org/card";
 
 import Actions from "./Actions/page";
 

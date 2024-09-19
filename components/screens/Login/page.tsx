@@ -1,8 +1,9 @@
 "use client";
 
-import { Button, Card, CardBody } from "@nextui-org/react";
 import { FaDiscord } from "react-icons/fa";
 import { signIn } from "next-auth/react";
+import { Card, CardBody } from "@nextui-org/card";
+import { Button } from "@nextui-org/button";
 
 import Marginer from "@/components/shared/Marginer/page";
 

@@ -1,7 +1,8 @@
 "use client";
 
-import { Card, CardBody, Image } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
+import { Card, CardBody } from "@nextui-org/card";
+import { Image } from "@nextui-org/image";
 
 import Actions from "./Actions/page";
 

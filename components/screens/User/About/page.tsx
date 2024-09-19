@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { formatISO9075 } from "date-fns";
 
 import PairsJustified from "@/components/shared/PairsJustified/page";

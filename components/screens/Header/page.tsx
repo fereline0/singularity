@@ -5,16 +5,18 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
-  Button,
-  Avatar,
+} from "@nextui-org/navbar";
+import { Link } from "@nextui-org/link";
+import { Button } from "@nextui-org/button";
+import {
   DropdownItem,
   DropdownTrigger,
   Dropdown,
   DropdownMenu,
-  Spinner,
-  useDisclosure,
-} from "@nextui-org/react";
+} from "@nextui-org/dropdown";
+import { useDisclosure } from "@nextui-org/use-disclosure";
+import { Avatar } from "@nextui-org/avatar";
+import { Spinner } from "@nextui-org/spinner";
 import { signOut, useSession } from "next-auth/react";
 import { IoLogInOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";

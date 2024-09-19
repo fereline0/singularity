@@ -1,18 +1,18 @@
 "use client";
 
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  useDisclosure,
-} from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { IoMdHeart, IoMdHeartEmpty, IoMdMore } from "react-icons/io";
 import { MdDelete, MdModeEdit, MdShare } from "react-icons/md";
+import { Button } from "@nextui-org/button";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@nextui-org/dropdown";
+import { useDisclosure } from "@nextui-org/use-disclosure";
 
 import Dialog from "@/components/shared/Dialog/page";
 import IArticle from "@/interfaces/article.interface";

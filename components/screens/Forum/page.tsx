@@ -1,11 +1,7 @@
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Link,
-  User,
-} from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { Link } from "@nextui-org/link";
+import { User } from "@nextui-org/user";
 
 import Section from "../Section/page";
 import ArticlePreview from "../ArticlePreview/page";

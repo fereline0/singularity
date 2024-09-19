@@ -16,8 +16,10 @@ import {
   CiTextAlignRight,
 } from "react-icons/ci";
 import { Button } from "@nextui-org/button";
-import { Card, CardBody, Input, useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
+import { Card, CardBody } from "@nextui-org/card";
+import { Input } from "@nextui-org/input";
+import { useDisclosure } from "@nextui-org/use-disclosure";
 
 import Dialog from "@/components/shared/Dialog/page";
 
