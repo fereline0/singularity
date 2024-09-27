@@ -84,10 +84,15 @@ export default function Ban(props: IBan) {
             Unban
           </Button>
           <Dialog
-            action={async () => await handleDeleteUserBans()}
-            color="danger"
+            actions={[
+              {
+                children: "Unban",
+                onClick: async () => await handleDeleteUserBans(),
+                color: "danger",
+                isLoading: deleteUserBansIsMutating,
+              },
+            ]}
             description="Are you sure that you want to restore the user access to this resource?"
-            isLoading={deleteUserBansIsMutating}
             isOpen={isOpenUnbanModal}
             title="Unban"
             onOpenChange={onOpenChangeUnbanModal}
@@ -99,12 +104,16 @@ export default function Ban(props: IBan) {
             Ban
           </Button>
           <Dialog
-            action={async () =>
-              await successfulValidation(handleCreateUserBan)()
-            }
-            color="danger"
+            actions={[
+              {
+                children: "Ban",
+                onClick: async () =>
+                  await successfulValidation(handleCreateUserBan)(),
+                color: "danger",
+                isLoading: createUserBanIsMutating,
+              },
+            ]}
             description="Are you sure that you want to restrict user access to this resource for the period you select?"
-            isLoading={createUserBanIsMutating}
             isOpen={isOpenBanModal}
             title="Ban"
             onOpenChange={onOpenChangeBanModal}

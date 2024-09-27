@@ -89,8 +89,13 @@ export default function Header() {
               </DropdownMenu>
             </Dropdown>
             <Dialog
-              action={async () => await handleSignOut()}
-              color="danger"
+              actions={[
+                {
+                  children: "Sign out",
+                  onClick: async () => await handleSignOut(),
+                  color: "danger",
+                },
+              ]}
               description="Are you sure you want to sign out of your account?"
               isOpen={isOpenSignOutModal}
               title="Sign out"

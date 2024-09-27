@@ -7,6 +7,7 @@ import {
   ModalHeader,
 } from "@nextui-org/modal";
 import { VariantProps } from "@nextui-org/react";
+import Marginer from "../Marginer/page";
 
 interface IDialog<T> {
   title: string;
@@ -29,10 +30,10 @@ export default function Dialog<T>(props: IDialog<T>) {
           <>
             <ModalHeader>{props.title}</ModalHeader>
             <ModalBody>
-              <div className="space-y-2">
+              <Marginer y={8}>
                 <p>{props.description}</p>
                 {props.children}
-              </div>
+              </Marginer>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onClick={onClose}>
