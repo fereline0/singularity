@@ -24,6 +24,8 @@ import userLikedArticleService from "@/services/userLikedArticle.service";
 
 interface IActions {
   article: IArticle;
+  isEditing: boolean;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Actions(props: IActions) {
@@ -55,23 +57,23 @@ export default function Actions(props: IActions) {
   const dropdownItems: IDropdownItem[] = [
     {
       key: "share",
-      value: "Share",
-      icon: <MdShare size={20} />,
-      action: async () => await handleShare(),
+      children: "Share",
+      startContent: <MdShare size={20} />,
+      onClick: async () => await handleShare(),
       color: "primary",
     },
     {
       key: "edit",
-      value: "Edit",
-      icon: <MdModeEdit size={20} />,
-      action: () => console.log("edit"),
-      isDisabled: false,
+      children: "Edit",
+      startContent: <MdModeEdit size={20} />,
+      onClick: () => props.setIsEditing(true),
+      isDisabled: props.isEditing,
     },
     {
       key: "delete",
-      value: "Delete",
-      icon: <MdDelete size={20} />,
-      action: () => onOpenDeleteModal(),
+      children: "Delete",
+      startContent: <MdDelete size={20} />,
+      onClick: () => onOpenDeleteModal(),
       color: "danger",
       isDisabled: false,
     },
@@ -139,23 +141,21 @@ export default function Actions(props: IActions) {
           </Button>
         </DropdownTrigger>
         <DropdownMenu variant="shadow">
-          {enabledDropdownItems.map(({ key, value, icon, action, color }) => (
-            <DropdownItem
-              key={key}
-              color={color}
-              startContent={icon}
-              onClick={action}
-            >
-              {value}
-            </DropdownItem>
+          {enabledDropdownItems.map(({ isDisabled, key, ...item }) => (
+            <DropdownItem key={key} {...item} />
           ))}
         </DropdownMenu>
       </Dropdown>
       <Dialog
-        action={async () => await handleDeleteArticle()}
-        color="danger"
+        actions={[
+          {
+            children: "Delete",
+            onClick: async () => await handleDeleteArticle(),
+            color: "danger",
+            isLoading: deleteArticleIsMutating,
+          },
+        ]}
         description="Are you sure you want to permanently delete this article?"
-        isLoading={deleteArticleIsMutating}
         isOpen={isOpenDeleteModal}
         title="Delete"
         onOpenChange={onOpenChangeDeleteModal}

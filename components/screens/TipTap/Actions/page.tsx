@@ -154,8 +154,13 @@ export default function Actions(props: IActions) {
         </CardBody>
       </Card>
       <Dialog
-        action={addLink}
-        color="primary"
+        actions={[
+          {
+            children: "Add link",
+            onClick: addLink,
+            color: "danger",
+          },
+        ]}
         description="Enter the link to be redirected to when you click on the text you selected."
         isOpen={isOpenSetLinkModal}
         title="Add link"

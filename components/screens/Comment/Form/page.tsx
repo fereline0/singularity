@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { IoClose } from "react-icons/io5";
 import { Card, CardBody } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
 import { Textarea } from "@nextui-org/input";
@@ -55,16 +54,6 @@ export default function Form<T>(props: IForm<T>) {
     <Card>
       <CardBody>
         <Marginer y={8}>
-          {props.commentForChangeId && (
-            <Button
-              endContent={<IoClose size={20} />}
-              radius="full"
-              variant="light"
-              onClick={handleReset}
-            >
-              Cancel change
-            </Button>
-          )}
           <Textarea
             disableAutosize
             fullWidth
@@ -74,7 +63,12 @@ export default function Form<T>(props: IForm<T>) {
             value={props.value}
             onChange={handleCommentChange}
           />
-          <div className="text-right">
+          <div className="flex gap-2 justify-end">
+            {props.commentForChangeId && (
+              <Button variant="light" color="danger" onClick={handleReset}>
+                Cancel change
+              </Button>
+            )}
             <Button
               color="primary"
               isLoading={props.isLoading}

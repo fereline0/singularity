@@ -41,7 +41,7 @@ export default function Comments(props: IComments) {
   const {
     trigger: updateArticleComment,
     isMutating: updateArticleCommentIsMutating,
-  } = updateArticleCommentService(commentForChangeId, value);
+  } = updateArticleCommentService(commentForChangeId, value, true);
 
   return (
     <Marginer y={8}>

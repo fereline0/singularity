@@ -96,23 +96,23 @@ export default function Actions<T>(props: IActions<T>) {
   const dropdownItems: IDropdownItem[] = [
     {
       key: "share",
-      value: "Share",
-      icon: <MdShare size={20} />,
-      action: async () => await handleShare(),
+      children: "Share",
+      startContent: <MdShare size={20} />,
+      onClick: async () => await handleShare(),
       color: "primary",
     },
     {
       key: "edit",
-      value: "Edit",
-      icon: <MdModeEdit size={20} />,
-      action: handleChange,
+      children: "Edit",
+      startContent: <MdModeEdit size={20} />,
+      onClick: handleChange,
       isDisabled: session.status != "authenticated",
     },
     {
       key: "delete",
-      value: "Delete",
-      icon: <MdDelete size={20} />,
-      action: onOpenDeleteModal,
+      children: "Delete",
+      startContent: <MdDelete size={20} />,
+      onClick: onOpenDeleteModal,
       color: "danger",
       isDisabled: session.status != "authenticated",
     },
@@ -154,24 +154,22 @@ export default function Actions<T>(props: IActions<T>) {
           </Button>
         </DropdownTrigger>
         <DropdownMenu variant="shadow">
-          {enabledDropdownItems.map(({ key, value, icon, action, color }) => (
-            <DropdownItem
-              key={key}
-              color={color}
-              startContent={icon}
-              onClick={action}
-            >
-              {value}
-            </DropdownItem>
+          {enabledDropdownItems.map(({ isDisabled, key, ...item }) => (
+            <DropdownItem key={key} {...item} />
           ))}
         </DropdownMenu>
       </Dropdown>
       {session.status == "authenticated" && (
         <Dialog
-          action={async () => await handleDeleteArticleComment()}
-          color="danger"
+          actions={[
+            {
+              children: "Delete",
+              onClick: async () => await handleDeleteArticleComment(),
+              color: "danger",
+              isLoading: deleteArticleCommentIsMutating,
+            },
+          ]}
           description="Are you sure you want to permanently delete this comment?"
-          isLoading={deleteArticleCommentIsMutating}
           isOpen={isOpenDeleteModal}
           title="Delete"
           onOpenChange={onOpenChangeDeleteModal}

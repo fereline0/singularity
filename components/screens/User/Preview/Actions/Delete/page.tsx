@@ -41,10 +41,14 @@ export default function Delete(props: IDelete) {
         Delete
       </Button>
       <Dialog
-        action={async () => await handleDeleteUser()}
-        color="danger"
+        actions={[
+          {
+            onClick: async () => await handleDeleteUser(),
+            color: "danger",
+            isLoading: deleteUserIsMutating,
+          },
+        ]}
         description="Are you sure you want to delete the user account from the database? This action is irreversible!"
-        isLoading={deleteUserIsMutating}
         isOpen={isOpenDeleteModal}
         title="Delete"
         onOpenChange={onOpenChangeDeleteModal}

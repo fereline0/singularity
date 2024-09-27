@@ -59,6 +59,30 @@ export async function GET(
   }
 }
 
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } },
+) {
+  try {
+    const body = await req.formData();
+
+    const article = await prisma.article.update({
+      where: {
+        id: params.id,
+      },
+      data: {
+        title: body.get("title") as string,
+        value: body.get("value") as string,
+        published: body.get("published") == "true",
+      },
+    });
+
+    return NextResponse.json(article, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(error, { status: 500 });
+  }
+}
+
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } },

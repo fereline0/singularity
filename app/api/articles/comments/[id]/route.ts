@@ -62,6 +62,7 @@ export async function PUT(
       },
       data: {
         value: body.get("value") as string,
+        published: body.get("published") == "true",
       },
     });
 

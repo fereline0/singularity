@@ -50,7 +50,7 @@ export default function Replys(props: IReplys) {
   const {
     trigger: updateUserComment,
     isMutating: updateUserCommentIsMutating,
-  } = updateUserCommentService(commentForChangeId, value);
+  } = updateUserCommentService(commentForChangeId, value, true);
 
   return (
     <Marginer y={8}>
