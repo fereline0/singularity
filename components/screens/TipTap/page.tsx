@@ -7,14 +7,15 @@ import TextAlign from "@tiptap/extension-text-align";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { mergeAttributes } from "@tiptap/core";
 import { Card, CardBody } from "@nextui-org/card";
+import { useEffect } from "react";
 
 import Actions from "./Actions/page";
 
 import Marginer from "@/components/shared/Marginer/page";
 
 interface ITipTap {
-  setHTML?: React.Dispatch<React.SetStateAction<string>>;
   content?: string;
+  setContent?: React.Dispatch<React.SetStateAction<string>>;
   readOnly?: boolean;
 }
 
@@ -86,9 +87,15 @@ export default function TipTap(props: ITipTap) {
     editable: !props.readOnly,
     content: props.content,
     onUpdate: ({ editor }) => {
-      props.setHTML?.(editor.getHTML());
+      props.setContent?.(editor.getHTML());
     },
   });
+
+  useEffect(() => {
+    if (editor && props.content) {
+      editor.commands.setContent(props.content);
+    }
+  }, [props.readOnly, editor]);
 
   if (!editor) {
     return null;

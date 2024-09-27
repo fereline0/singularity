@@ -7,9 +7,10 @@ import {
   ModalHeader,
 } from "@nextui-org/modal";
 import { VariantProps } from "@nextui-org/react";
+
 import Marginer from "../Marginer/page";
 
-interface IDialog<T> {
+interface IDialog {
   title: string;
   description: string;
   actions: VariantProps<typeof Button>[];
@@ -18,7 +19,7 @@ interface IDialog<T> {
   children?: React.ReactNode;
 }
 
-export default function Dialog<T>(props: IDialog<T>) {
+export default function Dialog(props: IDialog) {
   return (
     <Modal
       backdrop="blur"
@@ -39,8 +40,8 @@ export default function Dialog<T>(props: IDialog<T>) {
               <Button color="danger" variant="light" onClick={onClose}>
                 Cancel
               </Button>
-              {props.actions.map((action) => (
-                <Button key={action.key} {...action} />
+              {props.actions.map(({ key, ...action }) => (
+                <Button key={key} {...action} />
               ))}
             </ModalFooter>
           </>

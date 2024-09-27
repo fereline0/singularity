@@ -43,6 +43,7 @@ export default function Delete(props: IDelete) {
       <Dialog
         actions={[
           {
+            key: "delete",
             children: "Delete",
             onClick: async () => await handleDeleteUser(),
             color: "danger",

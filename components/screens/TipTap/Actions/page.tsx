@@ -156,6 +156,7 @@ export default function Actions(props: IActions) {
       <Dialog
         actions={[
           {
+            key: "addLink",
             children: "Add link",
             onClick: addLink,
             color: "danger",

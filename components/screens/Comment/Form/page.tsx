@@ -65,7 +65,7 @@ export default function Form<T>(props: IForm<T>) {
           />
           <div className="flex gap-2 justify-end">
             {props.commentForChangeId && (
-              <Button variant="light" color="danger" onClick={handleReset}>
+              <Button color="danger" variant="light" onClick={handleReset}>
                 Cancel change
               </Button>
             )}

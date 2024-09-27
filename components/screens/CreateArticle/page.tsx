@@ -24,7 +24,7 @@ export default function CreateArticle(props: ICreateArticle) {
   const router = useRouter();
   const session = useSession();
   const [title, setTitle] = useState("");
-  const [HTML, setHTML] = useState("");
+  const [content, setContent] = useState("");
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -33,7 +33,7 @@ export default function CreateArticle(props: ICreateArticle) {
   const { trigger: createArticle, isMutating: createArticleIsMutating } =
     createArticleService(
       title,
-      HTML,
+      content,
       session?.data?.user.id,
       props.section.id,
       true,
@@ -44,7 +44,7 @@ export default function CreateArticle(props: ICreateArticle) {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(articleRequest),
-    values: { title: title, value: HTML },
+    values: { title: title, value: content },
   });
 
   const handleSubmit = async () => {
@@ -66,7 +66,7 @@ export default function CreateArticle(props: ICreateArticle) {
           />
         </CardBody>
       </Card>
-      <TipTap setHTML={setHTML} />
+      <TipTap setContent={setContent} />
       <Card>
         <CardBody>
           <Button

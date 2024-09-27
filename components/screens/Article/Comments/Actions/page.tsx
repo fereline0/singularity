@@ -163,6 +163,7 @@ export default function Actions<T>(props: IActions<T>) {
         <Dialog
           actions={[
             {
+              key: "delete",
               children: "Delete",
               onClick: async () => await handleDeleteArticleComment(),
               color: "danger",

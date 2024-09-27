@@ -86,6 +86,7 @@ export default function Ban(props: IBan) {
           <Dialog
             actions={[
               {
+                key: "unbun",
                 children: "Unban",
                 onClick: async () => await handleDeleteUserBans(),
                 color: "danger",
@@ -106,6 +107,7 @@ export default function Ban(props: IBan) {
           <Dialog
             actions={[
               {
+                key: "ban",
                 children: "Ban",
                 onClick: async () =>
                   await successfulValidation(handleCreateUserBan)(),

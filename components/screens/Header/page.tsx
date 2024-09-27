@@ -91,6 +91,7 @@ export default function Header() {
             <Dialog
               actions={[
                 {
+                  key: "signOut",
                   children: "Sign out",
                   onClick: async () => await handleSignOut(),
                   color: "danger",
