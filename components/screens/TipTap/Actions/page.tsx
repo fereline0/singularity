@@ -159,7 +159,7 @@ export default function Actions(props: IActions) {
             key: "addLink",
             children: "Add link",
             onClick: addLink,
-            color: "danger",
+            color: "primary",
           },
         ]}
         description="Enter the link to be redirected to when you click on the text you selected."
