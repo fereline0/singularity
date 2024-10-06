@@ -20,6 +20,7 @@ import userLikedUserCommentService from "@/services/userLikedUserComment.service
 import createUserCommentLikerService from "@/services/createUserCommentLiker.service";
 import deleteUserCommentLikerService from "@/services/deleteUserCommentLiker.service";
 import IDropdownItem from "@/interfaces/dropdownItem.interface";
+import userCan, { roleBenefits } from "@/policies/user.policy";
 
 interface IActions<T> {
   comment: IUserComment;
@@ -103,7 +104,7 @@ export default function Actions<T>(props: IActions<T>) {
       children: "Edit",
       startContent: <MdModeEdit size={20} />,
       onClick: handleChange,
-      isDisabled: session.status != "authenticated",
+      isDisabled: session.data?.user.id != props.comment.writer.id,
     },
     {
       key: "delete",
@@ -111,7 +112,14 @@ export default function Actions<T>(props: IActions<T>) {
       startContent: <MdDelete size={20} />,
       onClick: onOpenDeleteModal,
       color: "danger",
-      isDisabled: session.status != "authenticated",
+      isDisabled: !(
+        session.data?.user.id == props.comment.writer.id ||
+        (roleBenefits(
+          session.data?.user.role.position,
+          props.comment.writer.role.position
+        ) &&
+          userCan(session.data?.user.role.abilities, "deleteUserComment"))
+      ),
     },
   ];
 

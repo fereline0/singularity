@@ -40,7 +40,7 @@ export default function Actions(props: IActions) {
 
   const handleShare = async () => {
     await navigator.clipboard.writeText(
-      `${process.env.NEXT_PUBLIC_API_URL}/articles/${props.article.id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/articles/${props.article.id}`
     );
     toast.success("Link copied to clipboard");
   };

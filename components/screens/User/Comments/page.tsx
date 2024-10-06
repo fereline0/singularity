@@ -35,7 +35,7 @@ export default function Comments(props: IComments) {
     props.user.id,
     value,
     session?.data?.user.id,
-    true,
+    true
   );
 
   const {

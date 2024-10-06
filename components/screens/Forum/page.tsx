@@ -15,12 +15,15 @@ import Content from "@/components/shared/Content/page";
 import SideBar from "@/components/shared/Content/SideBar/page";
 import Main from "@/components/shared/Content/Main/page";
 import ServerSelectFilter from "@/components/shared/ServerSelectFilter/page";
+import { auth } from "@/auth";
 
 interface IForum extends IPaginate {
   forum: ISection;
 }
 
-export default function Forum(props: IForum) {
+export default async function Forum(props: IForum) {
+  const session = await auth();
+
   return (
     <Content>
       <SideBar>
@@ -28,18 +31,20 @@ export default function Forum(props: IForum) {
           {props.forum.childs.map((forum) => (
             <Section key={forum.id} section={forum} />
           ))}
-          <Card>
-            <CardHeader>
-              <Button
-                fullWidth
-                as={Link}
-                color="primary"
-                href={`/${props.forum.id}/createArticle`}
-              >
-                Create article
-              </Button>
-            </CardHeader>
-          </Card>
+          {session?.user && (
+            <Card>
+              <CardHeader>
+                <Button
+                  fullWidth
+                  as={Link}
+                  color="primary"
+                  href={`/${props.forum.id}/createArticle`}
+                >
+                  Create article
+                </Button>
+              </CardHeader>
+            </Card>
+          )}
           {props.forum.supervisors.length > 0 && (
             <Card>
               <CardHeader>Supervisors</CardHeader>
