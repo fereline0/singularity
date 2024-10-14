@@ -1,6 +1,6 @@
 "use client";
 
-import { IoMdHeart, IoMdHeartEmpty, IoMdMore } from "react-icons/io";
+import { IoMdMore } from "react-icons/io";
 import { MdDelete, MdModeEdit, MdShare } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
@@ -13,13 +13,12 @@ import {
 } from "@nextui-org/dropdown";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 
+import Like from "./Like/page";
+
 import IDropdownItem from "@/interfaces/dropdownItem.interface";
 import Dialog from "@/components/shared/Dialog/page";
 import { IArticleComment } from "@/interfaces/articleComment.interface";
-import deleteArticleCommentService from "@/services/deleteArticleComment.service";
-import createArticleCommentLikerService from "@/services/createArticleCommentLiker.service";
-import deleteArticleCommentLikerService from "@/services/deleteArticleCommentLiker.service";
-import userLikedArticleCommentService from "@/services/userLikedArticleComment.service";
+import useDeleteArticleComment from "@/hooks/useDeleteArticleComment";
 
 interface IActions<T> {
   comment: IArticleComment;
@@ -52,7 +51,7 @@ export default function Actions<T>(props: IActions<T>) {
   const {
     trigger: deleteArticleComment,
     isMutating: deleteArticleCommentIsMutating,
-  } = deleteArticleCommentService(props.comment.id);
+  } = useDeleteArticleComment(props.comment.id);
 
   const handleDeleteArticleComment = async () => {
     await deleteArticleComment();
@@ -63,35 +62,6 @@ export default function Actions<T>(props: IActions<T>) {
       await refreshMethod;
     }
   };
-
-  const {
-    data: userLikedArticleComment,
-    mutate: userLikedArticleCommentMutate,
-  } = userLikedArticleCommentService(props.comment.id, session.data?.user.id);
-
-  const {
-    trigger: createArticleCommentLiker,
-    isMutating: createArticleCommentLikerIsMutating,
-  } = createArticleCommentLikerService(props.comment.id, session.data?.user.id);
-
-  const {
-    trigger: deleteArticleCommentLiker,
-    isMutating: deleteArticleCommentLikerIsMutating,
-  } = deleteArticleCommentLikerService(props.comment.id, session.data?.user.id);
-
-  const handleLike = async () => {
-    await createArticleCommentLiker();
-    await userLikedArticleCommentMutate();
-  };
-
-  const handleDislike = async () => {
-    await deleteArticleCommentLiker();
-    await userLikedArticleCommentMutate();
-  };
-
-  const userLikedThisComment =
-    userLikedArticleComment && userLikedArticleComment[0];
-  const likesCount = userLikedArticleComment && userLikedArticleComment[1];
 
   const dropdownItems: IDropdownItem[] = [
     {
@@ -122,31 +92,7 @@ export default function Actions<T>(props: IActions<T>) {
 
   return (
     <div className="flex gap-2">
-      <Button
-        isDisabled={session.status != "authenticated"}
-        isLoading={
-          userLikedThisComment
-            ? deleteArticleCommentLikerIsMutating
-            : createArticleCommentLikerIsMutating
-        }
-        startContent={
-          userLikedThisComment ? (
-            <IoMdHeart size={20} />
-          ) : (
-            <IoMdHeartEmpty size={20} />
-          )
-        }
-        variant="light"
-        onClick={async () =>
-          session.status == "authenticated"
-            ? userLikedThisComment
-              ? await handleDislike()
-              : await handleLike()
-            : null
-        }
-      >
-        {likesCount}
-      </Button>
+      <Like comment={props.comment} />
       <Dropdown backdrop="blur" placement="bottom-end">
         <DropdownTrigger>
           <Button isIconOnly variant="light">

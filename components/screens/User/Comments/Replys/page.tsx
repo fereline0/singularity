@@ -12,11 +12,11 @@ import ClientPaginate from "@/components/shared/ClientPaginate/page";
 import Form from "@/components/screens/Comment/Form/page";
 import Marginer from "@/components/shared/Marginer/page";
 import Comment from "@/components/screens/Comment/page";
-import createUserCommentService from "@/services/createUserComment.service";
-import updateUserCommentService from "@/services/updateUserComment.service";
-import getUserCommentChildsService from "@/services/getUserCommentChilds.service";
+import useUserCommentChilds from "@/hooks/useUserCommentChilds";
 import IUser from "@/interfaces/user.interface";
 import { IUserComment } from "@/interfaces/userComment.interface";
+import useCreateUserComment from "@/hooks/useCreateUserComment";
+import useUpdateUserComment from "@/hooks/useUpdateUserComment";
 
 interface IReplys {
   id: string;
@@ -30,7 +30,7 @@ export default function Replys(props: IReplys) {
   const [page, setPage] = useState(1);
   const limit = 5;
   const session = useSession();
-  const { data: comment, mutate } = getUserCommentChildsService(
+  const { data: comment, mutate } = useUserCommentChilds(
     visibility ? props.id : undefined,
     page,
     limit,
@@ -39,7 +39,7 @@ export default function Replys(props: IReplys) {
   const {
     trigger: createUserComment,
     isMutating: createUserCommentIsMutating,
-  } = createUserCommentService(
+  } = useCreateUserComment(
     props.user.id,
     value,
     session.data?.user.id,
@@ -50,7 +50,7 @@ export default function Replys(props: IReplys) {
   const {
     trigger: updateUserComment,
     isMutating: updateUserCommentIsMutating,
-  } = updateUserCommentService(commentForChangeId, value, true);
+  } = useUpdateUserComment(commentForChangeId, value, true);
 
   return (
     <Marginer y={8}>

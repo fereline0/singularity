@@ -10,8 +10,6 @@ export default (
   sectionId: string,
   published: boolean,
 ) => {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/articles`;
-
   const formData = new FormData();
 
   formData.append("title", title);
@@ -21,8 +19,8 @@ export default (
   formData.append("published", published.toString());
 
   const { trigger, isMutating } = useSWRMutation<IArticle>(
-    writerId ? url : null,
-    () => clientFetcher(url, { method: "POST", body: formData }),
+    writerId ? `${process.env.NEXT_PUBLIC_API_URL}/api/articles` : null,
+    (url: string) => clientFetcher(url, { method: "POST", body: formData }),
   );
 
   return {

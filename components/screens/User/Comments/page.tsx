@@ -12,11 +12,11 @@ import ServerPaginate from "@/components/shared/ServerPaginate/page";
 import Form from "@/components/screens/Comment/Form/page";
 import Marginer from "@/components/shared/Marginer/page";
 import Comment from "@/components/screens/Comment/page";
-import createUserCommentService from "@/services/createUserComment.service";
-import updateUserCommentService from "@/services/updateUserComment.service";
 import { IUserComment } from "@/interfaces/userComment.interface";
 import IPaginate from "@/interfaces/paginate.interface";
 import IUser from "@/interfaces/user.interface";
+import useCreateUserComment from "@/hooks/useCreateUserComment";
+import useUpdateUserComment from "@/hooks/useUpdateUserComment";
 
 interface IComments extends IPaginate {
   user: IUser;
@@ -31,17 +31,12 @@ export default function Comments(props: IComments) {
   const {
     trigger: createUserComment,
     isMutating: createUserCommentIsMutating,
-  } = createUserCommentService(
-    props.user.id,
-    value,
-    session?.data?.user.id,
-    true
-  );
+  } = useCreateUserComment(props.user.id, value, session?.data?.user.id, true);
 
   const {
     trigger: updateUserComment,
     isMutating: updateUserCommentIsMutating,
-  } = updateUserCommentService(commentForChangeId, value, true);
+  } = useUpdateUserComment(commentForChangeId, value, true);
 
   return (
     <Marginer y={8}>

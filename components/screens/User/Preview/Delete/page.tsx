@@ -6,7 +6,7 @@ import { useDisclosure } from "@nextui-org/use-disclosure";
 
 import Dialog from "@/components/shared/Dialog/page";
 import IUser from "@/interfaces/user.interface";
-import deleteUserService from "@/services/deleteUser.service";
+import useDeleteUser from "@/hooks/useDeleteUser";
 
 interface IDelete {
   user: IUser;
@@ -16,7 +16,7 @@ export default function Delete(props: IDelete) {
   const router = useRouter();
 
   const { trigger: deleteUser, isMutating: deleteUserIsMutating } =
-    deleteUserService(props.user.id);
+    useDeleteUser(props.user.id);
 
   const {
     isOpen: isOpenDeleteModal,

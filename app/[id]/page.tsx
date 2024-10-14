@@ -1,6 +1,6 @@
 import Forum from "@/components/screens/Forum/page";
 import ISection from "@/interfaces/section.interface";
-import getForumService from "@/services/getForum.service";
+import forumService from "@/services/forum.service";
 
 export const revalidate = 0;
 
@@ -14,7 +14,7 @@ export default async function forum({
   const page = searchParams.page || 1;
   const limit = 20;
 
-  const forum: ISection = await getForumService(
+  const forum: ISection = await forumService(
     params.id,
     page,
     limit,

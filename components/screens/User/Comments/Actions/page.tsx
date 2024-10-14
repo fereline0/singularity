@@ -8,19 +8,18 @@ import {
   DropdownTrigger,
 } from "@nextui-org/dropdown";
 import { useDisclosure } from "@nextui-org/use-disclosure";
-import { IoMdHeart, IoMdHeartEmpty, IoMdMore } from "react-icons/io";
+import { IoMdMore } from "react-icons/io";
 import { MdDelete, MdModeEdit, MdShare } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
+import Like from "./Like/page";
+
 import Dialog from "@/components/shared/Dialog/page";
-import deleteUserCommentService from "@/services/deleteUserComment.service";
 import { IUserComment } from "@/interfaces/userComment.interface";
-import userLikedUserCommentService from "@/services/userLikedUserComment.service";
-import createUserCommentLikerService from "@/services/createUserCommentLiker.service";
-import deleteUserCommentLikerService from "@/services/deleteUserCommentLiker.service";
 import IDropdownItem from "@/interfaces/dropdownItem.interface";
 import userCan, { roleBenefits } from "@/policies/user.policy";
+import useDeleteUserComment from "@/hooks/useDeleteUserComment";
 
 interface IActions<T> {
   comment: IUserComment;
@@ -53,7 +52,7 @@ export default function Actions<T>(props: IActions<T>) {
   const {
     trigger: deleteUserComment,
     isMutating: deleteUserCommentIsMutating,
-  } = deleteUserCommentService(props.comment.id);
+  } = useDeleteUserComment(props.comment.id);
 
   const handleDeleteUserComment = async () => {
     await deleteUserComment();
@@ -64,32 +63,6 @@ export default function Actions<T>(props: IActions<T>) {
       await refreshMethod;
     }
   };
-
-  const { data: userLikedUserComment, mutate: userLikedUserCommentMutate } =
-    userLikedUserCommentService(props.comment.id, session.data?.user.id);
-
-  const {
-    trigger: createUserCommentLiker,
-    isMutating: createUserCommentLikerIsMutating,
-  } = createUserCommentLikerService(props.comment.id, session.data?.user.id);
-
-  const {
-    trigger: deleteUserCommentLiker,
-    isMutating: deleteUserCommentLikerIsMutating,
-  } = deleteUserCommentLikerService(props.comment.id, session.data?.user.id);
-
-  const handleLike = async () => {
-    await createUserCommentLiker();
-    await userLikedUserCommentMutate();
-  };
-
-  const handleDislike = async () => {
-    await deleteUserCommentLiker();
-    await userLikedUserCommentMutate();
-  };
-
-  const userLikedThisComment = userLikedUserComment && userLikedUserComment[0];
-  const likesCount = userLikedUserComment && userLikedUserComment[1];
 
   const dropdownItems: IDropdownItem[] = [
     {
@@ -116,7 +89,7 @@ export default function Actions<T>(props: IActions<T>) {
         session.data?.user.id == props.comment.writer.id ||
         (roleBenefits(
           session.data?.user.role.position,
-          props.comment.writer.role.position
+          props.comment.writer.role.position,
         ) &&
           userCan(session.data?.user.role.abilities, "deleteUserComment"))
       ),
@@ -127,31 +100,7 @@ export default function Actions<T>(props: IActions<T>) {
 
   return (
     <div className="flex gap-2">
-      <Button
-        isDisabled={session.status != "authenticated"}
-        isLoading={
-          userLikedThisComment
-            ? deleteUserCommentLikerIsMutating
-            : createUserCommentLikerIsMutating
-        }
-        startContent={
-          userLikedThisComment ? (
-            <IoMdHeart size={20} />
-          ) : (
-            <IoMdHeartEmpty size={20} />
-          )
-        }
-        variant="light"
-        onClick={async () =>
-          session.status == "authenticated"
-            ? userLikedThisComment
-              ? await handleDislike()
-              : await handleLike()
-            : null
-        }
-      >
-        {likesCount}
-      </Button>
+      <Like comment={props.comment} />
       <Dropdown backdrop="blur" placement="bottom-end">
         <DropdownTrigger>
           <Button isIconOnly variant="light">

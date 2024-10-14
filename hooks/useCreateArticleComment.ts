@@ -1,6 +1,6 @@
 import useSWRMutation from "swr/mutation";
 
-import { IUserComment } from "@/interfaces/userComment.interface";
+import { IArticleComment } from "@/interfaces/articleComment.interface";
 import { clientFetcher } from "@/utils/fetcher";
 
 export default (
@@ -10,19 +10,19 @@ export default (
   published: boolean,
   parentId?: string,
 ) => {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/users/comments`;
-
   const formData = new FormData();
 
-  formData.append("userId", id);
+  formData.append("articleId", id);
   writerId && formData.append("writerId", writerId);
   formData.append("value", value);
   formData.append("published", published.toString());
   parentId && formData.append("parentId", parentId);
 
-  const { trigger, isMutating } = useSWRMutation<IUserComment>(
-    writerId ? url : null,
-    () => clientFetcher(url, { method: "POST", body: formData }),
+  const { trigger, isMutating } = useSWRMutation<IArticleComment>(
+    writerId
+      ? `${process.env.NEXT_PUBLIC_API_URL}/api/articles/comments`
+      : null,
+    (url: string) => clientFetcher(url, { method: "POST", body: formData }),
   );
 
   return {

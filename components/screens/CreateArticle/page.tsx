@@ -11,10 +11,10 @@ import { Button } from "@nextui-org/button";
 
 import TipTap from "../TipTap/page";
 
-import createArticleService from "@/services/createArticle.service";
 import articleRequest from "@/requests/article.request";
 import Marginer from "@/components/shared/Marginer/page";
 import ISection from "@/interfaces/section.interface";
+import useCreateArticle from "@/hooks/useCreateArticle";
 
 interface ICreateArticle {
   section: ISection;
@@ -31,7 +31,7 @@ export default function CreateArticle(props: ICreateArticle) {
   };
 
   const { trigger: createArticle, isMutating: createArticleIsMutating } =
-    createArticleService(
+    useCreateArticle(
       title,
       content,
       session?.data?.user.id,

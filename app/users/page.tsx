@@ -1,6 +1,6 @@
 import Users from "@/components/screens/Users/page";
 import IUser from "@/interfaces/user.interface";
-import getUsersService from "@/services/getUsers.service";
+import usersService from "@/services/users.service";
 
 export const revalidate = 0;
 
@@ -11,7 +11,7 @@ export default async function users({
 }) {
   const page = searchParams.page || 1;
   const limit = 20;
-  const users: [IUser[], IUser[], number] = await getUsersService(
+  const users: [IUser[], IUser[], number] = await usersService(
     page,
     limit,
     searchParams.query,

@@ -10,11 +10,11 @@ import { Input } from "@nextui-org/input";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 import { DateInput } from "@nextui-org/date-input";
 
-import deleteUserBansService from "@/services/deleteUserBans.service";
-import createUserBanService from "@/services/createUserBan.service";
 import banRequest from "@/requests/ban.request";
 import Dialog from "@/components/shared/Dialog/page";
 import IUser from "@/interfaces/user.interface";
+import useCreateUserBan from "@/hooks/useCreateUserBan";
+import useDeleteUserBans from "@/hooks/useDeleteUserBans";
 
 interface IBan {
   user: IUser;
@@ -25,7 +25,7 @@ export default function Ban(props: IBan) {
   const router = useRouter();
 
   const findedActiveBan = props.user.bans.find(
-    (ban) => new Date(ban.expires) > new Date() && ban.activity
+    (ban) => new Date(ban.expires) > new Date() && ban.activity,
   );
 
   const {
@@ -68,15 +68,15 @@ export default function Ban(props: IBan) {
   };
 
   const { trigger: createUserBan, isMutating: createUserBanIsMutating } =
-    createUserBanService(
+    useCreateUserBan(
       props.user.id,
       reason,
       new Date(expires.toDate()).toString(),
-      props.authedUserId
+      props.authedUserId,
     );
 
   const { trigger: deleteUserBans, isMutating: deleteUserBansIsMutating } =
-    deleteUserBansService(props.user.id);
+    useDeleteUserBans(props.user.id);
 
   return (
     <>

@@ -4,12 +4,12 @@ import { IUserComment } from "@/interfaces/userComment.interface";
 import { clientFetcher } from "@/utils/fetcher";
 
 export default (id: string) => {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/articles/comments/${id}`;
-
-  const { trigger, isMutating } = useSWRMutation<IUserComment>(url, () =>
-    clientFetcher(url, {
-      method: "DELETE",
-    }),
+  const { trigger, isMutating } = useSWRMutation<IUserComment>(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/articles/comments/${id}`,
+    (url: string) =>
+      clientFetcher(url, {
+        method: "DELETE",
+      }),
   );
 
   return {

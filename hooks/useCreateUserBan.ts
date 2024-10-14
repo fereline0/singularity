@@ -7,7 +7,7 @@ export default (
   id: string,
   reason: string,
   expires: string,
-  initiatorId: string | undefined
+  initiatorId: string | undefined,
 ) => {
   const formData = new FormData();
 
@@ -23,7 +23,7 @@ export default (
       clientFetcher(url, {
         method: "POST",
         body: formData,
-      })
+      }),
   );
 
   return {

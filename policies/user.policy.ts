@@ -2,14 +2,14 @@ import IAbility from "@/interfaces/ability.interface";
 
 export function roleBenefits(
   currentUserRolePosition: number | undefined,
-  rolePosition: number
+  rolePosition: number,
 ) {
   return currentUserRolePosition && currentUserRolePosition > rolePosition;
 }
 
 export default function userCan(
   abilities: IAbility[] | undefined,
-  ability: string
+  ability: string,
 ) {
   return abilities?.some((a) => a.slug == ability) ?? false;
 }

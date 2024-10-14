@@ -1,5 +1,5 @@
 import Article from "@/components/screens/Article/page";
-import getArticleService from "@/services/getArticle.service";
+import articleService from "@/services/article.service";
 
 export const revalidate = 0;
 
@@ -12,7 +12,7 @@ export default async function article({
 }) {
   const page = searchParams.page || 1;
   const limit = 20;
-  const article = await getArticleService(params.id, page, limit);
+  const article = await articleService(params.id, page, limit);
 
   return (
     <Article article={article} limit={20} total={article._count.comments} />

@@ -14,9 +14,9 @@ import Marginer from "@/components/shared/Marginer/page";
 import Comment from "@/components/screens/Comment/page";
 import IPaginate from "@/interfaces/paginate.interface";
 import IArticle from "@/interfaces/article.interface";
-import createArticleCommentService from "@/services/createArticleComment.service";
-import updateArticleCommentService from "@/services/updateArticleComment.service";
 import { IArticleComment } from "@/interfaces/articleComment.interface";
+import useCreateArticleComment from "@/hooks/useCreateArticleComment";
+import useUpdateArticleComment from "@/hooks/useUpdateArticleComment";
 
 interface IComments extends IPaginate {
   article: IArticle;
@@ -31,7 +31,7 @@ export default function Comments(props: IComments) {
   const {
     trigger: createArticleComment,
     isMutating: createArticleCommentIsMutating,
-  } = createArticleCommentService(
+  } = useCreateArticleComment(
     props.article.id,
     value,
     session?.data?.user.id,
@@ -41,7 +41,7 @@ export default function Comments(props: IComments) {
   const {
     trigger: updateArticleComment,
     isMutating: updateArticleCommentIsMutating,
-  } = updateArticleCommentService(commentForChangeId, value, true);
+  } = useUpdateArticleComment(commentForChangeId, value, true);
 
   return (
     <Marginer y={8}>

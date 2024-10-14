@@ -12,11 +12,11 @@ import ClientPaginate from "@/components/shared/ClientPaginate/page";
 import Form from "@/components/screens/Comment/Form/page";
 import Marginer from "@/components/shared/Marginer/page";
 import Comment from "@/components/screens/Comment/page";
-import createArticleCommentService from "@/services/createArticleComment.service";
 import { IArticleComment } from "@/interfaces/articleComment.interface";
-import updateArticleCommentService from "@/services/updateArticleComment.service";
-import getArticleCommentChildsService from "@/services/getArticleCommentChilds.service";
+import useArticleCommentChilds from "@/hooks/useArticleCommentChilds";
 import IArticle from "@/interfaces/article.interface";
+import useCreateArticleComment from "@/hooks/useCreateArticleComment";
+import useUpdateArticleComment from "@/hooks/useUpdateArticleComment";
 
 interface IReplys {
   id: string;
@@ -30,16 +30,13 @@ export default function Replys(props: IReplys) {
   const [page, setPage] = useState(1);
   const limit = 5;
   const session = useSession();
-  const { data: comment, mutate } = getArticleCommentChildsService(
-    visibility ? props.id : undefined,
-    page,
-    limit,
-  );
+  const { data: articleCommentChilds, mutate: articleCommentChildsMutate } =
+    useArticleCommentChilds(visibility ? props.id : undefined, page, limit);
 
   const {
     trigger: createArticleComment,
     isMutating: createArticleCommentIsMutating,
-  } = createArticleCommentService(
+  } = useCreateArticleComment(
     props.article.id,
     value,
     session.data?.user.id,
@@ -50,7 +47,7 @@ export default function Replys(props: IReplys) {
   const {
     trigger: updateArticleComment,
     isMutating: updateArticleCommentIsMutating,
-  } = updateArticleCommentService(commentForChangeId, value, true);
+  } = useUpdateArticleComment(commentForChangeId, value, true);
 
   return (
     <Marginer y={8}>
@@ -73,22 +70,24 @@ export default function Replys(props: IReplys) {
                     ? await updateArticleComment()
                     : await createArticleComment()
                 }
-                refreshMethod={async () => await mutate()}
+                refreshMethod={async () => await articleCommentChildsMutate()}
                 setCommentForChangeId={setCommentForChangeId}
                 setValue={setValue}
                 value={value}
               />
             )}
-            {comment ? (
-              comment.childs.length > 0 && (
+            {articleCommentChilds ? (
+              articleCommentChilds.childs.length > 0 && (
                 <Marginer y={8}>
-                  {comment.childs.map((child: IArticleComment) => (
+                  {articleCommentChilds.childs.map((child: IArticleComment) => (
                     <Comment
                       key={child.id}
                       actions={
                         <Actions<IArticleComment>
                           comment={child}
-                          refreshMethod={async () => await mutate()}
+                          refreshMethod={async () =>
+                            await articleCommentChildsMutate()
+                          }
                           setCommentForChangeId={setCommentForChangeId}
                           setValue={setValue}
                         />
@@ -110,7 +109,7 @@ export default function Replys(props: IReplys) {
                     limit={limit}
                     page={page}
                     setPage={setPage}
-                    total={comment._count.childs}
+                    total={articleCommentChilds._count.childs}
                   />
                 </Marginer>
               )

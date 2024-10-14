@@ -1,12 +1,12 @@
 import CreateArticle from "@/components/screens/CreateArticle/page";
-import getSectionService from "@/services/getSection.service";
+import sectionService from "@/services/section.service";
 
 export default async function createArticle({
   params,
 }: {
   params: { id: string };
 }) {
-  const section = await getSectionService(params.id);
+  const section = await sectionService(params.id);
 
   return <CreateArticle section={section} />;
 }

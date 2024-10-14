@@ -21,7 +21,7 @@ import SeparatedText from "@/components/shared/SeparatedText/page";
 import IPaginate from "@/interfaces/paginate.interface";
 import Dialog from "@/components/shared/Dialog/page";
 import articleRequest from "@/requests/article.request";
-import updateArticleService from "@/services/updateArticle.service";
+import useUpdateArticle from "@/hooks/useUpdateArticle";
 
 interface Article extends IPaginate {
   article: IArticle;
@@ -50,7 +50,7 @@ export default function Article(props: Article) {
   });
 
   const { trigger: updateArticle, isMutating: updateArticleIsMutating } =
-    updateArticleService(props.article.id, title, content, true);
+    useUpdateArticle(props.article.id, title, content, true);
 
   const handleSubmit = async () => {
     await updateArticle();
